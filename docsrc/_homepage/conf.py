@@ -15,7 +15,7 @@ exclude_patterns = [
 ]
 
 html_theme = "sphinx_rtd_theme"
-#templates_path = ['../_templates']
+templates_path = ['../_templates']
 
 html_static_path = ['../_static']
-html_css_files = ['style.css']
+html_css_files = ['homepage_style.css']

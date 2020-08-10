@@ -1,0 +1,9 @@
+/** Textwidth **/
+.wy-nav-content {
+    max-width: 90% !important;
+}
+
+/** Homepage Searchbox Bk-color **/
+.wy-side-nav-search {
+    background-color: orange !important;
+}

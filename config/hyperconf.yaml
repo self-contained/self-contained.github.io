@@ -1,0 +1,16 @@
+author: &author wklchris
+copyright: *author
+extensions:
+  - nbsphinx
+  - sphinx.ext.mathjax
+language: zh_CN
+exclude_patterns:
+  - _build
+  - "**.ipynb_checkpoints"
+html_theme: sphinx_rtd_theme
+html_static_path:
+  - ../_static
+html_css_files:
+  - style.css
+templates_path:
+  - '../_templates'

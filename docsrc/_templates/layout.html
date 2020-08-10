@@ -1,0 +1,33 @@
+{% extends "!layout.html" %}
+
+{% block sidebartitle %}
+    {{ super() }}
+    <div style="margin-top: 0.8em;">
+        <a href="../index.html" style="color:white; font-weight: bold;">返回全站主页</a>
+    </div>
+{% endblock %}
+
+
+{%- block extrahead %}
+{{ super() }}
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-90643174-3']);
+  _gaq.push(['_trackPageview']);
+</script>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+<div class="footer">本页面采用 <a href="https://analytics.google.com/">Google Analytics</a> 来记录访问数据. 您可以通过屏蔽来自 www.google-analytics.com 的 JavaScript 来阻止该记录行为.
+<script>
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+{% endblock %}

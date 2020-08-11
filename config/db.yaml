@@ -1,3 +1,10 @@
+Matplotlib:
+  abstract: "\u672C\u6587\u4ECB\u7ECD\u4E86 Python \u6700\u5E7F\u4E3A\u4F7F\u7528\u7684\
+    \u79D1\u5B66\u7ED8\u56FE\u5E93 Matplotlib"
+  category: Python
+  keywords: python,matplotlib,plot,computing
+  last_modified: '2020-08-11'
+  series: Matplotlib
 _homepage:
   online_date: 2020-08-10
   previous_online_date: 2017-01-07

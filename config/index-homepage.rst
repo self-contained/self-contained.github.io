@@ -10,3 +10,4 @@
    :caption: 目录:
 
    About.rst
+   404.rst

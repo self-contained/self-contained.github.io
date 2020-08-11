@@ -98,7 +98,7 @@ def init_new_doc(docname, doctitle):
     init_index_html(docname)           # Copy index.html
     init_index_rst(docname, doctitle)  # Init index.rst
 
-def sphinx_build(docname):
+def sphinx_build(docname, update_home=True):
     """
     Build the Sphinx website and output files in specifc folder.
     """
@@ -121,7 +121,8 @@ def sphinx_build(docname):
     # Automatically update the database & homepage
     if docname != "_homepage":
         update_database(docname)
-        update_homepage()
+        if update_home:
+            update_homepage()
 
 def update_yaml(yaml_file, key, value):
     d = load_yaml(yaml_file)
@@ -183,7 +184,7 @@ def update_homepage():
     write_str_into_file(rst_str, "_homepage", "index.rst")
     sphinx_build("_homepage")
 
-def remove_doc(docname):
+def remove_doc(docname, update_home=True):
     """
     Remove a doc from both local file and the database.
     """
@@ -195,7 +196,8 @@ def remove_doc(docname):
             shutil.rmtree(dirpath)
     # Remove docname key from the database 
     update_yaml(CONFIG_DATABASE, docname, None)
-    update_homepage()
+    if update_home:
+        update_homepage()
     print(f"Removed {docname} from the database, {doc_dir}, and {build_dir}.")
 
 def enable_args():
@@ -206,9 +208,10 @@ def enable_args():
         "docname": "Specify the docname (also project folder name).",
         "--create": "Create a new project. Won't overwrite existing ones. (Exclusive to --build)",
         "--build": "Build a project. (Exclusive to --create)",
-        "--title": "Give a title to new project. Ignored in --build mode.",
+        "--title": "Give a title to new project. Only work in --create mode.",
         "--config": "Specific the config folder path.",
-        "--remove": "Remove a document from the website."
+        "--remove": "Remove a document from the website.",
+        "--no-update-homepage": "Don't autobuild homepage. Work in --build/remove mode."
     }
 
     parser.add_argument('docname')
@@ -218,14 +221,15 @@ def enable_args():
     parser_group.add_argument('--remove', '-R', help=args_help["--remove"], action='store_true')
     parser_group.set_defaults(build=True, remove=False)
     parser.add_argument('--title', '-t', help=args_help['--title'], nargs='+', default=None)
+    parser.add_argument('--no-update-homepage', '-N', dest='update_homepage', help=args_help['--no-update-homepage'], action='store_false')
 
     args = parser.parse_args()
     if args.remove:
-        remove_doc(args.docname)
+        remove_doc(args.docname, args.update_homepage)
     else:
         # Either build or create. These two args can't be used at a same time.
         if args.build:
-            sphinx_build(args.docname)
+            sphinx_build(args.docname, args.update_homepage)
         else:
             title = ' '.join(args.title) if args.title else args.docname
             create_new_doc(args.docname, title)

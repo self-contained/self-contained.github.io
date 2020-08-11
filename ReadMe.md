@@ -53,7 +53,11 @@
 仓库中的 `make.py` 是本人编写的文档快速管理工具，用法是：
 
 ```posh
-python make.py [-h] [--build | --create | --remove] [--title TITLE [TITLE ...]] docname
+python make.py [-h] 
+    [--build | --create | --remove]
+    [--title TITLE [TITLE ...]]
+    [--no-update-homepage]
+    docname
 ```
 
 对于 Windows 用户，如果在 `PATH_EXT` 环境变量中加上对 `;.py` 的执行支持，并将 `.py` 文件的默认打开方式设置为了 Python 解释器，那么可以省略最前面的 `python` 前缀；在下述内容中，该前缀默认省略。
@@ -65,6 +69,7 @@ python make.py [-h] [--build | --create | --remove] [--title TITLE [TITLE ...]] 
   - `--create` / `-c`：创建模式。
     - `--title` / `-t`：指定文档一个与项目名称不同的标题。仅在创建模式生效。
   - `--remove` / `-R`：删除模式。
+- `--no-update-homepage` / `-N`：在构建或删除文档时，不自动更新全站主页。仅在构建或删除模式生效。
 - `docname`：必选参数。文档项目名称，同时也是文档文件夹的名称。
 
 以下样例均在 Windows 10，**Powershell 环境**中执行。请注意，在 CMD 中的表现很可能不同。
@@ -91,7 +96,11 @@ python make.py [-h] [--build | --create | --remove] [--title TITLE [TITLE ...]] 
 ./make.py doc1
 ```
 
-同时，该命令还会尝试自动更新数据库 `db.yaml`，并自动构建主页（从 `docsrc/_hompage` 到 `docs/`）。因此用户会在控制台中观察到两次 sphinx 构建。
+同时，该命令还会尝试自动更新数据库 `db.yaml`，并自动构建主页（从 `docsrc/_hompage` 到 `docs/`）。因此用户会在控制台中观察到两次 sphinx 构建。如果用户不想自动构建主页，可以添加 `--no-update-homepage/-N` 参数：
+
+```posh
+./make.py doc1 -N
+```
 
 ### 移除文档
 
@@ -104,4 +113,4 @@ python make.py [-h] [--build | --create | --remove] [--title TITLE [TITLE ...]] 
 该文档的所有记录均会被删除，包括：
 - 源文件：移除整个 `docsrc/doc1` 文件夹；
 - 数据库记录：移除 `db.yaml` 中所有关于文档 `doc1` 的记录项；
-- 主页的文档列表：在更新数据库后，主页会自动重编译，以保证 `doc1` 已经从列表中被移除。
+- 主页的文档列表：（如果未使用 `--no-update-homepage/-N` 参数）在更新数据库后，主页会自动重编译，以保证 `doc1` 已经从列表中被移除。

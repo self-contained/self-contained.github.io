@@ -133,7 +133,7 @@ def update_yaml(yaml_file, key, value):
     # Sort keys and write back to the yaml file
     d = {k: d[k] for k in sorted(d)}
     with open(yaml_file, 'w', encoding=ENCODING) as f:
-        yaml.dump(d, f)
+        yaml.dump(d, f, allow_unicode=True)
 
 def update_database(docname):
     """
@@ -150,6 +150,7 @@ def update_database(docname):
         else:
             break
     # Update modification date
+    doc_meta["keywords"] = doc_meta["keywords"].split(',')
     doc_meta["last_modified"] = f"{datetime.datetime.today():%Y-%m-%d}"
     # Write into the database
     update_yaml(CONFIG_DATABASE, docname, doc_meta)

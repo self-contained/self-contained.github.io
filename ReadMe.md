@@ -10,6 +10,7 @@
    2. [构建文档](#构建文档)
    3. [移除文档](#移除文档)
 
+
 ## 模板结构
 
 本仓库的 Github Pages 功能定位于 master 分支的 `docs/` 文件夹，这可以在 Github 仓库的设置中进行配置。
@@ -31,11 +32,27 @@
     - 配置了侧边栏的“返回主页”按钮。
     - 配置了 Google Analytics。
 
+使用 `make.py` 初始化的 `index.rst` 文件均带有文档头，用于记录文档的数据并存储在 `config/db.yaml` 中。例如：
+```rst
+.. meta::
+   :category: Python
+   :keywords: python,matplotlib,plot,computing
+   :series: Python-libs
+   :abstract: 本文介绍了 Python 最广为使用的科学绘图库 Matplotlib
+```
+
+各个键的功能仍在开发中，目前的设想有：
+- [x] category：主页的博文列表按照 category 进行分类。
+- [ ] keywords
+- [ ] series：同 series 的博文互相推荐，并引导读者按序阅读。
+- [x] abstract：主页的博文列表中展示文章摘要。
+
+
 ## make.py 工具
 
 仓库中的 `make.py` 是本人编写的文档快速管理工具，用法是：
 
-```sh
+```posh
 python make.py [-h] [--build | --create | --remove] [--title TITLE [TITLE ...]] docname
 ```
 
@@ -56,13 +73,13 @@ python make.py [-h] [--build | --create | --remove] [--title TITLE [TITLE ...]] 
 
 用 `--create/-c` 参数创建一个名为 `doc1` 的文档，路径在 `docsrc/doc1`。它会被自动初始化，加入 `index.rst`，`index.html` 与 `conf.py`。
 
-```sh
+```posh
 ./make.py doc1 --create
 ```
 
 文档内标题默认与项目名相同。如果要指定一个文档内标题，使用 `-t` 参数：
 
-```sh
+```posh
 ./make.py doc1 -t title
 ```
 
@@ -70,7 +87,7 @@ python make.py [-h] [--build | --create | --remove] [--title TITLE [TITLE ...]] 
 
 使用 `--build/-b` 参数（或者省略）来构建文档，将其转为 HTML。构建后的 HTML 会临时生成在 `docsrc/doc1/build` 文件夹中，随后 `docsrc/doc1/build/html` 中的所有文件会被移动到 `docs/doc1` 中，然后临时文件夹 `build` 会被删除。
 
-```sh
+```posh
 ./make.py doc1
 ```
 
@@ -80,7 +97,7 @@ python make.py [-h] [--build | --create | --remove] [--title TITLE [TITLE ...]] 
 
 使用 `--remove/-R` 参数来移除指定的文档。
 
-```sh
+```posh
 ./make.py doc1 -R
 ```
 

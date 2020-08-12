@@ -9,7 +9,8 @@
 以下是本站的更新日志。日志包括了迁移前的站点的内容。
 
 * 2020年
-
+  
+  * 8月中，正在添加站点到搜索引擎，等待 Google Search 的确认。
   * 8月初，结束功能性测试。在个人账户下创建了组织 self-contained，开始向其下的 self-contained.github.io 域名迁移旧博客。
   * 7月下，检测了测试仓库多日的访问量，确认 Google Analytics 可以正常运作。
   * 7月中，在 Sphinx 主站找到了一份 Google Analytics 的嵌入示例，测试后已能正常匹配。

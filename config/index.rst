@@ -2,6 +2,7 @@
    :category: Misc
    :keywords: kw1, kw2
    :series: series1
+   :series_num: 1
    :abstract: Abstract
 
 {{ title heading }}

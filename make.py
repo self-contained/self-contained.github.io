@@ -2,10 +2,10 @@ import argparse
 import datetime
 import os, shutil
 from os import read
-import yaml
+import json
 
 CONFIG = 'config'
-CONFIG_DATABASE = os.path.join(CONFIG, "db.yaml")
+CONFIG_DATABASE = os.path.join(CONFIG, "db.json")
 DOCSRC, DOCDST = 'docsrc', 'docs'
 ENCODING = 'utf-8'
 
@@ -25,9 +25,9 @@ def read_from_file(fpath, join=True):
         lines = f.readlines()
     return lines if not join else ''.join(lines)
 
-def load_yaml(fpath):
+def load_json(fpath):
     with open(fpath, 'r', encoding=ENCODING) as f:
-        data = yaml.safe_load(f)
+        data = json.load(f)
     return data
 
 def create_new_doc(docname, doctitle=None):
@@ -48,9 +48,9 @@ def init_conf_py(docname, doctitle):
     """
     Initialize the new document folder with configuration files.
     """
-    # Read the general conf.py settings from hyperconf.yaml
-    hyperconf_path = os.path.join(CONFIG, "hyperconf.yaml")
-    doc_conf = load_yaml(hyperconf_path)
+    # Read the general conf.py settings from hyperconf.json
+    hyperconf_path = os.path.join(CONFIG, "hyperconf.json")
+    doc_conf = load_json(hyperconf_path)
     ## Add doc-wise information & Sort
     doc_conf['year'] = int(f"{datetime.datetime.today():%Y}")
     doc_conf['project'] = doctitle
@@ -95,7 +95,7 @@ def init_new_doc(docname, doctitle):
     + "index.rst"
     """
     init_conf_py(docname, doctitle)    # Init conf.py
-    init_index_html(docname)           # Copy index.html
+    # init_index_html(docname)           # Copy index.html
     init_index_rst(docname, doctitle)  # Init index.rst
 
 def sphinx_build(docname, update_home=True):
@@ -124,17 +124,52 @@ def sphinx_build(docname, update_home=True):
         if update_home:
             update_homepage()
 
-def update_yaml(yaml_file, key, value):
-    d = load_yaml(yaml_file)
-    # If value is None, delete the key
-    if value:
-        d[key] = value
+def update_json(json_file, docname, docmeta):
+    if docname == "_homepage":
+        return
+    d = load_json(json_file)
+    def _treat_as_list(inputs):
+        return inputs if isinstance(inputs, list) else [inputs]
+        
+    def _add_doc_to_list(parentkey):
+        multiple_value_lst = _treat_as_list(docmeta[parentkey])
+        for child in multiple_value_lst:
+            children_docs = d[parentkey].get(child, [])
+            if docname not in children_docs:
+                children_docs.append(docname)
+            d[parentkey][child] = sorted(children_docs)
+    
+    # If docmeta is None, delete relevant records
+    if not docmeta:
+        docmeta = d["blogs"][docname]
+        for parentkey in "series,keywords,category".split(','):
+            for key in _treat_as_list(docmeta[parentkey]):
+                after_remove = [x for x in d[parentkey][key] if x != docname]
+                if after_remove:
+                    d[parentkey][key] = after_remove
+                else:  # delete the key if the list is empty
+                    _ = d[parentkey].pop(key, None)
+        _ = d["blogs"].pop(docname, None)
     else:
-        _ = d.pop(key, None)
-    # Sort keys and write back to the yaml file
-    d = {k: d[k] for k in sorted(d)}
-    with open(yaml_file, 'w', encoding=ENCODING) as f:
-        yaml.dump(d, f, allow_unicode=True)
+        # Add to blogs key
+        d["blogs"][docname] = docmeta
+        # Add to series key
+        series_docs = d["series"].get(docmeta["series"], [])
+        if docname not in series_docs:
+            series_docs.append(docname)
+        series_lst = []
+        for doc in series_docs:
+            doc_series_num = int(d["blogs"][doc].get("series_num", -1))
+            series_lst.append((doc_series_num, doc))
+        d["series"][docmeta["series"]] = [val[1] for val in sorted(series_lst)]
+        # Add to keywords & category key
+        for parent_key in "keywords,category".split(','):
+            _add_doc_to_list(parent_key)
+    
+    # Sort keys and write back to the json file
+    # d = {k: d[k] for k in sorted(d)}
+    with open(json_file, 'w', encoding=ENCODING) as f:
+        json.dump(d, f, indent=4, ensure_ascii=False)
 
 def update_database(docname):
     """
@@ -151,10 +186,10 @@ def update_database(docname):
         else:
             break
     # Update modification date
-    doc_meta["keywords"] = doc_meta["keywords"].split(',')
+    doc_meta["keywords"] = [x.strip() for x in doc_meta["keywords"].split(',')]
     doc_meta["last_modified"] = f"{datetime.datetime.today():%Y-%m-%d}"
     # Write into the database
-    update_yaml(CONFIG_DATABASE, docname, doc_meta)
+    update_json(CONFIG_DATABASE, docname, doc_meta)
     print('Database has been updated.')
 
 def update_homepage():
@@ -162,12 +197,12 @@ def update_homepage():
     Update & build the homepage based on the latest updated document.
     """
     rst_str = read_from_file(os.path.join(CONFIG, "index-homepage.rst"))
-    total_meta = load_yaml(CONFIG_DATABASE)    
-    blog_list = [doc for doc in total_meta.keys() if not doc.startswith('_')]
+    total_meta = load_json(CONFIG_DATABASE)  
+    blog_list = [doc for doc in total_meta["blogs"].keys() if not doc.startswith('_')]
 
     blog_str_group = dict()
     for docname in blog_list:
-        doc_meta = total_meta[docname]
+        doc_meta = total_meta["blogs"][docname]
         category = doc_meta["category"]
         abstract = doc_meta['abstract']
         modify_date = doc_meta["last_modified"]
@@ -188,6 +223,14 @@ def remove_doc(docname, update_home=True):
     """
     Remove a doc from both local file and the database.
     """
+    check_remove = None
+    while not check_remove:
+        user_option = input(f"Are you sure to remove {docname}? [y/n] y: ")
+        if user_option in list('yn'):
+            check_remove = user_option
+    if check_remove == "n":
+        exit
+
     # Remove source & build directory, if exists
     doc_dir = docsrc_prefix_path(docname)
     build_dir = docdst_prefix_path(docname)
@@ -195,7 +238,7 @@ def remove_doc(docname, update_home=True):
         if os.path.isdir(dirpath):
             shutil.rmtree(dirpath)
     # Remove docname key from the database 
-    update_yaml(CONFIG_DATABASE, docname, None)
+    update_json(CONFIG_DATABASE, docname, None)
     if update_home:
         update_homepage()
     print(f"Removed {docname} from the database, {doc_dir}, and {build_dir}.")

@@ -4,16 +4,22 @@
 <html class="writer-html5" lang="zh-CN" >
 <head>
   <meta charset="utf-8">
-  
+  <meta content="CLI" name="category" />
+<meta content="cli,ffmpeg,video" name="keywords" />
+<meta content="CLI" name="series" />
+<meta content="1" name="series_num" />
+<meta content="本文介绍了命令行视频编辑软件 FFmpeg。" name="abstract" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>欢迎来到 wklchris 的博客主页！ &mdash; Homepage  文档</title>
+  <title>FFmpeg 教程 &mdash; FFmpeg 教程  文档</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/homepage_style.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
 
   
   
@@ -31,15 +37,19 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
         <script src="_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="关于" href="About.html" />
+    <link rel="next" title="FFmpeg 引言" href="Intro.html" />
  
 <meta name="google-site-verification" content="ZsXR1o8suFFOr_MSgo5BTvjbznAuEP6XYOmgMiBu5Yw" />
 <script>
@@ -62,7 +72,7 @@
     
 
           
-            <a href="#" class="icon icon-home" alt="Documentation Home"> Homepage
+            <a href="#" class="icon icon-home" alt="Documentation Home"> FFmpeg 教程
           
 
           
@@ -97,10 +107,10 @@
               
             
             
-              <p class="caption"><span class="caption-text">目录:</span></p>
+              <p class="caption"><span class="caption-text">目录</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="About.html">关于</a></li>
-<li class="toctree-l1"><a class="reference internal" href="404.html">404 Not Found</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Intro.html">FFmpeg 引言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FFmpeg.html">FFmpeg 实用命令</a></li>
 </ul>
 
             
@@ -116,7 +126,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Homepage</a>
+          <a href="#">FFmpeg 教程</a>
         
       </nav>
 
@@ -147,7 +157,7 @@
     
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>欢迎来到 wklchris 的博客主页！</li>
+      <li>FFmpeg 教程</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -190,26 +200,28 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="wklchris">
-<h1>欢迎来到 wklchris 的博客主页！<a class="headerlink" href="#wklchris" title="永久链接至标题">¶</a></h1>
-<p>本站博文：</p>
-<ul class="simple">
-<li><p>CLI</p>
-<ul>
-<li><p><a class="reference external" href="FFmpeg/index.html">FFmpeg</a> （更新于2020-08-12）：本文介绍了命令行视频编辑软件 FFmpeg。</p></li>
-</ul>
-</li>
-<li><p>Python</p>
-<ul>
-<li><p><a class="reference external" href="Matplotlib/index.html">Matplotlib</a> （更新于2020-08-12）：本文介绍了 Python 最广为使用的科学绘图库 Matplotlib</p></li>
-</ul>
-</li>
-</ul>
+<div class="section" id="ffmpeg">
+<h1>FFmpeg 教程<a class="headerlink" href="#ffmpeg" title="永久链接至标题">¶</a></h1>
+<p>本文介绍命令行音视频处理工具 <a class="reference external" href="https://www.ffmpeg.org/">FFmpeg</a> ，以例为主。</p>
+<p>读者除了知道如何打开命令行窗口外，不需要特别的知识。</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">目录:</span></p>
+<p class="caption"><span class="caption-text">目录</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="About.html">关于</a></li>
-<li class="toctree-l1"><a class="reference internal" href="404.html">404 Not Found</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Intro.html">FFmpeg 引言</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Intro.html#id1">安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Intro.html#id2">基本视频概念</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="FFmpeg.html">FFmpeg 实用命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="FFmpeg.html#id1">格式转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FFmpeg.html#id5">截取视频</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FFmpeg.html#id6">添加字幕</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FFmpeg.html#id9">合并视频</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FFmpeg.html#id10">替换或删除视频数据流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FFmpeg.html#id13">压制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FFmpeg.html#fonts-conf">附录：fonts.conf</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -222,7 +234,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="About.html" class="btn btn-neutral float-right" title="关于" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Intro.html" class="btn btn-neutral float-right" title="FFmpeg 引言" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -233,7 +245,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; 版权所有 2020, wklchris
+        &copy; 版权所有 wklchris
 
     </p>
   </div>

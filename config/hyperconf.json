@@ -3,6 +3,7 @@
     "copyright": "wklchris",
     "extensions": [
         "nbsphinx",
+        "sphinx_copybutton",
         "sphinx.ext.mathjax"
     ],
     "language": "zh_CN",

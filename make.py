@@ -79,23 +79,13 @@ def init_index_rst(docname, doctitle):
     rst_str = rst_config_template.replace("{{ title heading }}", title_heading)
     write_str_into_file(rst_str, docname, "index.rst")
 
-def init_index_html(docname):
-    """
-    Initialize the index.html for jumping to the built HTML file path.
-    """
-    src = os.path.join(CONFIG, "index.html")
-    dst = docsrc_prefix_path(docname, "index.html")
-    shutil.copy(src, dst)
-
 def init_new_doc(docname, doctitle):
     """
     Init/Copy files:
     + "conf.py"
-    + "index.html"
     + "index.rst"
     """
     init_conf_py(docname, doctitle)    # Init conf.py
-    # init_index_html(docname)           # Copy index.html
     init_index_rst(docname, doctitle)  # Init index.rst
 
 def sphinx_build(docname, update_home=True):
@@ -206,7 +196,7 @@ def update_homepage():
         category = doc_meta["category"]
         abstract = doc_meta['abstract']
         modify_date = doc_meta["last_modified"]
-        item_str = f"  * `{docname} <{docname}/index.html>`_ （更新于{modify_date}）：{abstract}"
+        item_str = f"  * `{docname} <{docname}/>`_ （更新于{modify_date}）：{abstract}"
         if category in blog_str_group:
             blog_str_group[category] += "\n" + item_str
         else:

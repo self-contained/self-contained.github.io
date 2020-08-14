@@ -27,7 +27,7 @@
             "series": "CLI",
             "series_num": "1",
             "abstract": "本文介绍了命令行视频编辑软件 FFmpeg。",
-            "last_modified": "2020-08-12"
+            "last_modified": "2020-08-13"
         }
     },
     "category": {
@@ -64,9 +64,6 @@
     "series": {
         "Python-libs": [
             "Matplotlib"
-        ],
-        "series1": [
-            "FFmpeg"
         ],
         "CLI": [
             "FFmpeg"

@@ -4,7 +4,7 @@ import os, shutil
 from os import read
 import json
 
-CONFIG = 'config'
+CONFIG = 'docs/_config'
 CONFIG_DATABASE = os.path.join(CONFIG, "db.json")
 DOCSRC, DOCDST = 'docsrc', 'docs'
 ENCODING = 'utf-8'

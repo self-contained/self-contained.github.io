@@ -1,8 +1,10 @@
 import argparse
 import datetime
 import os, shutil
-from os import read
 import json
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+import socketserver, threading
+
 
 CONFIG = 'docs/_config'
 CONFIG_DATABASE = os.path.join(CONFIG, "db.json")
@@ -233,6 +235,28 @@ def remove_doc(docname, update_home=True):
         update_homepage()
     print(f"Removed {docname} from the database, {doc_dir}, and {build_dir}.")
 
+def start_local_server(docname):
+    """
+    Host a mini local server to preview the website before online.
+    """
+    bind, port = "localhost", 8000
+    doc_url = os.path.join(f"http://{bind}:{port}/{docname}/")
+
+    class Handler(SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=DOCDST, **kwargs)
+    
+    httpd = HTTPServer((bind, port), Handler)
+    thread = threading.Thread(target=httpd.serve_forever)
+    thread.start()
+    # Open the doc main webpage in the webbrowser
+    os.system(f'PowerShell -Command "Start-Process -FilePath {doc_url}"')
+
+    # Press Enter for server shutdown
+    _ = input(f'\nHosting server at {bind}:{port}. Press Enter to terminate ...\n\n')
+    httpd.shutdown()
+    print('---\nLocal server has been terminated.')
+
 def enable_args():
     parser = argparse.ArgumentParser(
         description='Tool for making Sphinx HTML pages.'
@@ -244,29 +268,33 @@ def enable_args():
         "--title": "Give a title to new project. Only work in --create mode.",
         "--config": "Specific the config folder path.",
         "--remove": "Remove a document from the website.",
-        "--no-update-homepage": "Don't autobuild homepage. Work in --build/remove mode."
+        "--no-update-homepage": "Don't autobuild homepage. Work in --build/remove mode.",
+        "--server": "Host a local server to preview website."
     }
 
-    parser.add_argument('docname')
+    parser.add_argument('docname', help=args_help['docname'])
     parser_group = parser.add_mutually_exclusive_group()
     parser_group.add_argument('--build', '-b', help=args_help['--build'], action='store_true')
     parser_group.add_argument('--create', '-c', dest='build', help=args_help["--create"], action='store_false')
     parser_group.add_argument('--remove', '-R', help=args_help["--remove"], action='store_true')
-    parser_group.set_defaults(build=True, remove=False)
+    parser_group.add_argument('--server', '-s', help=args_help['--server'], action='store_true')
+    parser_group.set_defaults(build=True, remove=False, server=False)
+
     parser.add_argument('--title', '-t', help=args_help['--title'], nargs='+', default=None)
     parser.add_argument('--no-update-homepage', '-N', dest='update_homepage', help=args_help['--no-update-homepage'], action='store_false')
-
+    
+    # Exclusive modes: build, create, server, remove.
     args = parser.parse_args()
     if args.remove:
         remove_doc(args.docname, args.update_homepage)
-    else:
-        # Either build or create. These two args can't be used at a same time.
-        if args.build:
-            sphinx_build(args.docname, args.update_homepage)
-        else:
-            title = ' '.join(args.title) if args.title else args.docname
-            create_new_doc(args.docname, title)
-
+    elif args.server:
+        start_local_server(args.docname)
+    # Exclusive modes: build, create
+    elif args.build:
+        sphinx_build(args.docname, args.update_homepage)
+    else:  # create
+        title = ' '.join(args.title) if args.title else args.docname
+        create_new_doc(args.docname, title)
 
 # --- Main ---
 

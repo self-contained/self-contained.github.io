@@ -9,6 +9,7 @@
    1. [创建新文档](#创建新文档)
    2. [构建文档](#构建文档)
    3. [移除文档](#移除文档)
+   4. [本地预览](#本地预览)
 
 
 ## 模板结构
@@ -69,6 +70,7 @@ python make.py [-h]
   - `--create` / `-c`：创建模式。
     - `--title` / `-t`：指定文档一个与项目名称不同的标题。仅在创建模式生效。
   - `--remove` / `-R`：删除模式。
+  - `--server` / `-s`：本地服务器模式。
 - `--no-update-homepage` / `-N`：在构建或删除文档时，不自动更新全站主页。仅在构建或删除模式生效。
 - `docname`：必选参数。文档项目名称，同时也是文档文件夹的名称。
 
@@ -79,14 +81,16 @@ python make.py [-h]
 用 `--create/-c` 参数创建一个名为 `doc1` 的文档，路径在 `docsrc/doc1`。它会被自动初始化，加入 `index.rst`，`index.html` 与 `conf.py`。
 
 ```posh
-./make.py doc1 --create
+./make.py -c doc1
 ```
 
-文档内标题默认与项目名相同。如果要指定一个文档内标题，使用 `-t` 参数：
+文档内标题默认与项目名相同。如果要指定一个文档内标题，使用 `--title/-t` 参数来配合 `--create/-c` 参数：
 
 ```posh
-./make.py doc1 -t title
+./make.py -c doc1 -t Long title with spaces
 ```
+
+特别地，`-t` 参数允许带空格；上例的 `doc1` 文档标题即为 `Long title with spaces`。
 
 ### 构建文档
 
@@ -99,7 +103,7 @@ python make.py [-h]
 同时，该命令还会尝试自动更新数据库 `db.yaml`，并自动构建主页（从 `docsrc/_hompage` 到 `docs/`）。因此用户会在控制台中观察到两次 sphinx 构建。如果用户不想自动构建主页，可以添加 `--no-update-homepage/-N` 参数：
 
 ```posh
-./make.py doc1 -N
+./make.py -N doc1
 ```
 
 ### 移除文档
@@ -107,10 +111,18 @@ python make.py [-h]
 使用 `--remove/-R` 参数来移除指定的文档。
 
 ```posh
-./make.py doc1 -R
+./make.py -R doc1
 ```
 
 该文档的所有记录均会被删除，包括：
 - 源文件：移除整个 `docsrc/doc1` 文件夹；
 - 数据库记录：移除 `db.yaml` 中所有关于文档 `doc1` 的记录项；
 - 主页的文档列表：（如果未使用 `--no-update-homepage/-N` 参数）在更新数据库后，主页会自动重编译，以保证 `doc1` 已经从列表中被移除。
+
+### 本地预览
+
+使用 `--server/-s` 参数来在 `docs/` 文件夹搭建本地 HTTP 服务（默认 `http://localhost:8000`），并自动使用浏览器打开 `doc1` 项目的 HTML 主页：
+
+```posh
+./make.py -s doc1
+```

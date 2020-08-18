@@ -3,6 +3,7 @@
    :keywords: python,matplotlib,plot,computing
    :series: Python-libs
    :series_num: 1
+   :date_init: 2017-06-10
    :abstract: 本文介绍了 Python 最广为使用的科学绘图库 Matplotlib
 
 Python科学计算：Matplotlib

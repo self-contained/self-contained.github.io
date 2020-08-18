@@ -131,18 +131,19 @@ def update_json(json_file, docname, docmeta):
                 children_docs.append(docname)
             d[parentkey][child] = sorted(children_docs)
     
-    # If docmeta is None, delete relevant records
-    if not docmeta:
-        docmeta = d["blogs"][docname]
+    # Delete relevant records first (if docname exists)
+    if docname in d["blogs"]:
+        pop_meta = d["blogs"][docname]
         for parentkey in "series,keywords,category".split(','):
-            for key in _treat_as_list(docmeta[parentkey]):
+            for key in _treat_as_list(pop_meta[parentkey]):
                 after_remove = [x for x in d[parentkey][key] if x != docname]
                 if after_remove:
                     d[parentkey][key] = after_remove
                 else:  # delete the key if the list is empty
                     _ = d[parentkey].pop(key, None)
         _ = d["blogs"].pop(docname, None)
-    else:
+    # If docmeta != None, add relevant records
+    if docmeta:
         # Add to blogs key
         d["blogs"][docname] = docmeta
         # Add to series key
@@ -179,7 +180,8 @@ def update_database(docname):
             break
     # Update modification date
     doc_meta["keywords"] = [x.strip() for x in doc_meta["keywords"].split(',')]
-    doc_meta["last_modified"] = f"{datetime.datetime.today():%Y-%m-%d}"
+    doc_meta["date_modified"] = f"{datetime.datetime.today():%Y-%m-%d}"
+    doc_meta["abstract"] = doc_meta.pop("abstract")  # put abstract at last
     # Write into the database
     update_json(CONFIG_DATABASE, docname, doc_meta)
     print('Database has been updated.')
@@ -196,9 +198,10 @@ def update_homepage():
     for docname in blog_list:
         doc_meta = total_meta["blogs"][docname]
         category = doc_meta["category"]
-        abstract = doc_meta['abstract']
-        modify_date = doc_meta["last_modified"]
-        item_str = f"  * `{docname} <{docname}/>`_ （更新于{modify_date}）：{abstract}"
+        abstract = doc_meta["abstract"]
+        date_init = doc_meta["date_init"]
+        date_modify = doc_meta["date_modified"]
+        item_str = f"  * `{docname} <{docname}/>`_ ：{abstract} *{date_init}发布，{date_modify}更新*"
         if category in blog_str_group:
             blog_str_group[category] += "\n" + item_str
         else:

@@ -3,6 +3,7 @@
    :keywords: cli,ffmpeg,video
    :series: CLI
    :series_num: 1
+   :date_init: 2017-07-11
    :abstract: 本文介绍了命令行视频编辑软件 FFmpeg。
 
 FFmpeg 教程

@@ -53,6 +53,8 @@ pip install sphinx sphinx-rtd-theme nbsphinx sphinx-copybutton
     - 配置了侧边栏的“返回主页”按钮。
     - 配置了 Google Analytics。
 
+网站的主页使用了 DataTables 来呈现博文列表，其路径在 `docs/_config/static/DataTables`。值得注意的是，由于 `requirejs` 的存在，`DataTables` 必须以一种不同于官网的形式调用（见 `docsrc/_templates/layout.html` 中的 `require.config()` 部分）——尽管只有主页需要它，但目前它会在所有页面上都被加载。
+
 使用 `make.py` 初始化的 `index.rst` 文件均带有文档头，用于记录文档的数据并存储在 `config/db.json` 中。例如：
 ```rst
 .. meta::
@@ -148,4 +150,4 @@ python make.py [-h]
 ./make.py -s doc1
 ```
 
-按 Enter 键即可中止该本地服务器。
+按 Enter 键（或者 Ctrl + C 强制打断）即可中止该本地服务器。

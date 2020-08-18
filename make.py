@@ -3,7 +3,7 @@ import datetime
 import os, shutil
 import json
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-import socketserver, threading
+import threading
 
 
 CONFIG = 'docs/_config'
@@ -94,6 +94,9 @@ def sphinx_build(docname, update_home=True):
     """
     Build the Sphinx website and output files in specifc folder.
     """
+    if docname == "_homepage" and update_home:
+        update_homepage()
+        return
     # Buld the HTML website
     build_dirname = "build"
     build_dir = docsrc_prefix_path(docname, build_dirname)
@@ -180,7 +183,7 @@ def update_database(docname):
             break
     # Update modification date
     doc_meta["keywords"] = [x.strip() for x in doc_meta["keywords"].split(',')]
-    doc_meta["date_modified"] = f"{datetime.datetime.today():%Y-%m-%d}"
+    doc_meta["date_build"] = f"{datetime.datetime.today():%Y-%m-%d}"
     doc_meta["abstract"] = doc_meta.pop("abstract")  # put abstract at last
     # Write into the database
     update_json(CONFIG_DATABASE, docname, doc_meta)
@@ -190,29 +193,43 @@ def update_homepage():
     """
     Update & build the homepage based on the latest updated document.
     """
-    rst_str = read_from_file(os.path.join(CONFIG, "index-homepage.rst"))
-    total_meta = load_json(CONFIG_DATABASE)  
-    blog_list = [doc for doc in total_meta["blogs"].keys() if not doc.startswith('_')]
+    def _generate_blog_datatable():
+        total_meta = load_json(CONFIG_DATABASE)  
+        blog_list = [doc for doc in total_meta["blogs"].keys() if not doc.startswith('_')]
 
-    blog_str_group = dict()
-    for docname in blog_list:
-        doc_meta = total_meta["blogs"][docname]
-        category = doc_meta["category"]
-        abstract = doc_meta["abstract"]
-        date_init = doc_meta["date_init"]
-        date_modify = doc_meta["date_modified"]
-        item_str = f"  * `{docname} <{docname}/>`_ ：{abstract} *{date_init}发布，{date_modify}更新*"
-        if category in blog_str_group:
-            blog_str_group[category] += "\n" + item_str
-        else:
-            blog_str_group[category] = f"\n* {category}\n\n{item_str}"
-    blog_str_group = {k: blog_str_group[k] for k in sorted(blog_str_group)}
-    blog_list_str = '\n'.join(blog_str_group.values())
-    rst_str = rst_str.replace("{{ blog list }}", blog_list_str)
+        table_wrapper = lambda tabhtml: f'<table id="tableofblogs" class="display">\n{tabhtml}\n</table>'
+        def write_tabrow(rowdata, wrapper='tbody'):
+            inner = 'td' if wrapper == 'tbody' else 'th'
+            inner_html = '\n'.join([f"<{inner}>{x}</{inner}>" for x in rowdata])
+            row_html = f"<tr>\n{inner_html}\n</tr>"
+            return row_html
+        # Write table head <thead>
+        head_row = "日志名,分类,摘要,上线日期,内容更新,页面构建".split(',')
+        head_html = f"<thead>\n{write_tabrow(head_row, 'thead')}\n</thead>"
+        # Write table body <tbody>
+        table_rows = ["" for _ in blog_list]
+        for i, docname in enumerate(blog_list):
+            doc_meta = total_meta["blogs"][docname]
+            doc_row = [
+                f'<a href="/{docname}/">{docname}</a>',
+                doc_meta["category"],
+                doc_meta["abstract"],
+                doc_meta["date_init"],
+                doc_meta["date_modified"],
+                doc_meta["date_build"]
+            ]
+            table_rows[i] = write_tabrow(doc_row, 'tbody')
+        tbody_html = '\n'.join(table_rows)
+        body_html = f"<tbody>\n{tbody_html}\n</tbody>"
+        return table_wrapper(f"{head_html}\n{body_html}")
+    
+    rst_str = read_from_file(os.path.join(CONFIG, "index-homepage.rst"))
+    blog_table_str = _generate_blog_datatable()
+    write_str_into_file(blog_table_str, "_homepage", "tableofblogs.html")
 
     # Write it to index.rst and build the homepage
     write_str_into_file(rst_str, "_homepage", "index.rst")
-    sphinx_build("_homepage")
+    sphinx_build("_homepage", update_home=False)  # Avoid self-cycle
 
 def remove_doc(docname, update_home=True):
     """
@@ -243,7 +260,10 @@ def start_local_server(docname):
     Host a mini local server to preview the website before online.
     """
     bind, port = "localhost", 8000
-    doc_url = os.path.join(f"http://{bind}:{port}/{docname}/")
+    if docname == "_homepage":
+        doc_url = f"http://{bind}:{port}"
+    else:
+        doc_url = f"http://{bind}:{port}/{docname}/"
 
     class Handler(SimpleHTTPRequestHandler):
         def __init__(self, *args, **kwargs):

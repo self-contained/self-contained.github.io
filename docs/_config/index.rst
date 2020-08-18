@@ -4,6 +4,7 @@
    :series: series1
    :series_num: 1
    :date_init: 1946-02-15
+   :date_modified: 1946-02-15
    :abstract: Abstract
 
 {{ title heading }}

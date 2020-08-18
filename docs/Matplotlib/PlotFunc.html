@@ -46,6 +46,9 @@
     <link rel="search" title="搜索" href="search.html" />
     <link rel="prev" title="图像控制" href="AxesControl.html" />
  
+
+<link rel="stylesheet" type="text/css" href="/_config/static/DataTables/dataTables.css"/>
+
 <meta name="google-site-verification" content="ZsXR1o8suFFOr_MSgo5BTvjbznAuEP6XYOmgMiBu5Yw" />
 <script>
   var _gaq = _gaq || [];
@@ -89,7 +92,7 @@
 
           
     <div class="home-button" style="margin-top: 0.8em;">
-        <a href="../index.html" style="color:white; font-weight: bold;">返回全站主页</a>
+        <a href="../" style="color:white; font-weight: bold;">返回全站主页</a>
     </div>
 
         </div>
@@ -1112,6 +1115,23 @@ T(1.5) = [-2.6980, 2.6980]，覆盖了 0.9930 概率范围。
     
   
  
+
+<script>
+  require.config({
+     paths: {
+        "jquery": "_static/jquery",
+        "datatables": "_config/static/DataTables/dataTables.min"
+     }
+  });
+  requirejs( ["datatables"], function () {
+     $('#tableofblogs').DataTable( {
+        language: {
+           url: "_config/static/DataTables/zh_CN.json" 
+        } 
+     } );
+  } );
+</script>
+
 <div class="footer">本页面采用 <a href="https://analytics.google.com/">Google Analytics</a> 来记录访问数据. 您可以通过屏蔽来自 www.google-analytics.com 的 JavaScript 来阻止该记录行为.
 <script>
   (function() {
@@ -1123,6 +1143,7 @@ T(1.5) = [-2.6980, 2.6980]，覆盖了 0.9930 概率范围。
   })();
 </script>
 </div>
+
 
 
 </body>

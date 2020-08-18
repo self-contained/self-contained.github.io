@@ -41,6 +41,9 @@
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="关于" href="About.html" />
  
+
+<link rel="stylesheet" type="text/css" href="/_config/static/DataTables/dataTables.css"/>
+
 <meta name="google-site-verification" content="ZsXR1o8suFFOr_MSgo5BTvjbznAuEP6XYOmgMiBu5Yw" />
 <script>
   var _gaq = _gaq || [];
@@ -84,7 +87,7 @@
 
           
     <div class="home-button" style="margin-top: 0.8em;">
-        <a href="../index.html" style="color:white; font-weight: bold;">返回全站主页</a>
+        <a href="../" style="color:white; font-weight: bold;">返回全站主页</a>
     </div>
 
         </div>
@@ -192,18 +195,42 @@
 </style>
 <div class="section" id="wklchris">
 <h1>欢迎来到 wklchris 的博客主页！<a class="headerlink" href="#wklchris" title="永久链接至标题">¶</a></h1>
+<p>本站是 <a class="reference external" href="https://github.com/wklchris">wklchris</a> 的个人博客，由之前的 wklchris.github.io 域名迁移而来。迁移后的本站点使用 Sphinx 构建。</p>
 <p>本站博文：</p>
+<table id="tableofblogs" class="display">
+<thead>
+<tr>
+<th>日志名</th>
+<th>分类</th>
+<th>摘要</th>
+<th>上线日期</th>
+<th>内容更新</th>
+<th>页面构建</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/Matplotlib/">Matplotlib</a></td>
+<td>Python</td>
+<td>本文介绍了 Python 最广为使用的科学绘图库 Matplotlib</td>
+<td>2017-06-10</td>
+<td>2020-01-12</td>
+<td>2020-08-18</td>
+</tr>
+<tr>
+<td><a href="/FFmpeg/">FFmpeg</a></td>
+<td>CLI</td>
+<td>本文介绍了命令行视频编辑软件 FFmpeg。</td>
+<td>2017-07-11</td>
+<td>2020-01-08</td>
+<td>2020-08-18</td>
+</tr>
+</tbody>
+</table><hr class="docutils" />
 <ul class="simple">
-<li><p>CLI</p>
-<ul>
-<li><p><a class="reference external" href="FFmpeg/index.html">FFmpeg</a> （更新于2020-08-12）：本文介绍了命令行视频编辑软件 FFmpeg。</p></li>
-</ul>
-</li>
-<li><p>Python</p>
-<ul>
-<li><p><a class="reference external" href="Matplotlib/index.html">Matplotlib</a> （更新于2020-08-12）：本文介绍了 Python 最广为使用的科学绘图库 Matplotlib</p></li>
-</ul>
-</li>
+<li><p>上线日期：博文最早上传到博客站的日期，包括旧站点的记录。</p></li>
+<li><p>内容更新：博文最后进行内容更新的日期。</p></li>
+<li><p>页面构建：博文最后进行非内容更新的日期，例如页面样式调整、添加说明性文字等。</p></li>
 </ul>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">目录:</span></p>
@@ -267,6 +294,23 @@
     
   
  
+
+<script>
+  require.config({
+     paths: {
+        "jquery": "_static/jquery",
+        "datatables": "_config/static/DataTables/dataTables.min"
+     }
+  });
+  requirejs( ["datatables"], function () {
+     $('#tableofblogs').DataTable( {
+        language: {
+           url: "_config/static/DataTables/zh_CN.json" 
+        } 
+     } );
+  } );
+</script>
+
 <div class="footer">本页面采用 <a href="https://analytics.google.com/">Google Analytics</a> 来记录访问数据. 您可以通过屏蔽来自 www.google-analytics.com 的 JavaScript 来阻止该记录行为.
 <script>
   (function() {
@@ -278,6 +322,7 @@
   })();
 </script>
 </div>
+
 
 
 </body>

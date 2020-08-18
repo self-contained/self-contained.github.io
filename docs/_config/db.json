@@ -12,10 +12,12 @@
                 "plot",
                 "computing"
             ],
-            "series": "Python-libs",
+            "series": "Python",
             "series_num": "1",
-            "abstract": "本文介绍了 Python 最广为使用的科学绘图库 Matplotlib",
-            "last_modified": "2020-08-12"
+            "date_init": "2017-06-10",
+            "date_modified": "2020-01-12",
+            "date_build": "2020-08-18",
+            "abstract": "本文介绍了 Python 最广为使用的科学绘图库 Matplotlib"
         },
         "FFmpeg": {
             "category": "CLI",
@@ -26,8 +28,10 @@
             ],
             "series": "CLI",
             "series_num": "1",
-            "abstract": "本文介绍了命令行视频编辑软件 FFmpeg。",
-            "last_modified": "2020-08-13"
+            "date_init": "2017-07-11",
+            "date_modified": "2020-01-08",
+            "date_build": "2020-08-18",
+            "abstract": "本文介绍了命令行视频编辑软件 FFmpeg。"
         }
     },
     "category": {
@@ -62,7 +66,7 @@
         ]
     },
     "series": {
-        "Python-libs": [
+        "Python": [
             "Matplotlib"
         ],
         "CLI": [

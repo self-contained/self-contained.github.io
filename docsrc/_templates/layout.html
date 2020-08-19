@@ -1,10 +1,11 @@
 {% extends "!layout.html" %}
 
 {% block sidebartitle %}
-    {{ super() }}
-    <div class="home-button" style="margin-top: 0.8em;">
-        <a href="../" style="color:white; font-weight: bold;">返回全站主页</a>
-    </div>
+{{ super() }}
+<div class="home-button">
+   <a class="home-button" href="https://github.com/self-contained/self-contained.github.io">
+      Github 仓库</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="home-button" href="../">博客主站</a>
+</div>
 {% endblock %}
 
 {%- block extrahead %}

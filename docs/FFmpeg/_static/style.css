@@ -6,7 +6,7 @@
 /** Home-button block**/
 
 a.home-button {
-    color: white !important;
+    color: white;
     font-weight: bold;
     vertical-align: middle;
 }

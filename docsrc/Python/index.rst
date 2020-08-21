@@ -7,14 +7,15 @@
    :date_modified: 2020-08-17
    :abstract: 本文介绍了编程语言 Python，一种易于上手的高效语言。
 
-Python
-==========
+Python 简介
+===============
 
 
-Abstract paragraph
+本文介绍了 Python 的核心用法。
 
 .. toctree::
    :maxdepth: 2
    :caption: 目录
 
    Intro.ipynb
+   Fundamentals.ipynb

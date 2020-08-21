@@ -1,7 +1,7 @@
 .. meta::
    :category: Python
    :keywords: python
-   :series: Programming
+   :series: Python
    :series_num: 1
    :date_init: 2017-02-22
    :date_modified: 2020-08-17

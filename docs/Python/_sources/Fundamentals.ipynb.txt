@@ -1,0 +1,376 @@
+{
+ "metadata": {
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.3-final"
+  },
+  "orig_nbformat": 2,
+  "kernelspec": {
+   "name": "python_defaultSpec_1598004378482",
+   "display_name": "Python 3.8.3 64-bit"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2,
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Python 基础\n",
+    "\n",
+    "本节只介绍 Python 的基础语法，原则上不涉及任何库的使用。"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 引言：从数字运算熟悉语法\n",
+    "\n",
+    "Python 的基础语法非常简单，让我们先从数字开始吧。\n",
+    "\n",
+    "### 变量的使用\n",
+    "\n",
+    "Python 中的变量不需要声明类型，可以直接赋值使用。比如，我们现在记录两个数字到变量 `a` 与 `b`："
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "a = 5\n",
+    "b = 2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "上面两行代码就创建了两个整型变量 `a` 与 `b`。一些注意点：\n",
+    "\n",
+    "- Python 的赋值符号是简单的等号 `=`，而不是 `:=` 之类的东西\n",
+    "- 每一行是一条语句。语句末尾不需要 `;` 或任何断行标记\n",
+    "- 行内的空格不是必需的，只是为了更好的可读性。你也可以把 `a = 5` 紧凑地写为 `a=5`"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 数字运算\n",
+    "\n",
+    "数字间的四则运算与大多数编程语言一样，加、减、乘、除分别是 `+`、`-`、`*`、`/`："
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": "(7, 3, 10, 2.5)"
+     },
+     "metadata": {},
+     "execution_count": 2
+    }
+   ],
+   "source": [
+    "a + b, a - b, a * b, a / b"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "上述非 print 的写法只在交互式的 Python 命令行中有效，在执行 `.py` 文件时是不会输出结果的。正规的写法是利用 `print()` 函数，将它们依次打印到屏幕（`print()` 函数默认以空格分隔每一项）。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "output_type": "stream",
+     "name": "stdout",
+     "text": "7 3 10 2.5\n"
+    }
+   ],
+   "source": [
+    "print(a + b, a - b, a * b, a / b)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "稍微复杂一点的是整除、取余和乘方，分别是 `//`、`%`、`**`："
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "output_type": "stream",
+     "name": "stdout",
+     "text": "2 1 25\n"
+    }
+   ],
+   "source": [
+    "print(a // b, a % b, a ** b)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "在同时计算整除与取余时，Python 还提供了一个函数 `divmod()`，它返回一个长度为 2 的元组，即 `divmod(x, y) = (x//y, x%y)`："
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "output_type": "stream",
+     "name": "stdout",
+     "text": "(2, 1)\n"
+    }
+   ],
+   "source": [
+    "print(divmod(a, b))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "在 Python 中，圆括号代表高优先级；方括号与花括号在 Python 中有另外的含义，因此在做数学运算的时候，你只能不断地叠用圆括号："
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": "3"
+     },
+     "metadata": {},
+     "execution_count": 6
+    }
+   ],
+   "source": [
+    "2 + (2 * 2) // 3"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 存储计算结果\n",
+    "\n",
+    "要将结果储存起来，使用之前介绍的赋值号 `=`："
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "output_type": "stream",
+     "name": "stdout",
+     "text": "7 (2, 1) 2 1\n"
+    }
+   ],
+   "source": [
+    "# a = 5, b = 2\n",
+    "c = a + b\n",
+    "d = divmod(a, b)\n",
+    "e, f = divmod(a, b)\n",
+    "print(c, d, e, f)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "- 在 Python 中，用井号（Sharp 号）`#` 来开始一个行内注释，它右侧的内容会被注释掉。\n",
+    "- 赋值不必是一对一的；如果赋值号右侧的表达式返回一个长度为 n 的元组，那么左侧也可以用 n 个由逗号连接的变量来接受按顺序拆分的结果。\n",
+    "  - 上例中 `d` 接受了一个长度为 2 元组的返回值，因此 `d` 是一个的元组，值是 `(2,1)`\n",
+    "  - 上例中 `e, f` 接受了元组 `(2,1)` 的赋值，因此 `e` 被赋值为 2， `f` 被赋值为 1。\n",
+    "\n",
+    "更多的数字类型内容，在下文中进行详细介绍。"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 内置变量类型\n",
+    "\n",
+    "我认为以下内置变量类型是在 Python 中经常用到、或者必须有所了解的：\n",
+    "\n",
+    "| 类型 | 关键字 | 说明 | 例子 |\n",
+    "| :---: | :---: | --- | --- | --- |\n",
+    "| 【数字】 |\n",
+    "| 整型 | `int` | 整数 | `1`, `-1` |\n",
+    "| 浮点型 | `float` | 浮点数 | `1.0` |\n",
+    "| 复数型 | `complex` | 复数 | `complex(1,2)`\n",
+    "| 【序列】 |\n",
+    "| 列表 | `list` | 一串有序的可变数据序列，每一项数据可以是任意类型。 | `[1, 2]` |\n",
+    "| 元组 | `tuple` | 一串有序的不可变数据序列，在创建时就固定了每一项的数据值。 | `(1, 2)` |\n",
+    "| 字符串 | `str` | 一串文本字符组成的不可变序列。 | `\"string\"` |\n",
+    "| 【映射】 |\n",
+    "| 字典 | `dict` | 一些互不相同的键及它们各自对应的值组成的键值对数据集。 | `{\"a\":1, \"b\":2}` |\n",
+    "| 【集合】 |\n",
+    "| 集合 | `set` | 一些互不相同的数据值组成的无序可变数据集。 | `{1, 2}` |\n",
+    "| 【其他】 |\n",
+    "| 布尔型 | `bool` | 表示真或假的逻辑类型。 | `True` |\n",
+    "| 空对象 | `None` | 表示空。 | `None` |\n",
+    "\n",
+    "以上并不是 Python 的全部内置类型：\n",
+    "\n",
+    "- 一些高级的、复杂的变量类型，例如 `range` 构造器，不再在这里列出。它们会在后续的章节进行介绍。\n",
+    "- 一些较少使用到的类型，比如 `byte` 二进制字节类型，不会在本文的任何章节介绍。"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 数字类型：int, float, complex\n",
+    "\n",
+    "数字类型没有太多需要介绍的地方。\n",
+    "\n",
+    "- 四则运算：`+`, `-`, `*`, `/`\n",
+    "- 整除与取余：`c = a // b`, `d = a % b`；或者 `c, d = divmod(a,b)`。\n",
+    "  - 这里的整除是指向负无穷取整，例如 `-5//2` 的结果是 `-3`。\n",
+    "  - 复数不能参与整除或取余运算。\n",
+    "- 乘方：`a ** b`，或者 `pow(a, b)`\n",
+    "- 取模：`abs(a)`。如果 `a` 是复数，那么会计算模长；如果是整数或浮点数，实质上就是取绝对值。\n",
+    "- 自运算：`a += 1` 即 `a` 自增 1；同理有 `-=`, `*=`, `/=`\n",
+    "\n",
+    "值得注意的点：\n",
+    "\n",
+    "- **只要有除法参与的数学运算，其结果一定是浮点型**。\n",
+    "- **只要有浮点型参与的数学运算，其结果也一定是浮点型**。\n",
+    "- Python 的内部机制已经处理了整数溢出的问题，因此无须担心。\n",
+    "- 虽然在数学上不合法，但是在 Python（以及一众编程语言）中，`0 ** 0` 等于 1。\n",
+    "\n",
+    "特别地，浮点型中还包含两个特殊的值，分别是”非数“（Not a Number, `nan`）与”正/负无穷“（Infinity, `inf`）："
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": "inf"
+     },
+     "metadata": {},
+     "execution_count": 8
+    }
+   ],
+   "source": [
+    "x = 1\n",
+    "y = float('-inf')\n",
+    "\n",
+    "x - y"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### 类型转换与取整\n",
+    "\n",
+    "Python 中从浮点型到整型的强制类型转换会截断小数点之后的部分："
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "output_type": "stream",
+     "name": "stdout",
+     "text": "1 1 -1 -1\n"
+    }
+   ],
+   "source": [
+    "a, b, c, d = 1.2, 1.6, -1.2, -1.6\n",
+    "print(int(a), int(b), int(c), int(d))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "要实现复杂的取整控制，可以调用 Python 内置的 `math` 模块：\n",
+    "\n",
+    "- floor：向负无穷取整。\n",
+    "- ceil：向正无穷取整。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "output_type": "stream",
+     "name": "stdout",
+     "text": "1 2 -2 -1\n"
+    }
+   ],
+   "source": [
+    "import math  # 导入 math 模块\n",
+    "\n",
+    "print(math.floor(a), math.ceil(b), math.floor(c), math.ceil(d))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "不过在我个人的实践中，取整与四舍五入进位的任务通常由 `numpy` 库代劳；读者可以阅读 Numpy 的相关函数：[numpy.round](https://numpy.org/doc/stable/reference/generated/numpy.round_.html) / [.floor](https://numpy.org/doc/stable/reference/generated/numpy.floor.html) / [.ceil](https://numpy.org/doc/stable/reference/generated/numpy.ceil.html) / [.trunc](https://numpy.org/doc/stable/reference/generated/numpy.trunc.html)）。"
+   ]
+  }
+ ]
+}

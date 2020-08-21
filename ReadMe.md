@@ -21,7 +21,7 @@
 - sphinx-copybutton
 
 可以使用 `Python` 自带的 `pip` 工具进行安装，命令行如下，
-```posh
+```powershell
 pip install sphinx sphinx-rtd-theme nbsphinx sphinx-copybutton
 ```
 
@@ -76,9 +76,9 @@ pip install sphinx sphinx-rtd-theme nbsphinx sphinx-copybutton
 
 仓库中的 `make.py` 是本人编写的文档快速管理工具，用法是：
 
-```posh
+```powershell
 python make.py [-h] 
-    [--build | --create | --remove]
+    [--build | --create | --remove | --server]
     [--title TITLE [TITLE ...]]
     [--no-update-homepage]
     docname
@@ -103,13 +103,13 @@ python make.py [-h]
 
 用 `--create/-c` 参数创建一个名为 `doc1` 的文档，路径在 `docsrc/doc1`。它会被自动初始化，加入 `index.rst`，`index.html` 与 `conf.py`。
 
-```posh
+```powershell
 ./make.py -c doc1
 ```
 
 文档内标题默认与项目名相同。如果要指定一个文档内标题，使用 `--title/-t` 参数来配合 `--create/-c` 参数：
 
-```posh
+```powershell
 ./make.py -c doc1 -t Long title with spaces
 ```
 
@@ -119,13 +119,13 @@ python make.py [-h]
 
 使用 `--build/-b` 参数（或者省略）来构建文档，将其转为 HTML。构建后的 HTML 会临时生成在 `docsrc/doc1/build` 文件夹中，随后 `docsrc/doc1/build/html` 中的所有文件会被移动到 `docs/doc1` 中，然后临时文件夹 `build` 会被删除。
 
-```posh
+```powershell
 ./make.py doc1
 ```
 
 同时，该命令还会尝试自动更新数据库 `db.json`，并自动构建主页（从 `docsrc/_hompage` 到 `docs/`）。因此用户会在控制台中观察到两次 sphinx 构建。如果用户不想自动构建主页，可以添加 `--no-update-homepage/-N` 参数：
 
-```posh
+```powershell
 ./make.py -N doc1
 ```
 
@@ -133,7 +133,7 @@ python make.py [-h]
 
 使用 `--remove/-R` 参数来移除指定的文档。
 
-```posh
+```powershell
 ./make.py -R doc1
 ```
 
@@ -148,7 +148,7 @@ python make.py [-h]
 
 使用 `--server/-s` 参数来在 `docs/` 文件夹搭建本地 HTTP 服务（默认 `http://localhost:8000`），并自动使用浏览器打开 `doc1` 项目的 HTML 主页：
 
-```posh
+```powershell
 ./make.py -s doc1
 ```
 

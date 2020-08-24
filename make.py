@@ -57,6 +57,9 @@ def init_conf_py(docname, doctitle):
     doc_conf['year'] = int(f"{datetime.datetime.today():%Y}")
     doc_conf['project'] = doctitle
     doc_conf = {k: doc_conf[k] for k in sorted(doc_conf)}
+    # Append blog title to canonical url
+    if 'canonical_url' in doc_conf['html_theme_options']:
+        doc_conf['html_theme_options']['canonical_url'] += f"{doctitle}/"
 
     # Write the dict into a .py file
     def write_dict_value(dict_val):

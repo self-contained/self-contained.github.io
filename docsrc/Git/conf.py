@@ -1,0 +1,11 @@
+author = "wklchris"
+copyright = "wklchris"
+exclude_patterns = ['_build', '**.ipynb_checkpoints']
+extensions = ['nbsphinx', 'sphinx_copybutton', 'sphinx.ext.mathjax']
+html_css_files = ['style.css']
+html_static_path = ['../_static']
+html_theme = "sphinx_rtd_theme"
+language = "zh_CN"
+project = "Git"
+templates_path = ['../_templates']
+year = 2020

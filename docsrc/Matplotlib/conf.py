@@ -5,6 +5,7 @@ extensions = ['nbsphinx', 'sphinx_copybutton', 'sphinx.ext.mathjax']
 html_css_files = ['style.css']
 html_static_path = ['../_static']
 html_theme = "sphinx_rtd_theme"
+html_theme_options = {'canonical_url': "https://self-contained.github.io/Matplotlib/"}
 language = "zh_CN"
 project = "Matplotlib"
 templates_path = ['../_templates']

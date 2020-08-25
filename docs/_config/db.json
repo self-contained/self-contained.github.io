@@ -1,9 +1,24 @@
 {
     "_homepage": {
-        "online_date": "2020-08-10",
-        "previous_online_date": "2017-01-07"
+        "date_modified": "2020-08-24",
+        "date_online": "2020-08-10",
+        "date_online_previous": "2017-01-07"
     },
     "blogs": {
+        "FFmpeg": {
+            "category": "CLI",
+            "keywords": [
+                "cli",
+                "ffmpeg",
+                "video"
+            ],
+            "series": "CLI",
+            "series_num": "1",
+            "date_init": "2017-07-11",
+            "date_modified": "2020-01-08",
+            "date_build": "2020-08-24",
+            "abstract": "本文介绍了命令行视频编辑软件 FFmpeg。"
+        },
         "Git": {
             "category": "CLI",
             "keywords": [
@@ -14,7 +29,7 @@
             "series_num": "2",
             "date_init": "2018-04-07",
             "date_modified": "2018-04-17",
-            "date_build": "2020-08-24",
+            "date_build": "2020-08-25",
             "abstract": "本文介绍了 Git，一个流行的版本控制系统。"
         },
         "Matplotlib": {
@@ -32,20 +47,6 @@
             "date_build": "2020-08-24",
             "abstract": "本文介绍了 Python 最广为使用的科学绘图库 Matplotlib"
         },
-        "FFmpeg": {
-            "category": "CLI",
-            "keywords": [
-                "cli",
-                "ffmpeg",
-                "video"
-            ],
-            "series": "CLI",
-            "series_num": "1",
-            "date_init": "2017-07-11",
-            "date_modified": "2020-01-08",
-            "date_build": "2020-08-24",
-            "abstract": "本文介绍了命令行视频编辑软件 FFmpeg。"
-        },
         "Python": {
             "category": "Python",
             "keywords": [
@@ -60,24 +61,26 @@
         }
     },
     "category": {
-        "Python": [
-            "Matplotlib",
-            "Python"
-        ],
         "CLI": [
             "FFmpeg",
             "Git"
+        ],
+        "Python": [
+            "Matplotlib",
+            "Python"
         ]
     },
     "keywords": {
-        "python": [
-            "Matplotlib",
-            "Python"
+        "cli": [
+            "FFmpeg"
+        ],
+        "computing": [
+            "Matplotlib"
+        ],
+        "ffmpeg": [
+            "FFmpeg"
         ],
         "git": [
-            "Git"
-        ],
-        "version control": [
             "Git"
         ],
         "matplotlib": [
@@ -86,27 +89,25 @@
         "plot": [
             "Matplotlib"
         ],
-        "computing": [
-            "Matplotlib"
+        "python": [
+            "Matplotlib",
+            "Python"
         ],
-        "cli": [
-            "FFmpeg"
-        ],
-        "ffmpeg": [
-            "FFmpeg"
+        "version control": [
+            "Git"
         ],
         "video": [
             "FFmpeg"
         ]
     },
     "series": {
-        "Python": [
-            "Python",
-            "Matplotlib"
-        ],
         "CLI": [
             "FFmpeg",
             "Git"
+        ],
+        "Python": [
+            "Python",
+            "Matplotlib"
         ]
     }
 }

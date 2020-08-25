@@ -8,6 +8,9 @@ import threading
 
 CONFIG = 'docs/_config'
 CONFIG_DATABASE = os.path.join(CONFIG, "db.json")
+CONFIG_SITEMAP = os.path.join(CONFIG, "sitemap.xml")
+SITE_BASEURL = 'https://self-contained.github.io/'
+
 DOCSRC, DOCDST = 'docsrc', 'docs'
 ENCODING = 'utf-8'
 
@@ -31,6 +34,9 @@ def load_json(fpath):
     with open(fpath, 'r', encoding=ENCODING) as f:
         data = json.load(f)
     return data
+
+def sort_dict(dictdata):
+    return {k: dictdata[k] for k in sorted(dictdata.keys())}
 
 def create_new_doc(docname, doctitle=None):
     """
@@ -56,7 +62,7 @@ def init_conf_py(docname, doctitle):
     ## Add doc-wise information & Sort
     doc_conf['year'] = int(f"{datetime.datetime.today():%Y}")
     doc_conf['project'] = doctitle
-    doc_conf = {k: doc_conf[k] for k in sorted(doc_conf)}
+    doc_conf = sort_dict(doc_conf)
     # Append blog title to canonical url
     if 'canonical_url' in doc_conf['html_theme_options']:
         doc_conf['html_theme_options']['canonical_url'] += f"{doctitle}/"
@@ -165,14 +171,17 @@ def update_json(json_file, docname, docmeta):
         for parent_key in "keywords,category".split(','):
             _add_doc_to_list(parent_key)
     
+    # Update homepage meta
+    d["_homepage"]["date_modified"] = f"{datetime.datetime.today():%Y-%m-%d}"
     # Sort keys and write back to the json file
-    # d = {k: d[k] for k in sorted(d)}
+    for k in "_homepage,blogs,category,keywords,series".split(","):
+        d[k] = sort_dict(d[k])
     with open(json_file, 'w', encoding=ENCODING) as f:
         json.dump(d, f, indent=4, ensure_ascii=False)
 
 def update_database(docname):
     """
-    Update the metadata database after building cuurent document.
+    Update the metadata database & sitemap after building cuurent document.
     """
     # Read the meta header of the source document RST
     doc_str_lines = read_from_file(docsrc_prefix_path(docname, "index.rst"), join=False)
@@ -190,7 +199,9 @@ def update_database(docname):
     doc_meta["abstract"] = doc_meta.pop("abstract")  # put abstract at last
     # Write into the database
     update_json(CONFIG_DATABASE, docname, doc_meta)
-    print('Database has been updated.')
+    # Update sitemap
+    update_sitemap()
+    print('Database & sitemap has been updated.')
 
 def update_homepage():
     """
@@ -233,6 +244,37 @@ def update_homepage():
     # Write it to index.rst and build the homepage
     write_str_into_file(rst_str, "_homepage", "index.rst")
     sphinx_build("_homepage", update_home=False)  # Avoid self-cycle
+
+def update_sitemap():
+    """
+    Read blog data from CONFIG_DATABASE and write it into sitemap.
+    """
+    sitemap_str = ('<?xml version="1.0" encoding="UTF-8"?>\n\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+    sitemap_foot = '</urlset>'
+    # Read blogs data
+    db = load_json(CONFIG_DATABASE)
+    blogs = sort_dict(db["blogs"])
+    site_lastmod = db["_homepage"]["date_modified"]
+    for dockey in [*blogs.keys(), "_homepage"]:
+        dirpath = os.path.join(DOCSRC, dockey)
+        files = [f for f in os.listdir(dirpath) if f.endswith(('.ipynb', '.rst'))]
+        lastmod = blogs[dockey]["date_build"] if dockey != "_homepage" else site_lastmod
+        for docpage_fname in files:
+            pname, _ = os.path.splitext(docpage_fname)
+            dockey_str = '' if dockey == '_homepage' else dockey+'/'
+            item_url = f"{SITE_BASEURL}{dockey_str}{pname}.html"
+            sitemap_item = sitemap_item = (
+                "  <url>\n"
+                f"    <loc>{item_url}</loc>\n"
+                f"    <lastmod>{lastmod}</lastmod>\n"
+                "  </url>"
+            )
+            sitemap_str += "\n" + sitemap_item
+    sitemap_str += "\n" + sitemap_foot
+
+    with open(CONFIG_SITEMAP, 'w', encoding=ENCODING) as f:
+        f.write(sitemap_str)
 
 def remove_doc(docname, update_home=True):
     """

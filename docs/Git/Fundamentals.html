@@ -44,6 +44,7 @@
     
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="分支：branch" href="Branch.html" />
     <link rel="prev" title="Git 准备工作" href="Preparation.html" />
  
 
@@ -126,10 +127,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">版本变更与回退</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#reset-hard">从工作目录回退：reset –hard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#reset-mixed">从暂存区回退：reset –mixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#reset-soft">从版本回退：reset –soft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#commit-amend">修改提交：commit –amend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset-hard">从工作目录回退：reset --hard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset-mixed">从暂存区回退：reset --mixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset-soft">从版本回退：reset --soft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commit-amend">修改提交：commit --amend</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#log">查看提交历史：log</a><ul>
@@ -139,7 +140,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id6">文件操作</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#rm">删除文件：rm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#rm-cached">放弃追踪文件：rm –cached</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rm-cached">放弃追踪文件：rm --cached</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mv">移动或重命名文件：mv</a></li>
 </ul>
 </li>
@@ -158,8 +159,16 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#alias">别名：alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stash">贮藏：stash</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stash-apply">恢复储藏：stash apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stash-drop">丢弃储藏：stash drop</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#clean">清理仓库：clean</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Branch.html">分支：branch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conflict.html">高级冲突处理</a></li>
 </ul>
 
             
@@ -341,7 +350,7 @@ Changes to be committed:
 <p>其他：</p>
 <ul class="simple">
 <li><p>通常版本控制只针对文本文件；例如 <cite>.pdf</cite> 或 <cite>.jpg</cite> 这类文件一般不加入暂存。</p></li>
-<li><p>在暂存时使用 <cite>-i</cite> （或 <cite>–interactive</cite> ）选项，可以进入交互式暂存界面。</p></li>
+<li><p>在暂存时使用 <cite>-i</cite> （或 <cite>--interactive</cite> ）选项，可以进入交互式暂存界面。</p></li>
 </ul>
 </div>
 <div class="section" id="gitignore">
@@ -355,7 +364,7 @@ Changes to be committed:
 <li><p><cite>.gitignore</cite> 文件特性：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>空行或以 ‘#’ 开头的行会被忽略</p></li>
+<li><p>空行或以 '#' 开头的行会被忽略</p></li>
 <li><p>使用 glob 模式进行匹配</p></li>
 <li><p>以 <cite>/</cite> 开头防止匹配时递归</p></li>
 <li><p>以 <cite>/</cite> 结尾确保匹配目录</p></li>
@@ -368,7 +377,7 @@ Changes to be committed:
 <div><ul class="simple">
 <li><p>用 <cite>*</cite> 表示匹配字符 0 到无穷次</p></li>
 <li><p>用 <cite>?</cite> 表示匹配单个任意字符</p></li>
-<li><p>用 <cite>[…]</cite> 匹配任意一个方括号内的字符(例如 <cite>[acd]</cite> 可以是 <cite>a</cite> <cite>c</cite> 或 <cite>d</cite>)，用 <cite>[x-y]</cite> 匹配任意一个字符 <cite>x</cite> 与 <cite>y</cite> 之间的字符（例如 <cite>[0-9]</cite> 匹配任意一个阿拉伯数字）</p></li>
+<li><p>用 <cite>[...]</cite> 匹配任意一个方括号内的字符(例如 <cite>[acd]</cite> 可以是 <cite>a</cite> <cite>c</cite> 或 <cite>d</cite>)，用 <cite>[x-y]</cite> 匹配任意一个字符 <cite>x</cite> 与 <cite>y</cite> 之间的字符（例如 <cite>[0-9]</cite> 匹配任意一个阿拉伯数字）</p></li>
 <li><p>用 <cite>**</cite> 匹配任意中间目录，例如 <cite>a/**/b</cite> 可以匹配 <cite>a/c/b</cite> 与 <cite>a/c/d/b</cite>。</p></li>
 </ul>
 </div></blockquote>
@@ -395,7 +404,7 @@ B/**/*.pdf  <span class="c1"># 忽略文件夹 B 及其子文件夹中的 pdf �
 </pre></div>
 </div>
 <p>如果不指定文件名，那么会查看两次版本快照所有文件的差异。</p>
-<p>如果加入 <cite>–staged</cite> 选项，则可以查看暂存区与版本库中最新版本之间的差异：</p>
+<p>如果加入 <cite>--staged</cite> 选项，则可以查看暂存区与版本库中最新版本之间的差异：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git diff --staged <span class="o">[</span>&lt;filename&gt;<span class="o">]</span>
 </pre></div>
 </div>
@@ -420,9 +429,13 @@ B/**/*.pdf  <span class="c1"># 忽略文件夹 B 及其子文件夹中的 pdf �
 </div>
 <div class="section" id="id3">
 <h2>版本变更与回退<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
-<p>我们简单提到过 git 使用 HEAD 指针指向最新的一次提交。每一次提交的之前的紧邻提交称为父提交。比如次新的提交就是 <cite>HEAD~</cite> ，父提交的父提交是 <cite>HEAD~2</cite> （确切地说，<cite>~</cite> 指代的是第一父提交，第一父提交的第二父提交需要使用 <cite>HEAD~2^2</cite> 。请参考 分支 部分的内容）。</p>
+<p>我们简单提到过 git 使用 HEAD 指针指向最新的一次提交。每一次提交的之前的紧邻提交称为父提交。比如次新的提交就是 <cite>HEAD~</cite> ，父提交的父提交是 <cite>HEAD~2</cite> （确切地说，<cite>~</cite> 指代的是第一父提交，第一父提交的第二父提交需要使用 <cite>HEAD~2^2</cite> ）。</p>
+<ul class="simple">
+<li><p>更多关于分支的内容，参考 <a class="reference internal" href="Branch.html#branch"><span class="std std-ref">分支：branch</span></a> 章节。</p></li>
+<li><p>如果要回退的提交是一个合并提交，请参考 <a class="reference internal" href="Conflict.html#revert-merge-commit"><span class="std std-ref">撤销合并提交</span></a> 部分的内容。</p></li>
+</ul>
 <div class="section" id="reset-hard">
-<h3>从工作目录回退：reset –hard<a class="headerlink" href="#reset-hard" title="永久链接至标题">¶</a></h3>
+<h3>从工作目录回退：reset --hard<a class="headerlink" href="#reset-hard" title="永久链接至标题">¶</a></h3>
 <p>你对工作目录的内容做了修改，但尚未 <cite>add</cite> 到暂存区。现在你想放弃这些修改，回到上次 <cite>commit</cite> 之后的状态:</p>
 <div class="admonition warning">
 <p class="admonition-title">警告</p>
@@ -435,15 +448,15 @@ $ git reset --hard HEAD &lt;filename&gt;
 <p>这里 <cite>HEAD</cite> 是缺省值，可以省略；你也可以用 SHA-1 值（或其前 7 位）来指定要回退到的版本。本质是放弃并销毁上次 <cite>commit</cite> 以来所有的更改。</p>
 </div>
 <div class="section" id="reset-mixed">
-<h3>从暂存区回退：reset –mixed<a class="headerlink" href="#reset-mixed" title="永久链接至标题">¶</a></h3>
+<h3>从暂存区回退：reset --mixed<a class="headerlink" href="#reset-mixed" title="永久链接至标题">¶</a></h3>
 <p>你的修改已经 <cite>add</cite> 到暂存区，现在你想把暂存区清空，但在本地文件中仍保留这些更改：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git reset --mixed HEAD &lt;filename&gt;
 </pre></div>
 </div>
-<p>这里的 <cite>–mixed</cite> 选项是缺省值，可以省略。该命令相当于取消了 <cite>add</cite> 命令，更改仍存在于文件中。</p>
+<p>这里的 <cite>--mixed</cite> 选项是缺省值，可以省略。该命令相当于取消了 <cite>add</cite> 命令，更改仍存在于文件中。</p>
 </div>
 <div class="section" id="reset-soft">
-<h3>从版本回退：reset –soft<a class="headerlink" href="#reset-soft" title="永久链接至标题">¶</a></h3>
+<h3>从版本回退：reset --soft<a class="headerlink" href="#reset-soft" title="永久链接至标题">¶</a></h3>
 <p>你的文件已 <cite>commit</cite> 到仓库记录中去，现在你想将 HEAD 指针移动到上一个 commit 的位置:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git reset --soft HEAD~
 </pre></div>
@@ -452,16 +465,16 @@ $ git reset --hard HEAD &lt;filename&gt;
 <p>此时你的暂存区、工作目录并未被回退，仍保留着你的改动。本质是撤销了最近的一次 <cite>commit</cite> 命令。</p>
 <div class="admonition warning">
 <p class="admonition-title">警告</p>
-<p><strong>如果你要应用回退的版本已经推送到远程仓库，那么不要使用 reset 命令</strong> 。请使用 <cite>revert</cite> 命令来新建一个提交，这个提交的内容将与你指定的版本一致：</p>
+<p><strong>如果你要应用回退的版本已经推送到远程仓库，那么不要使用 reset 命令</strong> ，因为 reset 命令会更改日志。请使用 <cite>revert</cite> 命令来新建一个提交，这个提交的内容将与你指定的版本一致：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git revert HEAD~
 </pre></div>
 </div>
-<p><cite>revert</cite> 命令在还原合并提交中也有作用，可以参考撤销合并提交部分的内容。</p>
+<p><cite>revert</cite> 命令在还原合并提交中也有作用，可以参考 <a class="reference internal" href="Conflict.html#revert-merge-commit"><span class="std std-ref">撤销合并提交</span></a> 部分的内容。</p>
 </div>
 </div>
 <div class="section" id="commit-amend">
-<h3>修改提交：commit –amend<a class="headerlink" href="#commit-amend" title="永久链接至标题">¶</a></h3>
-<p>如果在提交时忘记了 <cite>add</cite> 某个文件，或者其他需要修改提交的场合，使用 <cite>–amend</cite> 参数。例如：</p>
+<h3>修改提交：commit --amend<a class="headerlink" href="#commit-amend" title="永久链接至标题">¶</a></h3>
+<p>如果在提交时忘记了 <cite>add</cite> 某个文件，或者其他需要修改提交的场合，使用 <cite>--amend</cite> 参数。例如：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git commit -m <span class="s1">&#39;initial commit&#39;</span>
 $ git add forgotten_file
 $ git commit --amend
@@ -481,15 +494,15 @@ $ git commit --amend
 <p>这里将 <cite>log</cite> 命令的参数分为输出参数与过滤参数两种。输出参数主要有：</p>
 <ul class="simple">
 <li><p><cite>-p</cite> ：查看提交内容的差异。</p></li>
-<li><p><cite>–abbrev-commit</cite> ：只显示简洁 SHA-1，一般是其前 7 个字符。</p></li>
-<li><p><cite>–color</cite> ：启用颜色。常用的颜色包括：red, green, yellow, blue, magenta, cyan, black, white, normal; 以及可在以上颜色之前加上格式 bold, dim, ul, blink, reverse. 例如：<cite>%C(bold blue)</cite>。</p></li>
-<li><p><cite>–graph</cite> ：用图像的方式显示你的分支历史。</p></li>
-<li><p><cite>–stat</cite> ：列出提交修改的文件以及一些基本修改的信息。</p></li>
-<li><p><cite>–shortstat</cite> ：只列出修改的文件数量和修改的行数。</p></li>
-<li><p><cite>–relative-date</cite> ：显示相对日期，即 “2 days ago” 这种格式。</p></li>
-<li><p><cite>–pretty=&lt;option&gt;</cite> ：可选的 <cite>option</cite> 有 <cite>short</cite>, <cite>full</cite>, <cite>oneline</cite> 等。</p></li>
+<li><p><cite>--abbrev-commit</cite> ：只显示简洁 SHA-1，一般是其前 7 个字符。</p></li>
+<li><p><cite>--color</cite> ：启用颜色。常用的颜色包括：red, green, yellow, blue, magenta, cyan, black, white, normal; 以及可在以上颜色之前加上格式 bold, dim, ul, blink, reverse. 例如：<cite>%C(bold blue)</cite>。</p></li>
+<li><p><cite>--graph</cite> ：用图像的方式显示你的分支历史。</p></li>
+<li><p><cite>--stat</cite> ：列出提交修改的文件以及一些基本修改的信息。</p></li>
+<li><p><cite>--shortstat</cite> ：只列出修改的文件数量和修改的行数。</p></li>
+<li><p><cite>--relative-date</cite> ：显示相对日期，即 &quot;2 days ago&quot; 这种格式。</p></li>
+<li><p><cite>--pretty=&lt;option&gt;</cite> ：可选的 <cite>option</cite> 有 <cite>short</cite>, <cite>full</cite>, <cite>oneline</cite> 等。</p></li>
 </ul>
-<p>特别地，<cite>–pretty=format:”&lt;format-str&gt;”</cite> 可以自定义显示内容，例如：</p>
+<p>特别地，<cite>--pretty=format:&quot;&lt;format-str&gt;&quot;</cite> 可以自定义显示内容，例如：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git log --color --pretty<span class="o">=</span>format:<span class="s2">&quot;%Cred%h%Creset %d - %s (%cr by %an)&quot;</span>
 36e8d6b  - Update README. <span class="o">(</span><span class="m">2</span> days ago by wklchris<span class="o">)</span>
 bae6fc8  <span class="o">(</span>origin/master, origin/dev, master<span class="o">)</span> - Init <span class="o">(</span><span class="m">3</span> days ago by wklchris<span class="o">)</span>
@@ -527,7 +540,7 @@ bae6fc8  <span class="o">(</span>origin/master, origin/dev, master<span class="o
 <td><p>作者/提交者的电子邮件地址</p></td>
 </tr>
 <tr class="row-even"><td><p>%ad/%cd</p></td>
-<td><p>作者/提交者的修改日期（可用 <cite>–date=</cite> 指定格式）</p></td>
+<td><p>作者/提交者的修改日期（可用 <cite>--date=</cite> 指定格式）</p></td>
 </tr>
 <tr class="row-odd"><td><p>%ar/%cr</p></td>
 <td><p>作者/提交者的修改日期，以相对日期方式显示</p></td>
@@ -537,15 +550,15 @@ bae6fc8  <span class="o">(</span>origin/master, origin/dev, master<span class="o
 <p>过滤参数主要有：</p>
 <ul class="simple">
 <li><p><cite>-[num]</cite> ：显示最近 num 次的提交，比如 <cite>-2</cite> 表示最近 2 次的提交。</p></li>
-<li><p><cite>–author</cite> ：搜索某作者的提交。</p></li>
-<li><p><cite>–commiter</cite> ：搜索某提交者的提交。</p></li>
-<li><p><cite>–grep</cite> ：搜索提交说明文本中包含对应内容的提交。</p></li>
-<li><p><cite>–since/–after</cite> ：显示自从某日期以来的提交，可以是 <cite>–since=”2000-01-01“</cite> 或者 <cite>–since=”1 year ago”</cite> 形式。</p></li>
-<li><p><cite>–until/–before</cite> ：显示某日期之前的提交。</p></li>
+<li><p><cite>--author</cite> ：搜索某作者的提交。</p></li>
+<li><p><cite>--commiter</cite> ：搜索某提交者的提交。</p></li>
+<li><p><cite>--grep</cite> ：搜索提交说明文本中包含对应内容的提交。</p></li>
+<li><p><cite>--since/--after</cite> ：显示自从某日期以来的提交，可以是 <cite>--since=&quot;2000-01-01“</cite> 或者 <cite>--since=&quot;1 year ago&quot;</cite> 形式。</p></li>
+<li><p><cite>--until/--before</cite> ：显示某日期之前的提交。</p></li>
 </ul>
 <div class="admonition important">
 <p class="admonition-title">重要</p>
-<p>过滤参数中的“搜索”使用时，默认会以逻辑“或”连接，除非添加 <cite>–all-match</cite> 选项。</p>
+<p>过滤参数中的“搜索”使用时，默认会以逻辑“或”连接，除非添加 <cite>--all-match</cite> 选项。</p>
 </div>
 </div>
 <div class="section" id="id5">
@@ -556,12 +569,12 @@ $ git log master..dev
 $ git log origin/master..HEAD
 </pre></div>
 </div>
-<p>如果使用三点命令，则会显示只位于两分支之一的提交。通常使用 <cite>–left-right</cite> 选项来让 git 显示提交位于哪个分支上：</p>
+<p>如果使用三点命令，则会显示只位于两分支之一的提交。通常使用 <cite>--left-right</cite> 选项来让 git 显示提交位于哪个分支上：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># 三点命令</span>
 $ git log --left-right master...dev
 </pre></div>
 </div>
-<p>用 <cite>^</cite> 或者 <cite>–not</cite> 指明你不想查看的提交。比如，查看被 A, B 包含但不被 C 包含的提交，以下两种均可：</p>
+<p>用 <cite>^</cite> 或者 <cite>--not</cite> 指明你不想查看的提交。比如，查看被 A, B 包含但不被 C 包含的提交，以下两种均可：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git log refA refB ^refC
 $ git log refA refB --not refC
 </pre></div>
@@ -583,17 +596,17 @@ $ git log refA refB --not refC
 </div>
 <p>其他选项：</p>
 <ul class="simple">
-<li><p>选项 <cite>–dry-run</cite> 会显示你将删除的文件（但不执行删除操作），这往往用于检查你的 glob 表达式是否书写正确。</p></li>
+<li><p>选项 <cite>--dry-run</cite> 会显示你将删除的文件（但不执行删除操作），这往往用于检查你的 glob 表达式是否书写正确。</p></li>
 <li><p>选项 <cite>-f</cite> 用来删除已经暂存的文件。这是防止未快照的文件被误删。</p></li>
 </ul>
 </div>
 <div class="section" id="rm-cached">
-<h3>放弃追踪文件：rm –cached<a class="headerlink" href="#rm-cached" title="永久链接至标题">¶</a></h3>
+<h3>放弃追踪文件：rm --cached<a class="headerlink" href="#rm-cached" title="永久链接至标题">¶</a></h3>
 <div class="admonition attention">
 <p class="admonition-title">注意</p>
 <p>特别地，此方法也适用于某文件在之前已经 commit 到了远程仓库（比如 Github），现在想将其从远程仓库中移除的情形。</p>
 </div>
-<p>放弃追踪（untrack）文件：即让 git 放弃记录某一文件的修改状态，但仍保留该文件在磁盘。这一情形通常是你在添加 <cite>.gitignore</cite> 前就进行了 <cite>add</cite> 的误操作.这是你需要 <cite>–cached</cite> 选项：</p>
+<p>放弃追踪（untrack）文件：即让 git 放弃记录某一文件的修改状态，但仍保留该文件在磁盘。这一情形通常是你在添加 <cite>.gitignore</cite> 前就进行了 <cite>add</cite> 的误操作.这是你需要 <cite>--cached</cite> 选项：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git rm --cached &lt;filename&gt;
 </pre></div>
 </div>
@@ -675,10 +688,15 @@ origin  https://github.com/self-contained/self-contained.github.io <span class="
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git tag v1.0
 </pre></div>
 </div>
-<p>这个语句没有使用任何参数，称为 <strong>轻量标签（Lightweighted tag）</strong> 。它会将 “v1.0” 标签加到最后一次 commit 上。如果你想同时附上一些说明文字，使用 <strong>附注标签（Annotated tag）</strong> ，即用 <cite>-a</cite> 选项：</p>
+<p>这个语句没有使用任何参数，称为 <strong>轻量标签（Lightweighted tag）</strong> 。它会将 &quot;v1.0&quot; 标签加到最后一次 commit 上。如果你想同时附上一些说明文字，使用 <strong>附注标签（Annotated tag）</strong> ，即用 <cite>-a</cite> 选项：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git tag -a v1.0 -m <span class="s2">&quot;This is a new version.&quot;</span>
 </pre></div>
 </div>
+<p>如果需要输入一段多行说明文字，我推荐使用不带 <cite>-m</cite> 的 <cite>-a</cite> 选项：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git tag -a v1.0
+</pre></div>
+</div>
+<p>上述命令会自动打开编辑器（默认是 vim），输入完文字后，记得用 <cite>:wq</cite> 命令保存，这样标签说明文字才会被正常写入。</p>
 <p>如果要添加标签到以往的 commit 位置，可以指定对应 commit 的哈希值（或其前 7 位），例如:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git tag -a v1.0 36e8d6b
 </pre></div>
@@ -686,7 +704,7 @@ origin  https://github.com/self-contained/self-contained.github.io <span class="
 </div>
 <div class="section" id="id11">
 <h3>查看标签<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
-<p>查看所有的标签，或用上文介绍的 &lt;a href=”#glob”&gt;glob 模式&lt;/a&gt; 查询：</p>
+<p>查看所有的标签，或用上文介绍的 glob 模式来查询：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git tag
 $ git tag --list <span class="s2">&quot;v1.0*&quot;</span>
 </pre></div>
@@ -702,7 +720,7 @@ $ git tag --list <span class="s2">&quot;v1.0*&quot;</span>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git push origin v1.0
 </pre></div>
 </div>
-<p>如果你想将尚未推送到远程仓库中的本地标签全部推送，使用 <cite>–tags</cite> 选项：</p>
+<p>如果你想将尚未推送到远程仓库中的本地标签全部推送，使用 <cite>--tags</cite> 选项：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git push origin --tags
 </pre></div>
 </div>
@@ -744,6 +762,92 @@ $ git config --gloabl alias.last <span class="s1">&#39;log -1 HEAD&#39;</span>
 </div>
 <p>这样使用 <cite>git lg</cite> 的显示效果比原生的 <cite>git log</cite> 显示舒服得多。</p>
 </div>
+<div class="section" id="stash">
+<h2>贮藏：stash<a class="headerlink" href="#stash" title="永久链接至标题">¶</a></h2>
+<p>如果你需要切换分支，但不想为当前分支的工作创建一个提交．这时候需要用 <cite>stash</cite> 将更改到储存到一个栈上：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash
+Saved working directory and index state WIP on dev: f435e49 Git: update to rebase.
+</pre></div>
+</div>
+<p>该命令会储存工作目录和暂存区．现在再运行 <cite>git status</cite> ，工作目录是干净的．如果你不想把已经暂存的部分储藏起来，添加 <cite>--keep-index</cite> 选项．</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash --keep-index
+</pre></div>
+</div>
+<p>储藏操作默认只关心已修改或已暂存的跟踪文件，而会忽略工作目录中的未跟踪文件（以及被 <cite>.gitignore</cite> 忽略的文件）。</p>
+<ul class="simple">
+<li><p>使用 <cite>-u</cite> （或 <cite>--include-untracked</cite> ） 选项，可以将未跟踪文件也加入贮藏。</p></li>
+<li><p>使用 <cite>-a</cite> （或 <cite>--all</cite> ）选项，可以将被忽略的文件也加入贮藏。</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash -u  <span class="c1"># 同时加入未跟踪文件</span>
+$ git stash -a  <span class="c1"># 同时加入忽略的文件</span>
+</pre></div>
+</div>
+<p>查看你的储藏栈：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash list
+stash@<span class="o">{</span><span class="m">0</span><span class="o">}</span>: WIP on dev: f435e49 Git: update to rebase.
+</pre></div>
+</div>
+<div class="section" id="stash-apply">
+<h3>恢复储藏：stash apply<a class="headerlink" href="#stash-apply" title="永久链接至标题">¶</a></h3>
+<p>从栈中恢复一个储藏到当前:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash apply
+$ git stash apply stash@<span class="o">{</span><span class="m">0</span><span class="o">}</span>
+</pre></div>
+</div>
+<p>其中 <cite>stash&#64;{n}</cite> 如果不指定，会默认恢复栈顶的储藏．</p>
+<p>恢复储藏默认会把之前存入的内容都添加到工作目录（也就是说，如果你储藏时暂存区有添加的更改，这部分更改会被退还到工作目录而不是重新暂存）。使用 <cite>--index</cite> 选项以重新恢复暂存，以尽可能地恢复到贮藏前的状态：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash apply --index
+On branch dev
+Changes to be committed:
+  <span class="o">(</span>use <span class="s2">&quot;git reset HEAD &lt;file&gt;...&quot;</span> to unstage<span class="o">)</span>
+
+        modified:   Git/Fundamentals.rst
+
+Changes not staged <span class="k">for</span> commit:
+  <span class="o">(</span>use <span class="s2">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed<span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">&quot;git checkout -- &lt;file&gt;...&quot;</span> to discard changes in working directory<span class="o">)</span>
+
+        modified:   Git/Fundamentals.rst
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>如果你尝试恢复到一个储藏点入栈分支之外的分支，或者你的工作目录不是干净的，恢复可能导致问题．比如你建立了一个储藏，却继续在当前位置工作，再尝试恢复．这时，你需要一个新的分支（例如命名为 dev-stash）来帮助你恢复：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash branch dev-stash
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="stash-drop">
+<h3>丢弃储藏：stash drop<a class="headerlink" href="#stash-drop" title="永久链接至标题">¶</a></h3>
+<p>最后，如果恢复操作 <cite>apply</cite> 没有问题，你就可以把该储藏点从栈中丢弃了：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash drop stash@<span class="o">{</span><span class="m">0</span><span class="o">}</span>
+Dropped stash@<span class="o">{</span><span class="m">0</span><span class="o">}</span> <span class="o">(</span>2e843b866b3be25c3a8ccb5dd2c688b258d2d337<span class="o">)</span>
+</pre></div>
+</div>
+<p>你也可以用 <cite>git stash pop</cite> 来达到“恢复储藏，随即将其从栈中丢弃”的效果．</p>
+</div>
+</div>
+<div class="section" id="clean">
+<h2>清理仓库：clean<a class="headerlink" href="#clean" title="永久链接至标题">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>这是一个危险的命令，可能会导致内容丢失。建议总是使用 <cite>-n</cite> 或 <cite>--dry-run</cite> 参数来预演该命令。</p>
+</div>
+<p>清理目录一般使用 <cite>clean</cite> 指令，它会移除所有未被追踪的文件（不包括你的 <cite>.gitignore</cite> 文件中排除的那些）。利用贮藏来将这些文件放入栈中是个更安全的选择：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git stash --all
+</pre></div>
+</div>
+<p>如果你确认要使用 <cite>clean</cite> 这个危险的命令，可以配合 <cite>-d</cite> 移除未追踪文件以及所有空的子目录。添加 <cite>-f</cite> 选项则意味着强制移除。</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git clean -f -d   <span class="c1"># 危险的命令！</span>
+</pre></div>
+</div>
+<p>安全选项 <cite>-n</cite> （或 <cite>--dry-run</cite> ）来执行一次预演，即告诉你这个操作实际上将会移除哪些文件，但此次并不执行移除操作：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git clean -d --dry-run   <span class="c1"># 显示 git clean -d 将会移除的内容</span>
+</pre></div>
+</div>
+<p>最后，该命令还拥有一个选项 <cite>-x</cite> 。它允许你同时也清除那些 <cite>.gitignore</cite> 通配的文件。</p>
+</div>
 </div>
 
 
@@ -753,6 +857,8 @@ $ git config --gloabl alias.last <span class="s1">&#39;log -1 HEAD&#39;</span>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Branch.html" class="btn btn-neutral float-right" title="分支：branch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="Preparation.html" class="btn btn-neutral float-left" title="Git 准备工作" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

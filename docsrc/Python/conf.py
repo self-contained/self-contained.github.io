@@ -8,5 +8,6 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {'canonical_url': "https://self-contained.github.io/Python/"}
 language = "zh_CN"
 project = "Python"
+smartquotes = False
 templates_path = ['../_templates']
 year = 2020

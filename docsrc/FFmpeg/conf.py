@@ -8,5 +8,6 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {'canonical_url': "https://self-contained.github.io/FFmpeg/"}
 language = "zh_CN"
 project = "FFmpeg 教程"
+smartquotes = False
 templates_path = ['../_templates']
 year = 2020

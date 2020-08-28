@@ -118,6 +118,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Intro.html">Git 简介</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Preparation.html">Git 准备工作</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Fundamentals.html">Git 基础命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Branch.html">分支：branch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conflict.html">高级冲突处理</a></li>
 </ul>
 
             
@@ -209,6 +211,7 @@
 </style>
 <div class="section" id="git">
 <h1>Git 使用笔记<a class="headerlink" href="#git" title="永久链接至标题">¶</a></h1>
+<p>本文的绝大部分内容来自 Git 的官方文档。官方提供了中文译本 <a class="reference external" href="https://git-scm.com/book/zh/v2">Git 文档简体中文版 v2</a> ，可以在线阅读或者下载 pdf 进行浏览。</p>
 <p>通过版本控制系统（Version Control System, VCS）对文件的每个历史版本进行管理，是工程开发中不可缺少的模式。VCS 允许管理者方便地回退版本、多人协作，借此达成对项目的开发、维护与管理。</p>
 <p>Git 可能是当下最流行的 VCS。如果你是一个编程人员或者 Github 用户，你必须会使用 Git。</p>
 <div class="toctree-wrapper compound">
@@ -235,6 +238,31 @@
 <li class="toctree-l2"><a class="reference internal" href="Fundamentals.html#id7">远程仓库操作</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Fundamentals.html#tag">标签：tag</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Fundamentals.html#alias">别名：alias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fundamentals.html#stash">贮藏：stash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fundamentals.html#clean">清理仓库：clean</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Branch.html">分支：branch</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#id2">创建分支</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#checkout">切换分支：checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#merge">合并分支：merge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#branch-d">删除分支：branch -d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#branch-v">查看分支列表：branch -v</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#tracking-branch">远程：跟踪分支（上游分支）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#basic-conflict">冲突处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#branch-workflow">分支工作流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Branch.html#rebase">变基*：rebase</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Conflict.html">高级冲突处理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Conflict.html#id2">中断合并</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Conflict.html#id3">忽略空白符变更</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Conflict.html#id4">手动合并文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Conflict.html#id5">检出冲突</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Conflict.html#id6">查询日志</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Conflict.html#revert-merge-commit">撤销合并提交</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Conflict.html#id8">偏好合并</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Conflict.html#id9">伪合并</a></li>
 </ul>
 </li>
 </ul>

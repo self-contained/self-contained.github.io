@@ -14,6 +14,8 @@ exclude_patterns = [
     '**.ipynb_checkpoints'
 ]
 
+smartquotes = False
+
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {'canonical_url': "https://self-contained.github.io/"}
 templates_path = ['../_templates']

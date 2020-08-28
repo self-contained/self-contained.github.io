@@ -117,6 +117,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Fundamentals.html">Git 基础命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Branch.html">分支：branch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conflict.html">高级冲突处理</a></li>
 </ul>
 
             
@@ -220,10 +222,10 @@ $ git config --global user.email wklchris@example.com
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>选项 <cite>–global</cite> 表示这些设定会应用于每个项目的 Git 仓库。如果只想为当前仓库设置，取消 <cite>–global</cite> 参数即可。</p></li>
+<li><p>选项 <cite>--global</cite> 表示这些设定会应用于每个项目的 Git 仓库。如果只想为当前仓库设置，取消 <cite>--global</cite> 参数即可。</p></li>
 <li><p>当前计算机用户的“全局配置”会被存储在 <cite>~/.gitconfig</cite> 文件中（Windows 用户的 <cite>~</cite> 路径是 <cite>C:Usersusername</cite> ）。</p></li>
 </ul>
-<p>要查看我们的配置文件，使用 <cite>git config –list</cite> ；要查询单个键的值，使用 <cite>git config &lt;key&gt;</cite>：</p>
+<p>要查看我们的配置文件，使用 <cite>git config --list</cite> ；要查询单个键的值，使用 <cite>git config &lt;key&gt;</cite>：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git config user.name
 wklchris
 </pre></div>

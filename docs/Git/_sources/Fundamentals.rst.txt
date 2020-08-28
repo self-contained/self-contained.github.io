@@ -225,7 +225,10 @@ Git 基础命令
 版本变更与回退
 ----------------
 
-我们简单提到过 git 使用 HEAD 指针指向最新的一次提交。每一次提交的之前的紧邻提交称为父提交。比如次新的提交就是 `HEAD~` ，父提交的父提交是 `HEAD~2` （确切地说，`~` 指代的是第一父提交，第一父提交的第二父提交需要使用 `HEAD~2^2` 。请参考 分支 部分的内容）。
+我们简单提到过 git 使用 HEAD 指针指向最新的一次提交。每一次提交的之前的紧邻提交称为父提交。比如次新的提交就是 `HEAD~` ，父提交的父提交是 `HEAD~2` （确切地说，`~` 指代的是第一父提交，第一父提交的第二父提交需要使用 `HEAD~2^2` ）。
+
+* 更多关于分支的内容，参考 :ref:`branch` 章节。
+* 如果要回退的提交是一个合并提交，请参考 :ref:`revert-merge-commit` 部分的内容。
 
 
 从工作目录回退：reset --hard
@@ -272,13 +275,13 @@ Git 基础命令
 
 .. warning::
 
-   **如果你要应用回退的版本已经推送到远程仓库，那么不要使用 reset 命令** 。请使用 `revert` 命令来新建一个提交，这个提交的内容将与你指定的版本一致：
+   **如果你要应用回退的版本已经推送到远程仓库，那么不要使用 reset 命令** ，因为 reset 命令会更改日志。请使用 `revert` 命令来新建一个提交，这个提交的内容将与你指定的版本一致：
 
    .. code-block:: sh
 
       $ git revert HEAD~
    
-   `revert` 命令在还原合并提交中也有作用，可以参考撤销合并提交部分的内容。
+   `revert` 命令在还原合并提交中也有作用，可以参考 :ref:`revert-merge-commit` 部分的内容。
 
 
 修改提交：commit --amend
@@ -544,6 +547,14 @@ Git 可以管理文件的删除、追踪、移动与重命名。
    
    $ git tag -a v1.0 -m "This is a new version."
 
+如果需要输入一段多行说明文字，我推荐使用不带 `-m` 的 `-a` 选项：
+
+.. code-block:: sh
+   
+   $ git tag -a v1.0
+
+上述命令会自动打开编辑器（默认是 vim），输入完文字后，记得用 `:wq` 命令保存，这样标签说明文字才会被正常写入。
+
 如果要添加标签到以往的 commit 位置，可以指定对应 commit 的哈希值（或其前 7 位），例如:
 
 .. code-block:: sh
@@ -554,7 +565,7 @@ Git 可以管理文件的删除、追踪、移动与重命名。
 查看标签
 ^^^^^^^^^^^
 
-查看所有的标签，或用上文介绍的 <a href="#glob">glob 模式</a> 查询：
+查看所有的标签，或用上文介绍的 glob 模式来查询：
 
 .. code-block:: sh
 
@@ -635,3 +646,117 @@ Git 可以管理文件的删除、追踪、移动与重命名。
    $ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset:%C(ul yellow)%d%Creset %s (%Cgreen%cr%Creset, %C(bold blue)%an%Creset)' --abbrev-commit"
 
 这样使用 `git lg` 的显示效果比原生的 `git log` 显示舒服得多。
+
+
+贮藏：stash
+-------------------
+
+如果你需要切换分支，但不想为当前分支的工作创建一个提交．这时候需要用 `stash` 将更改到储存到一个栈上：
+
+.. code-block:: sh
+   
+   $ git stash
+   Saved working directory and index state WIP on dev: f435e49 Git: update to rebase.
+
+该命令会储存工作目录和暂存区．现在再运行 `git status` ，工作目录是干净的．如果你不想把已经暂存的部分储藏起来，添加 `--keep-index` 选项．
+
+.. code-block:: sh
+   
+   $ git stash --keep-index
+
+储藏操作默认只关心已修改或已暂存的跟踪文件，而会忽略工作目录中的未跟踪文件（以及被 `.gitignore` 忽略的文件）。
+
+* 使用 `-u` （或 `--include-untracked` ） 选项，可以将未跟踪文件也加入贮藏。
+* 使用 `-a` （或 `--all` ）选项，可以将被忽略的文件也加入贮藏。
+
+.. code-block:: sh
+   
+   $ git stash -u  # 同时加入未跟踪文件
+   $ git stash -a  # 同时加入忽略的文件
+
+查看你的储藏栈：
+
+.. code-block:: sh
+   
+   $ git stash list
+   stash@{0}: WIP on dev: f435e49 Git: update to rebase.
+
+
+恢复储藏：stash apply
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+从栈中恢复一个储藏到当前:
+
+.. code-block:: sh
+   
+   $ git stash apply
+   $ git stash apply stash@{0}
+
+其中 `stash@{n}` 如果不指定，会默认恢复栈顶的储藏．
+
+恢复储藏默认会把之前存入的内容都添加到工作目录（也就是说，如果你储藏时暂存区有添加的更改，这部分更改会被退还到工作目录而不是重新暂存）。使用 `--index` 选项以重新恢复暂存，以尽可能地恢复到贮藏前的状态：
+
+.. code-block:: sh
+   
+   $ git stash apply --index
+   On branch dev
+   Changes to be committed:
+     (use "git reset HEAD <file>..." to unstage)
+
+           modified:   Git/Fundamentals.rst
+
+   Changes not staged for commit:
+     (use "git add <file>..." to update what will be committed)
+     (use "git checkout -- <file>..." to discard changes in working directory)
+
+           modified:   Git/Fundamentals.rst
+
+.. note::
+
+   如果你尝试恢复到一个储藏点入栈分支之外的分支，或者你的工作目录不是干净的，恢复可能导致问题．比如你建立了一个储藏，却继续在当前位置工作，再尝试恢复．这时，你需要一个新的分支（例如命名为 dev-stash）来帮助你恢复：
+
+   .. code-block:: sh
+
+      $ git stash branch dev-stash
+
+
+丢弃储藏：stash drop
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+最后，如果恢复操作 `apply` 没有问题，你就可以把该储藏点从栈中丢弃了：
+
+.. code-block:: sh
+   
+   $ git stash drop stash@{0}
+   Dropped stash@{0} (2e843b866b3be25c3a8ccb5dd2c688b258d2d337)
+
+你也可以用 `git stash pop` 来达到“恢复储藏，随即将其从栈中丢弃”的效果．
+
+
+清理仓库：clean
+---------------------
+
+.. warning::
+   
+   这是一个危险的命令，可能会导致内容丢失。建议总是使用 `-n` 或 `--dry-run` 参数来预演该命令。
+
+清理目录一般使用 `clean` 指令，它会移除所有未被追踪的文件（不包括你的 `.gitignore` 文件中排除的那些）。利用贮藏来将这些文件放入栈中是个更安全的选择：
+
+.. code-block:: sh
+   
+   $ git stash --all
+
+如果你确认要使用 `clean` 这个危险的命令，可以配合 `-d` 移除未追踪文件以及所有空的子目录。添加 `-f` 选项则意味着强制移除。
+
+.. code-block:: sh
+   
+   $ git clean -f -d   # 危险的命令！
+
+安全选项 `-n` （或 `--dry-run` ）来执行一次预演，即告诉你这个操作实际上将会移除哪些文件，但此次并不执行移除操作：
+
+.. code-block:: sh
+   
+   $ git clean -d --dry-run   # 显示 git clean -d 将会移除的内容
+
+最后，该命令还拥有一个选项 `-x` 。它允许你同时也清除那些 `.gitignore` 通配的文件。
+

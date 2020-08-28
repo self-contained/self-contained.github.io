@@ -11,6 +11,7 @@
         "_build",
         "**.ipynb_checkpoints"
     ],
+    "smartquotes": false,
     "html_theme": "sphinx_rtd_theme",
     "html_theme_options": {
         "canonical_url": "https://self-contained.github.io/"

@@ -225,7 +225,7 @@ def update_homepage():
         for i, docname in enumerate(blog_list):
             doc_meta = total_meta["blogs"][docname]
             doc_row = [
-                f'<a href="/{docname}/">{docname}</a>',
+                f'<a href="/{docname}/index.html">{docname}</a>',
                 doc_meta["category"],
                 doc_meta["abstract"],
                 doc_meta["date_init"],
@@ -252,6 +252,15 @@ def update_sitemap():
     sitemap_str = ('<?xml version="1.0" encoding="UTF-8"?>\n\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
     sitemap_foot = '</urlset>'
+    def create_sitemap_item(url, lastmod):
+        item = (
+            "  <url>\n"
+            f"    <loc>{item_url}</loc>\n"
+            f"    <lastmod>{lastmod}</lastmod>\n"
+            "  </url>"
+        )
+        return item
+    
     # Read blogs data
     db = load_json(CONFIG_DATABASE)
     blogs = sort_dict(db["blogs"])
@@ -264,13 +273,10 @@ def update_sitemap():
             pname, _ = os.path.splitext(docpage_fname)
             dockey_str = '' if dockey == '_homepage' else dockey+'/'
             item_url = f"{SITE_BASEURL}{dockey_str}{pname}.html"
-            sitemap_item = sitemap_item = (
-                "  <url>\n"
-                f"    <loc>{item_url}</loc>\n"
-                f"    <lastmod>{lastmod}</lastmod>\n"
-                "  </url>"
-            )
+            sitemap_item = create_sitemap_item(item_url, lastmod)
             sitemap_str += "\n" + sitemap_item
+    # Append the mainsite URL (the one without index.html suffix)
+    sitemap_str += "\n" + create_sitemap_item(SITE_BASEURL, site_lastmod)
     sitemap_str += "\n" + sitemap_foot
 
     with open(CONFIG_SITEMAP, 'w', encoding=ENCODING) as f:

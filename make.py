@@ -255,7 +255,7 @@ def update_sitemap():
     def create_sitemap_item(url, lastmod):
         item = (
             "  <url>\n"
-            f"    <loc>{item_url}</loc>\n"
+            f"    <loc>{url}</loc>\n"
             f"    <lastmod>{lastmod}</lastmod>\n"
             "  </url>"
         )

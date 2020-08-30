@@ -11,6 +11,7 @@
    2. [构建文档](#构建文档)
    3. [移除文档](#移除文档)
    4. [本地预览](#本地预览)
+4. [ju.ps1 脚本](#jups1-脚本)
 
 ## 依赖项
 
@@ -36,6 +37,7 @@ pip install sphinx sphinx-rtd-theme nbsphinx sphinx-copybutton
 
 关键文件：
 - `make.py`：原 `make.bat` / `Makefile` 的优化替代。
+- `ju.ps1`：一个快速以文档文件夹为工作目录启动 Jupyter Notebook 的脚本。
 - `docs\`
   - `_config\`：全局文件。
     - `db.json`：全站的文档 meta 数据。
@@ -152,4 +154,13 @@ python make.py [-h]
 ./make.py -s doc1
 ```
 
-按 Enter 键（或者 Ctrl + C 强制打断）即可中止该本地服务器。注意，在浏览器打开的选项卡过多时，中止操作可能会变得不灵敏。
+按 Enter 键（推荐），或者按 Ctrl + C 强制打断，即可中止该本地服务器。注意，在浏览器打开的选项卡过多时，中止操作可能会变得不灵敏。
+
+
+## ju.ps1 脚本
+
+该脚本帮助用户迅速以给定文档名所在的目录为工作目录，打开 Jupyter Notebook 服务。例如，下面的命令会以 `docsrc/Python/` 为工作目录运行 Jupyter Notebook 服务： 
+
+```powershell
+./ju.ps1 Python
+```

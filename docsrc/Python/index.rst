@@ -19,3 +19,4 @@ Python 简介
 
    Intro.ipynb
    Fundamentals.ipynb
+   VariableTypes.ipynb

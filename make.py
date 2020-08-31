@@ -4,6 +4,8 @@ import os, shutil
 import json
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import threading
+import re
+import subprocess
 
 
 CONFIG = 'docs/_config'
@@ -245,6 +247,42 @@ def update_homepage():
     write_str_into_file(rst_str, "_homepage", "index.rst")
     sphinx_build("_homepage", update_home=False)  # Avoid self-cycle
 
+def update_index_rst_modified_date(docname):
+    """
+    Use 'git diff' to check if any file in docsrc/docname folder has been changed.
+    If any, update the modified date metadata in index.rst. 
+    """
+    meta_key = ":date_modified:"
+    date_regex = re.compile(r"\d{4}-\d{2}-\d{2}")
+    def get_command_output(cmdstr):
+        cmd_strlst = cmdstr.split()
+        cmd_output = subprocess.run(cmd_strlst, stdout=subprocess.PIPE).stdout.decode('utf-8')
+        return cmd_output
+    # Check if there is change in any file that has been:
+    #   * Modified but not staged yet, or
+    #   * Staged
+    diff_modified = f"git diff --name-only docsrc/{docname}"
+    output_modified = get_command_output(diff_modified)
+    diff_staged = f"git diff --name-only --staged docsrc/{docname}"
+    output_staged = get_command_output(diff_staged)
+    if len(output_modified) + len(output_staged) > 0:
+        date_now = f"{datetime.datetime.today():%Y-%m-%d}"
+        index_rst = read_from_file(docsrc_prefix_path(docname, 'index.rst'), join=False)
+
+        # Find the date modified line number
+        lineindex = -1
+        for i, line in enumerate(index_rst):
+            if line.lstrip().startswith(meta_key):
+                lineindex = i
+                break
+        if lineindex >= 0:
+            index_rst[lineindex] = re.sub(date_regex, date_now, index_rst[lineindex])
+        
+        # Write back to index.rst
+        index_rst_str = ''.join(index_rst)
+        write_str_into_file(index_rst_str, docname, 'index.rst')
+        print(f"Auto-update modified date in {docname}/index.rst.")
+
 def update_sitemap():
     """
     Read blog data from CONFIG_DATABASE and write it into sitemap.
@@ -369,6 +407,8 @@ def enable_args():
         start_local_server(args.docname)
     # Exclusive modes: build, create
     elif args.build:
+        # Update modified date if docsrc files have changed
+        update_index_rst_modified_date(args.docname)
         sphinx_build(args.docname, args.update_homepage)
     else:  # create
         title = ' '.join(args.title) if args.title else args.docname

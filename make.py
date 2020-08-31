@@ -265,18 +265,22 @@ def update_sitemap():
     db = load_json(CONFIG_DATABASE)
     blogs = sort_dict(db["blogs"])
     site_lastmod = db["_homepage"]["date_modified"]
+    site_docs = {}
     for dockey in [*blogs.keys(), "_homepage"]:
         dirpath = os.path.join(DOCSRC, dockey)
         files = [f for f in os.listdir(dirpath) if f.endswith(('.ipynb', '.rst'))]
         lastmod = blogs[dockey]["date_build"] if dockey != "_homepage" else site_lastmod
         for docpage_fname in files:
             pname, _ = os.path.splitext(docpage_fname)
-            dockey_str = '' if dockey == '_homepage' else dockey+'/'
-            item_url = f"{SITE_BASEURL}{dockey_str}{pname}.html"
-            sitemap_item = create_sitemap_item(item_url, lastmod)
-            sitemap_str += "\n" + sitemap_item
-    # Append the mainsite URL (the one without index.html suffix)
-    sitemap_str += "\n" + create_sitemap_item(SITE_BASEURL, site_lastmod)
+            if dockey == '_homepage':
+                item_url = SITE_BASEURL  # Main site canonical url
+            else:
+                item_url = f"{SITE_BASEURL}{dockey}/{pname}.html"
+            site_docs[item_url] = lastmod
+    # Join all page items
+    for url, moddate in site_docs.items():
+        sitemap_item = create_sitemap_item(url, moddate)
+        sitemap_str += "\n" + sitemap_item
     sitemap_str += "\n" + sitemap_foot
 
     with open(CONFIG_SITEMAP, 'w', encoding=ENCODING) as f:

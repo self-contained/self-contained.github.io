@@ -1,0 +1,46 @@
+.. meta::
+   :category: Linux
+   :keywords: linux,ubuntu
+   :series: linux
+   :series_num: 1
+   :date_init: 2019-03-25
+   :date_modified: 2020-08-31
+   :abstract: 本文介绍了
+
+Ubuntu 之旅
+=============
+
+.. warning::
+   
+   本文由个人之前的旁置子站点 /Gitbooks 迁移而来。内容有更新。
+
+本书是我使用 Ubuntu 的笔记。整本书是折腾的个人从零开始 Ububtu 的内心写照，不保证条理性……但在这里，你至少可以使用搜索功能不是？搜不到有用的东西？这也是正常的。如果出现了这种问题，请点击叉号关闭页面，以停止浪费您宝贵的生命。
+
+本书适合的读者：
+
+* Ubuntu / Linux 的入门者
+* 某些死活找不到解决方案，闯到这里死马当活马医的人
+
+在阅读本书之前， **建议** 读者掌握的知识有：
+
+* bash 与 git 的基础语法
+* 对开源世界有一定了解
+* 最好尝试过 Vim，至少……
+  
+  * 知道用 Esc 与 i 可以在命令模式与输入模式之间交换。
+  * 明白在命令模式中输入 `:q:` 可以退出 Vim，而输入 `:wq:` 可以保存并退出。
+  * 如果你实在对 Vim 一无所知，那么请在进入 Linux 世界后第一时间把默认的编辑器改为较友好的软件（比如 nano）。
+
+由于本笔记有很强的个人经历性，因此部分章节也可能会涉及到个人使用的工具，读者可以跳过涉及这些部分的章节；它们包括而不限于：
+
+* Python / C / C++
+* Vim 
+
+.. toctree::
+   :maxdepth: 2
+   :caption: 目录
+
+   Basic.rst
+   FamilyServer.rst
+   Streaming.rst
+   Solutions.rst

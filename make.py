@@ -67,7 +67,7 @@ def init_conf_py(docname, doctitle):
     doc_conf = sort_dict(doc_conf)
     # Append blog title to canonical url
     if 'canonical_url' in doc_conf['html_theme_options']:
-        doc_conf['html_theme_options']['canonical_url'] += f"{doctitle}/"
+        doc_conf['html_theme_options']['canonical_url'] += f"{docname}/"
 
     # Write the dict into a .py file
     def write_dict_value(dict_val):

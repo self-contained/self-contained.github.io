@@ -4,7 +4,7 @@
    :series: Python
    :series_num: 1
    :date_init: 2017-02-22
-   :date_modified: 2020-08-31
+   :date_modified: 2020-09-12
    :abstract: 本文介绍了编程语言 Python，一种易于上手的高效语言。
 
 Python 简介
@@ -22,3 +22,4 @@ Python 简介
    Fundamentals.ipynb
    ControlFlow.ipynb
    VariableTypes.ipynb
+   Functions.ipynb

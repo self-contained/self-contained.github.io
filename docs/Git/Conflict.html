@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>高级冲突处理 &mdash; Git  文档</title>
+  <title>高级合并与冲突处理 &mdash; Git  文档</title>
   
 
   
@@ -112,15 +112,16 @@
 <li class="toctree-l1"><a class="reference internal" href="Preparation.html">Git 准备工作</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Fundamentals.html">Git 基础命令</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Branch.html">分支：branch</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">高级冲突处理</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">高级合并与冲突处理</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">中断合并</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">忽略空白符变更</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">手动合并文件</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">检出冲突</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id6">查询日志</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#revert-merge-commit">撤销合并提交</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">偏好合并</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">伪合并</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">压缩合并</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">偏好合并</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">伪合并*</a></li>
 </ul>
 </li>
 </ul>
@@ -169,7 +170,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>高级冲突处理</li>
+      <li>高级合并与冲突处理</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -213,7 +214,7 @@
 }
 </style>
 <div class="section" id="advanced-conflict">
-<span id="id1"></span><h1>高级冲突处理<a class="headerlink" href="#advanced-conflict" title="永久链接至标题">¶</a></h1>
+<span id="id1"></span><h1>高级合并与冲突处理<a class="headerlink" href="#advanced-conflict" title="永久链接至标题">¶</a></h1>
 <p>本章介绍如何应对合并分支时的冲突。</p>
 <div class="section" id="id2">
 <h2>中断合并<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
@@ -327,15 +328,28 @@ $ git merge dev
 <a class="reference internal image-reference" href="_images/branch-revert-2.svg"><img alt="_images/branch-revert-2.svg" class="align-center" src="_images/branch-revert-2.svg" width="80%" /></a>
 </div>
 <div class="section" id="id8">
-<h2>偏好合并<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<h2>压缩合并<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<p>有时你的开发分支 dev 可能会充满无意义的提交与不清晰的历史（虽然我建议你尽量避免这种情形），因此向主分支 master 合并时可能会不想保留这些记录。那么压缩合并 <cite>--squash</cite> 正是你的救星。</p>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>压缩合并并不是真的合并了分支，它只是将待合并分支的改动复制到了当前分支，从而允许用户将待合并分支的众多提交“压缩”成当前分支的单个提交。</p>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git merge --squash dev
+$ git commit -m <span class="s2">&quot;Update ...&quot;</span>
+</pre></div>
+</div>
+<p>注意到在上述操作之后，dev 分支并没有真的被合并到 master 分支。如果 dev 分支仍在将来会被合并，不可避免地，你将把它之上的提交历史也合并到 master 分支。因此，我建议只对临时本地分支使用压缩合并，并在压缩合并后删除该分支。</p>
+</div>
+<div class="section" id="id9">
+<h2>偏好合并<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
 <p>如果你预计合并中会出现冲突，但你只要求 master 分支的内容覆盖 dev 分支的内容，你可以使用 <cite>-Xours</cite> 选项：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git merge -Xours dev
 </pre></div>
 </div>
 <p>正如上文提及的，“ours” 指代当前分支，“theirs” 指代待合并分支。因此你也可以类似地使用 <cite>-Xtheirs</cite> 选项。多说一句，这两个选项对于较少用到的 <cite>merge-file</cite> 命令也生效。</p>
 </div>
-<div class="section" id="id9">
-<h2>伪合并<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id10">
+<h2>伪合并*<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
 <p>伪合并（fake merge）是指一种欺骗 git 创建合并提交的方式。它使用 <cite>-s</cite> 选项，指定一个伪合并策略（通常是 <cite>ours</cite> ）：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git merge -s ours dev
 </pre></div>

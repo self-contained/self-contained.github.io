@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python 简介 &mdash; Python  文档</title>
+  <title>1. Python 安装与配置 &mdash; Python  文档</title>
   
 
   
@@ -38,13 +38,15 @@
         <script src="_static/copybutton.js"></script>
         <script src="_static/translations.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="Python 基础" href="Fundamentals.html" />
+    <link rel="next" title="2. Python 简介" href="Fundamentals.html" />
     <link rel="prev" title="Python 简介" href="index.html" />
  
 
@@ -109,27 +111,31 @@
             
               <p class="caption"><span class="caption-text">目录</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Python 简介</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#安装">安装</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#如何选择-Python-版本">如何选择 Python 版本</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#如何选择-32-位还是-64-位版本">如何选择 32 位还是 64 位版本</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Python 安装与配置</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#安装">1.1. 安装</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#如何选择-Python-版本">1.1.1. 如何选择 Python 版本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#如何选择-32-位还是-64-位版本">1.1.2. 如何选择 32 位还是 64 位版本</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#安装-Python-并与-VS-Code-协同*">安装 Python 并与 VS Code 协同*</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#下载与安装-Python">下载与安装 Python</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#安装与配置-VS-Code">安装与配置 VS Code</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#执行-Python-文件">执行 Python 文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#与-VS-Code-协同*">1.2. 与 VS Code 协同*</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#下载与安装-Python">1.2.1. 下载与安装 Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#安装与配置-VS-Code">1.2.2. 安装与配置 VS Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#执行-Python-文件">1.2.3. 执行 Python 文件</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#安装-Python-库">安装 Python 库</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#更改-pip-仓库镜像">更改 pip 仓库镜像</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#更新-pip">更新 pip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#选择预编译镜像*">选择预编译镜像*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#安装-Python-库">1.3. 安装 Python 库</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#更改-pip-仓库镜像">1.3.1. 更改 pip 仓库镜像</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#更新-pip">1.3.2. 更新 pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#选择预编译镜像*">1.3.3. 选择预编译镜像*</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Fundamentals.html">Python 基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Fundamentals.html">2. Python 简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ControlFlow.html">3. 流程控制语句</a></li>
+<li class="toctree-l1"><a class="reference internal" href="VariableTypes.html">4. 变量类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Functions.html">5. 函数与迭代器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FileIO.html">6. 文件读写与 os 库</a></li>
 </ul>
 
             
@@ -176,7 +182,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Python 简介</li>
+      <li><span class="section-number">1. </span>Python 安装与配置</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -450,17 +456,17 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Python-简介">
-<h1>Python 简介<a class="headerlink" href="#Python-简介" title="永久链接至标题">¶</a></h1>
+<div class="section" id="Python-安装与配置">
+<h1><span class="section-number">1. </span>Python 安装与配置<a class="headerlink" href="#Python-安装与配置" title="永久链接至标题">¶</a></h1>
 <p>本文介绍了编程语言 <a class="reference external" href="https://www.python.org/">Python</a>，主要面向 Windows 用户。但 Python 的绝大部分的用法对 macOS 与 Linux 用户也是一样的。</p>
-<p>如果您曾经使用过其他编程语言，那么您可能需要了解 Python 的以下特性：</p>
+<p>本章主要介绍：</p>
 <ul class="simple">
-<li><p>Python 是一门<strong>解释型语言</strong>（Interpreted language），代码由解释器（Interperter）直接逐行执行。与之相对的是编译型语言（Complied language），例如 C++；编译型语言的代码会先被编译器（Compiler）编译为机器码，然后执行。</p></li>
-<li><p>Python 是一门<strong>动态类型语言</strong>（Dynamically typed language）——这意味着它在运行时（而不是编译时）才进行类型检查。它同时也是*强类型**（Strongly typed）的。</p></li>
-<li><p>Python 中的函数是第一类对象（First class object），可以赋值给变量或容器、作为参数传入、作为返回值。</p></li>
+<li><p>Python 安装时的版本选择</p></li>
+<li><p>如何配置一个编辑器（以 VS Code 为例）</p></li>
+<li><p>怎样通过 pip 命令安装 Python 的外部库</p></li>
 </ul>
 <div class="section" id="安装">
-<h2>安装<a class="headerlink" href="#安装" title="永久链接至标题">¶</a></h2>
+<h2><span class="section-number">1.1. </span>安装<a class="headerlink" href="#安装" title="永久链接至标题">¶</a></h2>
 <p>本节介绍 Python 的安装。结论写在前面：建议安装最新或次新的 64 位版本。比如，如果最新的稳定版本是 3.8.x，可以安装该 3.8.x 版本，或者安装 3.7 中版本号最大的稳定版。</p>
 <p>安装 Python 有两种重要的途径：</p>
 <ol class="arabic simple">
@@ -468,10 +474,11 @@ div.rendered_html tbody tr:hover {
 <li><p>选择 Python 的集成开发环境（IDE），比较著名的有：人称最强 Python IDE 的 <a class="reference external" href="https://www.jetbrains.com/pycharm/download/">PyCharm</a> 、倾向于数据科学的 <a class="reference external" href="https://www.anaconda.com/products/individual">Annoconda</a> 等等。</p></li>
 </ol>
 <div class="section" id="如何选择-Python-版本">
-<h3>如何选择 Python 版本<a class="headerlink" href="#如何选择-Python-版本" title="永久链接至标题">¶</a></h3>
-<blockquote>
-<div><p>本文只介绍 Python 3。原则上不再推荐使用 Python 2，因为它已于 2020 年 1 月 1 日停止维护。</p>
-</div></blockquote>
+<h3><span class="section-number">1.1.1. </span>如何选择 Python 版本<a class="headerlink" href="#如何选择-Python-版本" title="永久链接至标题">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title fa fa-exclamation-circle">重要</p>
+<p>本文只介绍 Python 3。原则上不再推荐使用 Python 2，因为它已于 2020 年 1 月 1 日停止维护。</p>
+</div>
 <p>Python 的版本一直在更新，不过对一般用户来说核心功能并没有太大的变化。最近的一次有影响力的改动大概是在 3.6 版本引入了 f-string，并没有对普通用户而言特别大的改动。</p>
 <p>本文撰写时，使用的 Python 版本是：</p>
 <div class="nbinput docutils container">
@@ -491,9 +498,6 @@ div.rendered_html tbody tr:hover {
 Python 3.8.3
 </pre></div></div>
 </div>
-<blockquote>
-<div><p>注：在本博文中，以“!”开头的命令表示命令行命令（对 Windows 用户来说，即 Powershell）；不带前缀的命令则均是 Python 命令。</p>
-</div></blockquote>
 <p>我始终<strong>建议读者尽量安装最新的 Python 版本</strong>，除非新版本的库尚未跟上。我个人一般推崇的版本选择方式步骤：</p>
 <ol class="arabic simple">
 <li><p>前往 Python 官网，查看最新的（稳定版的）版本号 <code class="docutils literal notranslate"><span class="pre">3.x.y</span></code>；</p></li>
@@ -515,7 +519,7 @@ Python 3.8.3
 <p>可以看到，越靠后的版本，间隔的时间越短（也越不会包含重要的变化）。我是在初代版本 <code class="docutils literal notranslate"><span class="pre">3.8.0</span></code> 发布后 5 个月（即 2020 年 3 月）转到 3.8.2 的，之前我一直使用的是 3.7.x 的版本。</p>
 </div>
 <div class="section" id="如何选择-32-位还是-64-位版本">
-<h3>如何选择 32 位还是 64 位版本<a class="headerlink" href="#如何选择-32-位还是-64-位版本" title="永久链接至标题">¶</a></h3>
+<h3><span class="section-number">1.1.2. </span>如何选择 32 位还是 64 位版本<a class="headerlink" href="#如何选择-32-位还是-64-位版本" title="永久链接至标题">¶</a></h3>
 <p>我个人<strong>始终建议安装64位版本</strong>。有一些库对 32 位版本 Python 的支持并不好（甚至根本不支持），著名的机器学习库 <a class="reference external" href="https://pytorch.org/">Pytorch</a> 就是一个例子。</p>
 <ul class="simple">
 <li><p>要安装 64 位版本的 Python，请前往<a class="reference external" href="https://www.python.org/downloads/windows/">官网下载页面</a>，选择其中标有“x86-64”的进行下载。比如，若要安装 3.8.2，可以选择下述三个中的任意一个：</p>
@@ -535,14 +539,15 @@ Python 3.8.3
 <p>该返回信息的 <code class="docutils literal notranslate"><span class="pre">(AMD64)</span></code> 表示您安装的是 64 位版本；否则，您安装的是 32 位版本。</p>
 </div>
 </div>
-<div class="section" id="安装-Python-并与-VS-Code-协同*">
-<h2>安装 Python 并与 VS Code 协同*<a class="headerlink" href="#安装-Python-并与-VS-Code-协同*" title="永久链接至标题">¶</a></h2>
-<blockquote>
-<div><p>本节是选读章节，因为这只是我个人推荐的一种方式。如果您选择了安装 IDE 或其他编辑器，则可以跳过此节。</p>
-</div></blockquote>
+<div class="section" id="与-VS-Code-协同*">
+<h2><span class="section-number">1.2. </span>与 VS Code 协同*<a class="headerlink" href="#与-VS-Code-协同*" title="永久链接至标题">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title fa fa-exclamation-circle">重要</p>
+<p>本节是选读章节，因为这只是我个人推荐的一种方式。如果您选择了安装 IDE 或其他编辑器，则可以跳过此节。</p>
+</div>
 <p>下面是如何（在 64 位 Windows 10 平台）安装 Python 与 VS Code，以便能在 VS Code 编辑器中直接编写、运行于调试 Python 的一般步骤。</p>
 <div class="section" id="下载与安装-Python">
-<h3>下载与安装 Python<a class="headerlink" href="#下载与安装-Python" title="永久链接至标题">¶</a></h3>
+<h3><span class="section-number">1.2.1. </span>下载与安装 Python<a class="headerlink" href="#下载与安装-Python" title="永久链接至标题">¶</a></h3>
 <ol class="arabic">
 <li><p>首先，前往官网下载安装 <a class="reference external" href="https://www.python.org/downloads/windows/">64 位的 Python</a>（推荐），选择哪个版本请参考上文中关于 <code class="docutils literal notranslate"><span class="pre">3.x.y</span></code> 如何选择的说明。</p>
 <p>这里以 <code class="docutils literal notranslate"><span class="pre">3.8.3</span></code> 为例，下拉找到 <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.8.3</span></code> （注意：不是 <code class="docutils literal notranslate"><span class="pre">3.8.3rc</span></code>；rc=Release Candidate，表示候选版本而非正式版本），点击其下的 <code class="docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Windows</span> <span class="pre">x86-64</span> <span class="pre">executable</span> <span class="pre">installer</span></code> 来下载 exe 安装文件。</p>
@@ -555,9 +560,7 @@ Python 3.8.3
 <span class="o">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
-<blockquote>
-<div><p>注意：首行行末尾的括号中的 <code class="docutils literal notranslate"><span class="pre">AMD64</span></code> 表示您安装的是 64 位的版本。</p>
-</div></blockquote>
+<p><strong>注意</strong>：首行行末尾的括号中的 <code class="docutils literal notranslate"><span class="pre">AMD64</span></code> 表示您安装的是 64 位的版本。</p>
 <ul>
 <li><p>如果您在命令行中输入 python 显示错误，请将 Python 的安装路径加入 <code class="docutils literal notranslate"><span class="pre">PATH</span></code> 环境变量。</p></li>
 <li><p>如果您在命令行中输入 python 调用的不是您想要的 Python 版本，这可能是因为:</p>
@@ -574,7 +577,7 @@ Python 3.8.3
 </ol>
 </div>
 <div class="section" id="安装与配置-VS-Code">
-<h3>安装与配置 VS Code<a class="headerlink" href="#安装与配置-VS-Code" title="永久链接至标题">¶</a></h3>
+<h3><span class="section-number">1.2.2. </span>安装与配置 VS Code<a class="headerlink" href="#安装与配置-VS-Code" title="永久链接至标题">¶</a></h3>
 <p>在安装好 Python 之后，可以继续 VS Code 的安装与配置工作</p>
 <ol class="arabic simple">
 <li><p>前往 <a class="reference external" href="https://code.visualstudio.com/download">VisualStudio Code</a> 下载。</p></li>
@@ -598,7 +601,7 @@ Python 3.8.3
 </ul>
 </div>
 <div class="section" id="执行-Python-文件">
-<h3>执行 Python 文件<a class="headerlink" href="#执行-Python-文件" title="永久链接至标题">¶</a></h3>
+<h3><span class="section-number">1.2.3. </span>执行 Python 文件<a class="headerlink" href="#执行-Python-文件" title="永久链接至标题">¶</a></h3>
 <p>安装好上述插件后，您可以尝试在 VS Code 编辑器中编写并运行您的第一个 Python 文件了。</p>
 <ol class="arabic">
 <li><p>点击“文件”菜单，并打开一个空文件夹（例如创建在 <code class="docutils literal notranslate"><span class="pre">D:\pyproject</span></code>）。这是编写代码的一般规则，即以一个新文件夹来作为项目的起点。这个文件夹会在执行 Python 文件时被自动识别为当前项目的工作目录。</p></li>
@@ -630,7 +633,7 @@ Python 3.8.3
 </div>
 </div>
 <div class="section" id="安装-Python-库">
-<h2>安装 Python 库<a class="headerlink" href="#安装-Python-库" title="永久链接至标题">¶</a></h2>
+<h2><span class="section-number">1.3. </span>安装 Python 库<a class="headerlink" href="#安装-Python-库" title="永久链接至标题">¶</a></h2>
 <p>Python 的众多库为它提供了丰富的外部功能。要安装 Python 库，最通常的方式是使用随 Python 安装的 pip 命令行工具。</p>
 <p>例如，要安装科学计算库 <a class="reference external" href="https://numpy.org/install/">NumPy</a>，直接在命令行中输入：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">numpy</span>
@@ -641,7 +644,7 @@ Python 3.8.3
 </pre></div>
 </div>
 <div class="section" id="更改-pip-仓库镜像">
-<h3>更改 pip 仓库镜像<a class="headerlink" href="#更改-pip-仓库镜像" title="永久链接至标题">¶</a></h3>
+<h3><span class="section-number">1.3.1. </span>更改 pip 仓库镜像<a class="headerlink" href="#更改-pip-仓库镜像" title="永久链接至标题">¶</a></h3>
 <p>由于 pip 仓库在海外，有时连接会出现波动。国内的用户可以考虑将<a class="reference external" href="https://mirrors.tuna.tsinghua.edu.cn/help/pypi/">清华大学的 TUNA pip 源</a>设置为默认镜像，即在命令行中输入；</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">config</span> <span class="nb">set</span> <span class="k">global</span><span class="o">.</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pypi</span><span class="o">.</span><span class="n">tuna</span><span class="o">.</span><span class="n">tsinghua</span><span class="o">.</span><span class="n">edu</span><span class="o">.</span><span class="n">cn</span><span class="o">/</span><span class="n">simple</span>
 </pre></div>
@@ -653,14 +656,14 @@ Python 3.8.3
 </div>
 </div>
 <div class="section" id="更新-pip">
-<h3>更新 pip<a class="headerlink" href="#更新-pip" title="永久链接至标题">¶</a></h3>
+<h3><span class="section-number">1.3.2. </span>更新 pip<a class="headerlink" href="#更新-pip" title="永久链接至标题">¶</a></h3>
 <p>pip 工具会自动检查更新；如果您使用的不是最新版的 pip，在 pip 命令运行结束时，会提醒您安装新版本。安装命令一般是：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">pip</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="选择预编译镜像*">
-<h3>选择预编译镜像*<a class="headerlink" href="#选择预编译镜像*" title="永久链接至标题">¶</a></h3>
+<h3><span class="section-number">1.3.3. </span>选择预编译镜像*<a class="headerlink" href="#选择预编译镜像*" title="永久链接至标题">¶</a></h3>
 <p>绝大部分的 Python 库在从 pip 镜像被拉取时都是编译过的，因此用户极少会用到本节的内容。</p>
 <p>我遇到的唯一例外是统计学库 <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>，如果直接使用 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">statsmodels</span></code>，它会在安装时请求编译。我建议使用</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">only</span><span class="o">-</span><span class="n">binary</span> <span class="p">:</span><span class="nb">all</span><span class="p">:</span> <span class="n">statsmodels</span>
@@ -679,7 +682,7 @@ Python 3.8.3
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Fundamentals.html" class="btn btn-neutral float-right" title="Python 基础" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Fundamentals.html" class="btn btn-neutral float-right" title="2. Python 简介" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="Python 简介" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

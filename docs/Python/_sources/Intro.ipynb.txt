@@ -4,15 +4,15 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Python 简介\n",
+    "# Python 安装与配置\n",
     "\n",
     "本文介绍了编程语言 [Python](https://www.python.org/)，主要面向 Windows 用户。但 Python 的绝大部分的用法对 macOS 与 Linux 用户也是一样的。\n",
     "\n",
-    "如果您曾经使用过其他编程语言，那么您可能需要了解 Python 的以下特性：\n",
+    "本章主要介绍：\n",
     "\n",
-    "- Python 是一门**解释型语言**（Interpreted language），代码由解释器（Interperter）直接逐行执行。与之相对的是编译型语言（Complied language），例如 C++；编译型语言的代码会先被编译器（Compiler）编译为机器码，然后执行。\n",
-    "- Python 是一门**动态类型语言**（Dynamically typed language）——这意味着它在运行时（而不是编译时）才进行类型检查。它同时也是*强类型**（Strongly typed）的。\n",
-    "- Python 中的函数是第一类对象（First class object），可以赋值给变量或容器、作为参数传入、作为返回值。"
+    "- Python 安装时的版本选择\n",
+    "- 如何配置一个编辑器（以 VS Code 为例）\n",
+    "- 怎样通过 pip 命令安装 Python 的外部库"
    ]
   },
   {
@@ -33,10 +33,26 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### 如何选择 Python 版本\n",
+    "### 如何选择 Python 版本"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-info\">\n",
     "\n",
-    "> 本文只介绍 Python 3。原则上不再推荐使用 Python 2，因为它已于 2020 年 1 月 1 日停止维护。\n",
+    "重要\n",
     "\n",
+    "本文只介绍 Python 3。原则上不再推荐使用 Python 2，因为它已于 2020 年 1 月 1 日停止维护。\n",
+    "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "Python 的版本一直在更新，不过对一般用户来说核心功能并没有太大的变化。最近的一次有影响力的改动大概是在 3.6 版本引入了 f-string，并没有对普通用户而言特别大的改动。\n",
     "\n",
     "本文撰写时，使用的 Python 版本是："
@@ -65,8 +81,6 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "> 注：在本博文中，以“!”开头的命令表示命令行命令（对 Windows 用户来说，即 Powershell）；不带前缀的命令则均是 Python 命令。\n",
-    "\n",
     "我始终**建议读者尽量安装最新的 Python 版本**，除非新版本的库尚未跟上。我个人一般推崇的版本选择方式步骤：\n",
     "\n",
     "1. 前往 Python 官网，查看最新的（稳定版的）版本号 `3.x.y`；\n",
@@ -116,10 +130,26 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## 安装 Python 并与 VS Code 协同\\*\n",
+    "## 与 VS Code 协同\\*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"alert alert-info\">\n",
     "\n",
-    "> 本节是选读章节，因为这只是我个人推荐的一种方式。如果您选择了安装 IDE 或其他编辑器，则可以跳过此节。\n",
+    "重要\n",
+    "    \n",
+    "本节是选读章节，因为这只是我个人推荐的一种方式。如果您选择了安装 IDE 或其他编辑器，则可以跳过此节。\n",
     "\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
     "下面是如何（在 64 位 Windows 10 平台）安装 Python 与 VS Code，以便能在 VS Code 编辑器中直接编写、运行于调试 Python 的一般步骤。\n",
     "\n",
     "### 下载与安装 Python\n",
@@ -136,7 +166,7 @@
     "   Type \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n",
     "   >>>\n",
     "   ```\n",
-    "   > 注意：首行行末尾的括号中的 `AMD64` 表示您安装的是 64 位的版本。\n",
+    "   **注意**：首行行末尾的括号中的 `AMD64` 表示您安装的是 64 位的版本。\n",
     "\n",
     "   - 如果您在命令行中输入 python 显示错误，请将 Python 的安装路径加入 `PATH` 环境变量。\n",
     "   - 如果您在命令行中输入 python 调用的不是您想要的 Python 版本，这可能是因为:\n",
@@ -146,8 +176,7 @@
     "     \n",
     "     您可以在 `PATH` 环境变量中，将刚安装的 Python 路径挪到顶部来使用新安装的 Python。\n",
     "4. 在 `>>>` 提示符右侧，输入 `exit()` 并回车以退出 Python 而回到命令行；或者，也可以按 `Ctrl + C` 来强行打断。 \n",
-    "5. 您已完成 Python 的安装。\n",
-    "\n"
+    "5. 您已完成 Python 的安装。"
    ]
   },
   {

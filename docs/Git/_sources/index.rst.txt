@@ -4,7 +4,7 @@
    :series: CLI
    :series_num: 2
    :date_init: 2018-04-07
-   :date_modified: 2018-04-17
+   :date_modified: 2020-09-18
    :abstract: 本文介绍了 Git，一个流行的版本控制系统。
 
 Git 使用笔记
@@ -25,3 +25,5 @@ Git 可能是当下最流行的 VCS。如果你是一个编程人员或者 Githu
    Fundamentals.rst
    Branch.rst
    Conflict.rst
+
+本文档最后构建于 |today|。

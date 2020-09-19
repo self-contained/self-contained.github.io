@@ -168,7 +168,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Branch.html">分支：branch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Conflict.html">高级冲突处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conflict.html">高级合并与冲突处理</a></li>
 </ul>
 
             
@@ -404,10 +404,21 @@ B/**/*.pdf  <span class="c1"># 忽略文件夹 B 及其子文件夹中的 pdf �
 </pre></div>
 </div>
 <p>如果不指定文件名，那么会查看两次版本快照所有文件的差异。</p>
-<p>如果加入 <cite>--staged</cite> 选项，则可以查看暂存区与版本库中最新版本之间的差异：</p>
+<p>如果加入 <cite>--staged/--cached</cite> 选项，则可以查看暂存区与版本库中最新版本之间的差异：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git diff --staged <span class="o">[</span>&lt;filename&gt;<span class="o">]</span>
 </pre></div>
 </div>
+<p>diff 命令提供了众多的参数，我时而会用到的有：</p>
+<ul class="simple">
+<li><p><cite>--name-only</cite> 参数：用来显示哪些文件与比对的版本不同。如果无，则不返回任何信息。</p></li>
+<li><p><cite>--dirstat</cite> 参数：用来显示分别是哪些子文件夹发生了改动，改动量的占比分别是多少。另外，也存在一个按子文件计算占比的 <cite>--dirstat-by-file</cite> 参数。</p></li>
+<li><p><cite>--stat</cite> 参数：用来快速显示文件的更改数目（插入与删除的行数）。</p></li>
+</ul>
+<p>比如利用 <cite>--name-only</cite> 参数，显示在子文件夹 <cite>folder</cite> 中哪些文件已修改并暂存了：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git diff --name-only --staged folder/
+</pre></div>
+</div>
+<p>该参数的输出结果可以帮助脚本来判断文件的更改情况。</p>
 </div>
 <div class="section" id="commit">
 <h3>提交更新：commit<a class="headerlink" href="#commit" title="永久链接至标题">¶</a></h3>
@@ -474,6 +485,10 @@ $ git reset --hard HEAD &lt;filename&gt;
 </div>
 <div class="section" id="commit-amend">
 <h3>修改提交：commit --amend<a class="headerlink" href="#commit-amend" title="永久链接至标题">¶</a></h3>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>不建议在提交已被推送到远程的情况下对其进行更改。</p>
+</div>
 <p>如果在提交时忘记了 <cite>add</cite> 某个文件，或者其他需要修改提交的场合，使用 <cite>--amend</cite> 参数。例如：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git commit -m <span class="s1">&#39;initial commit&#39;</span>
 $ git add forgotten_file
@@ -481,6 +496,10 @@ $ git commit --amend
 </pre></div>
 </div>
 <p>它会将暂存区内的修改追加到上个提交中去。如果没有任何修改，它允许你更改提交的说明文本。</p>
+<p>如果修改时也不更改上次的 commit 信息，可以追加 <cite>--no-edit</cite> 选项：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git commit --amend --no-edit
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="log">

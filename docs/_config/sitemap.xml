@@ -3,82 +3,158 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://self-contained.github.io/FFmpeg/FFmpeg.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/FFmpeg/index.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/FFmpeg/Intro.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Git/Branch.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Git/Conflict.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Git/Fundamentals.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Git/index.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Git/Intro.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Git/Preparation.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Matplotlib/AxesControl.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Matplotlib/BasicPlot.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Matplotlib/index.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Matplotlib/PlotFunc.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Python/ControlFlow.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Python/FileIO.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Python/Functions.html</loc>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Python/Fundamentals.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Python/index.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/Python/Intro.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
-    <loc>https://self-contained.github.io/404.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <loc>https://self-contained.github.io/Python/VariableTypes.html</loc>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
-    <loc>https://self-contained.github.io/About.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <loc>https://self-contained.github.io/R/CreateFunctions.html</loc>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
-    <loc>https://self-contained.github.io/index.html</loc>
-    <lastmod>2020-08-27</lastmod>
+    <loc>https://self-contained.github.io/R/DataStructure.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/R/DescriptiveStatistics.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/R/index.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/R/ManageData.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/R/PlottingBasic.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/R/PlottingGGplot2.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/R/ReadData.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Ubuntu/Basic.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Ubuntu/FamilyServer.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Ubuntu/index.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Ubuntu/Solutions.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Ubuntu/Streaming.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/Ubuntu/WSL.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/reStructuredText/Advance.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/reStructuredText/Fundamentals.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/reStructuredText/index.html</loc>
+    <lastmod>2020-09-18</lastmod>
+  </url>
+  <url>
+    <loc>https://self-contained.github.io/reStructuredText/Intro.html</loc>
+    <lastmod>2020-09-18</lastmod>
   </url>
   <url>
     <loc>https://self-contained.github.io/</loc>
-    <lastmod>2020-08-27</lastmod>
+    <lastmod>2020-09-18</lastmod>
   </url>
 </urlset>

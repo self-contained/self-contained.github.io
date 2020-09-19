@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>从零开始 WSL &mdash; Ubuntu 之旅  文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://self-contained.github.io/Ubuntu/WSL.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/translations.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="疑难解答" href="Solutions.html" />
+ 
+
+<link rel="stylesheet" type="text/css" href="/_config/static/DataTables/datatables.min.css"/>
+
+<meta name="google-site-verification" content="ZsXR1o8suFFOr_MSgo5BTvjbznAuEP6XYOmgMiBu5Yw" />
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-90643174-3']);
+  _gaq.push(['_trackPageview']);
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Ubuntu 之旅
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+<div class="home-button">
+   <a class="home-button" href="https://github.com/self-contained/self-contained.github.io">
+      Github 仓库</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="home-button" href="/">博客主站</a>
+</div>
+
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Basic.html">基础：安装 Ubuntu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FamilyServer.html">配置家庭服务器（远程计算平台）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Streaming.html">家庭流式传输</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Solutions.html">疑难解答</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">从零开始 WSL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">熟悉初始环境</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">认识主目录</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">更新系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">创建软链接</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">配置图形界面</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Ubuntu 之旅</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>从零开始 WSL</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/WSL.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="wsl">
+<h1>从零开始 WSL<a class="headerlink" href="#wsl" title="永久链接至标题">¶</a></h1>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>本章基于 WSL 2，不过在 WSL 1 中的表现应当相近。</p>
+</div>
+<p>在阅读本章节前，请浏览下列 bash 指令检测您是否了解它们的基础用法：</p>
+<ul class="simple">
+<li><p><cite>cd</cite>: 切换目录。特别地，用 <cite>..</cite> 表示上级目录。</p></li>
+<li><p><cite>grep</cite>: 文本搜索，支持通配符模式。</p></li>
+<li><p><cite>ls</cite>: 列出目录下的所有文件夹。常用参数 <cite>-h</cite> 与 <cite>-l</cite>。</p>
+<ul>
+<li><p><cite>ll</cite> 是 <cite>ls -l --color=auto</cite> 的别名</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="id1">
+<h2>熟悉初始环境<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h3>认识主目录<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>安装完 WSL 后，进入了用户主目录 <cite>~</cite> 。我的用户名是 <cite>wklchris</cite> ，因此主目录实质上是 <cite>/home/wklchris</cite> ：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wklchris@PC:~$ <span class="nb">cd</span> ..
+wklchris@PC:/home$ ls
+wklchris
+</pre></div>
+</div>
+<p>可以看到，目录非常干净。现在我们切换回用户主目录吧：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wklchris@PC:/home$ <span class="nb">cd</span> ~
+wklchris@MSI-W:~$
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>更新系统<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>使用 <cite>apt-get</cite> 来检查更新：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get update
+$ sudo apt-get upgrade
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>创建软链接<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>Ubuntu 会随系统安装 Python；如果你满意该 Python 的版本，那么可以直接在其下安装 pip 工具：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python3-pip
+</pre></div>
+</div>
+<p>但随即，你会发现命令行中只有 <cite>python3</cite> 命令，没有 <cite>python</cite> 命令；只有 <cite>pip3</cite> 命令，没有 <cite>pip</cite> 命令。</p>
+<p>如果你不准备安装其他版本的 Python 与 pip，那么你可以到 <cite>/usr/bin</cite> 目录中创建符号链接来“添加”这些命令。先查询一下已存在的与 <cite>python</cite> 相关的命令：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /usr/bin
+$ ls <span class="p">|</span> grep python
+python3
+python3-config
+python3.8
+python3.8-config
+x86_64-linux-gnu-python3-config
+x86_64-linux-gnu-python3.8-config
+</pre></div>
+</div>
+<p>可以看到，只有 <cite>python3</cite> 与 <cite>python3.8</cite> 命令，并没有 <cite>python</cite> 。如果添加 <cite>-l</cite> 参数，可以发现 <cite>python3</cite> 实质是一个指向 <cite>python3.8</cite> 的软连接：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ ls -l <span class="p">|</span> grep python   <span class="c1"># 或者 ll | grep python</span>
+</pre></div>
+</div>
+<p>现在我们来创建一个新的符号链接吧，让 <cite>python</cite> 指向 <cite>python3</cite> 或者 <cite>python3.8</cite> ：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ sudo ln -s python3 python
+$ ll <span class="p">|</span> grep python
+...
+lrwxrwxrwx  <span class="m">1</span> root   root           <span class="m">7</span> Sep  <span class="m">1</span> <span class="m">03</span>:39 python -&gt; python3*
+...
+</pre></div>
+</div>
+<p>看到类似的一行就表示创建成功了。我们可以用 <cite>which python</cite> 来查询现在的 <cite>python</cite> 调用的是哪个：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ which python
+/usr/bin/python
+</pre></div>
+</div>
+<p>同理，我们也可以将 <cite>pip</cite> 作为软链接添加：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># cd /usr/bin</span>
+$ sudo ln -s pip3 pip
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>配置图形界面<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>许多用户不习惯只用命令行来操作 Ubuntu，我们也可以让它输出图形界面 <a class="footnote-reference brackets" href="#bib-gui" id="id6">1</a> 。</p>
+<ol class="arabic">
+<li><p>在主机（Windows 10）上安装 X-server 服务器（比如 <a class="reference external" href="https://sourceforge.net/projects/vcxsrv/">VcXsrv</a>）</p></li>
+<li><p>在 WSL 中安装 X 桌面，比如 Xfce：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install xfce4 xfce4-terminal
+</pre></div>
+</div>
+<p>安装包的体积不小，请做好准备。在安装中会让你选择一个显示管理软件（display manager），用键盘选择一个即可，例如 <cite>dgm3</cite> 。</p>
+</li>
+<li><p>将显示的地址配置好，具体是将以下两行写入到 <cite>~/.bashrc</cite> 文件中，该文件中的行在每次启动 WSL 的终端时都会被执行：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ nano ~/.bashrc
+...
+<span class="c1"># 进入编辑器</span>
+<span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span><span class="k">$(</span>cat /etc/resolv.conf <span class="p">|</span> grep nameserver <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>:0
+<span class="nb">export</span> <span class="nv">LIBGL_ALWAYS_INDIRECT</span><span class="o">=</span><span class="m">1</span>
+<span class="c1"># 按 Ctrl S 保存，再按 Ctrl X 以退出</span>
+...
+<span class="c1"># 重新加载 bashrc 文件</span>
+$ <span class="nb">source</span> ~/.bashrc
+</pre></div>
+</div>
+</li>
+<li><p>回到 Windows 主机，打开 VcXsrv 中的 Xlaunch 软件。</p>
+<ol class="arabic simple">
+<li><p>在 Select display settings 中，选择 One Window without titlebar，在 Display number 填 0，点击下一步；</p></li>
+<li><p>在 Select how to start clients 中，选择 Start no client，点击下一步；</p></li>
+<li><p>在 Extra settings 中，补充勾选 Disable access control，点击下一步。</p></li>
+</ol>
+</li>
+<li><p>这时 Xlaunch 会打开一个窗口，由于没有图像输入，窗口内容是全黑。这时候我们返回 WSL，启动 Xfce 即可：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ startxfce4
+</pre></div>
+</div>
+</li>
+<li><p>要退出图形界面，关闭 Xlaunch，然后在 WSL 中按 <cite>Ctrl + C</cite> 打断命令即可。</p></li>
+</ol>
+<p class="rubric">注释</p>
+<dl class="footnote brackets">
+<dt class="label" id="bib-gui"><span class="brackets"><a class="fn-backref" href="#id6">1</a></span></dt>
+<dd><p>本节关于 Xfce-VcXSrv 的用法参考了： <a class="reference external" href="https://stackoverflow.com/a/61110604/6663890">How to set up working X11 forwarding on WSL2</a> 这篇回答。</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="Solutions.html" class="btn btn-neutral float-left" title="疑难解答" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; 版权所有 wklchris
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ 
+
+<script>
+  require.config({
+     paths: {
+        "jquery": "/_static/jquery",
+        "datatables": "/_config/static/DataTables/datatables.min"
+     }
+  });
+  requirejs( ["datatables"], function () {
+     $('#tableofblogs').DataTable( {
+        language: {
+           url: "/_config/static/DataTables/zh_CN.json" 
+        } 
+     } );
+  } );
+</script>
+
+<div class="footer">本页面采用 <a href="https://analytics.google.com/">Google Analytics</a> 来记录访问数据. 您可以通过屏蔽来自 www.google-analytics.com 的 JavaScript 来阻止该记录行为.
+<script>
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+
+
+
+</body>
+</html>

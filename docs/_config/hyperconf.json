@@ -12,6 +12,7 @@
         "**.ipynb_checkpoints"
     ],
     "smartquotes": false,
+    "today_fmt": "%Y-%m-%d",
     "html_theme": "sphinx_rtd_theme",
     "html_theme_options": {
         "canonical_url": "https://self-contained.github.io/"

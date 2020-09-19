@@ -10,6 +10,7 @@ language = "zh_CN"
 project = "reStructuredText 简介"
 smartquotes = False
 templates_path = ['../_templates']
+today_fmt = "%Y-%m-%d"
 year = 2020
 
 # -- Customization ---

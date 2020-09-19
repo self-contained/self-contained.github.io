@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>疑难解答 &mdash; Ubuntu 之旅  文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://self-contained.github.io/Ubuntu/Solutions.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/translations.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="从零开始 WSL" href="WSL.html" />
+    <link rel="prev" title="家庭流式传输" href="Streaming.html" />
+ 
+
+<link rel="stylesheet" type="text/css" href="/_config/static/DataTables/datatables.min.css"/>
+
+<meta name="google-site-verification" content="ZsXR1o8suFFOr_MSgo5BTvjbznAuEP6XYOmgMiBu5Yw" />
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-90643174-3']);
+  _gaq.push(['_trackPageview']);
+</script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Ubuntu 之旅
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+<div class="home-button">
+   <a class="home-button" href="https://github.com/self-contained/self-contained.github.io">
+      Github 仓库</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="home-button" href="/">博客主站</a>
+</div>
+
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Basic.html">基础：安装 Ubuntu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FamilyServer.html">配置家庭服务器（远程计算平台）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Streaming.html">家庭流式传输</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">疑难解答</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">安装</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">卡红点的界面（显卡问题）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">安装时分辨率太低/点不到按钮</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">启动</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">引导未失去但路径不正确</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">其他</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ubuntu">从 Ubuntu 关机时的嘎达声</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WSL.html">从零开始 WSL</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Ubuntu 之旅</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>疑难解答</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Solutions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="solutions">
+<span id="id1"></span><h1>疑难解答<a class="headerlink" href="#solutions" title="永久链接至标题">¶</a></h1>
+<p>配置 Ubuntu 时，或者说从 Windows 转到 Linux 的用户在使用新系统时，会遇到各种各样的问题。这不足为奇。本章是本人遇到问题的记录。</p>
+<p>大多基于 18.04 LTS 版本。</p>
+<div class="section" id="id2">
+<h2>安装<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h3>卡红点的界面（显卡问题）<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>这个问题简直是每个月都会有人遇到，与显卡有关。在安装前的 Grub 菜单选择界面（即用回车选择 Install Ubuntu）前，请将光标悬停其上：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>Try Ubuuntu without installing
+* Install Ubuntu
+OEM install
+...
+</pre></div>
+</div>
+<p>然后按 <cite>e</cite> 键进入编辑模式，找到以 <cite>linux</cite> 开头的一行（一般是倒数第二行），在结尾加上 <code class="code docutils literal notranslate"><span class="pre">nouveau.modeset=0</span></code> ：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>... quite splash --- nouveau.modeset<span class="o">=</span><span class="m">0</span>
+</pre></div>
+</div>
+<p>然后 <cite>Ctrl+X</cite> 进入安装。这样就不会卡红点了。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>一个过时的指南是将 <code class="code docutils literal notranslate"><span class="pre">---</span></code> 改为 <code class="code docutils literal notranslate"><span class="pre">nomodeset</span></code>，但这样仍然会遇到一些问题，比如点不到按钮。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>安装时分辨率太低/点不到按钮<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>如果你使用了上述的 <code class="code docutils literal notranslate"><span class="pre">nouveau.modeset=0</span></code>，一般不会出现分辨率问题。如果分辨率不影响安装，那也忍一忍吧。</p>
+<p>如果不幸出现了因为低分辨率、按钮被挤出了屏幕外的问题，请用组合键 <cite>Alt + F7</cite> ，然后向上移动鼠标就能将当前窗口向上平移了。这样就能显示出下方的按钮了。（那些教你用 <cite>tab</cite> 的都再见吧！）</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>启动<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id6">
+<h3>引导未失去但路径不正确<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>这种情形指的是较不严重的引导问题，往往是安装流程没有什么大的问题（例如双系统安装，一个UEFI一个Legacy，问题就比较大）、用户也没有在命令行干一些太作死的事情（例如把引导分区删了）。这些问题常见的有：</p>
+<ul class="simple">
+<li><p>在 Windows 的物理机上安装 Ubuntu 双系统，然后 Grub 用匪夷所思的手法干掉了 Windows Boot Manager……尤其是当你尝试把 Ubuntu 安装到一块新硬盘上，比如原来的 Windows 在固态上、新的 Ubuntu 却在机械硬盘上时。</p></li>
+<li><p>安装系统时的引导区给错了地方（别问我怎么把引导区划到 U 盘上的）。</p></li>
+<li><p>意（shóu）外（jiàn）地修改了引导文件。</p></li>
+</ul>
+<p>带来的问题可能有：</p>
+<ul class="simple">
+<li><p>启动菜单是 Grub，但列表里没有原来的 Windows 系统；或者有 Windows 系统，选中了却无法启动。</p></li>
+<li><p>根本没有见到启动菜单，一开机就奔 Windows 去了；Ubuntu 需要从键盘调用 boot menu 才能进入，甚至调用了也无法进入。</p></li>
+<li><p>无法启动任何一个系统，你被导向到 grub rescue 命令行界面。</p></li>
+</ul>
+<p>如果你的系统安装没有大差错，下面这个方法 <a class="footnote-reference brackets" href="#f1" id="id7">1</a> 可以说非常有效：</p>
+<ul>
+<li><p>首先，去 BIOS 关闭 Secure boot，保存后重启</p></li>
+<li><p>插上你的 Ubuntu 安装盘，从它启动</p></li>
+<li><p>选择 Try Ubuntu without installing （如有独显问题，也请参照上文 <code class="code docutils literal notranslate"><span class="pre">nouveau.modeset=0</span></code> 加在 <cite>linux</cite> 行最后）</p></li>
+<li><p>进入桌面后，打开 shell，安装 <a class="reference external" href="https://help.ubuntu.com/community/Boot-Repair">boot-repair</a> 这个软件：</p>
+<blockquote>
+<div><div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:yannubuntu/boot-repair
+sudo apt-get update
+sudo apt-get install -y boot-repair
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>运行这个工具： <code class="code docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">boot-repair</span></code> ，并从 Advanced Options 中选择 “Reinstall GRUB”，点击 Apply</p></li>
+<li><p>结束后，从命令行 <code class="code docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">reboot</span></code> 来重启计算机</p></li>
+</ul>
+<p>据我个人的体验，一般的双系统引导问题这样可以得到解决。</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>其他<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<div class="section" id="ubuntu">
+<h3>从 Ubuntu 关机时的嘎达声<a class="headerlink" href="#ubuntu" title="永久链接至标题">¶</a></h3>
+<p><em>（尚待验证）</em> 计算机的麦克风带来的问题，解决方法 <a class="footnote-reference brackets" href="#f2" id="id9">2</a> 是屏蔽 <cite>pcspkr</cite> 模块：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gsettings <span class="nb">set</span> org.gnome.desktop.wm.preferences audible-bell <span class="nb">false</span>
+</pre></div>
+</div>
+<p class="rubric">注释</p>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id7">1</a></span></dt>
+<dd><p>来源：<a class="reference external" href="https://askubuntu.com/questions/313757/black-screen-after-selecting-an-option-from-grub-boot-menu">Boot-repair 方法解决</a></p>
+</dd>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id9">2</a></span></dt>
+<dd><p>来源：<a class="reference external" href="https://www.reddit.com/r/linuxquestions/comments/9bs4tq/loud_popping_noise_on_shutdownreboot/">关机时的异常噪声</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="WSL.html" class="btn btn-neutral float-right" title="从零开始 WSL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Streaming.html" class="btn btn-neutral float-left" title="家庭流式传输" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; 版权所有 wklchris
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ 
+
+<script>
+  require.config({
+     paths: {
+        "jquery": "/_static/jquery",
+        "datatables": "/_config/static/DataTables/datatables.min"
+     }
+  });
+  requirejs( ["datatables"], function () {
+     $('#tableofblogs').DataTable( {
+        language: {
+           url: "/_config/static/DataTables/zh_CN.json" 
+        } 
+     } );
+  } );
+</script>
+
+<div class="footer">本页面采用 <a href="https://analytics.google.com/">Google Analytics</a> 来记录访问数据. 您可以通过屏蔽来自 www.google-analytics.com 的 JavaScript 来阻止该记录行为.
+<script>
+  (function() {
+    var ga = document.createElement('script');
+    ga.src = ('https:' == document.location.protocol ?
+              'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.setAttribute('async', 'true');
+    document.documentElement.firstChild.appendChild(ga);
+  })();
+</script>
+</div>
+
+
+
+</body>
+</html>

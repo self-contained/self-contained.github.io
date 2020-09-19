@@ -4,7 +4,7 @@
    :series: CLI
    :series_num: 1
    :date_init: 2017-07-11
-   :date_modified: 2020-01-08
+   :date_modified: 2020-09-18
    :abstract: 本文介绍了命令行视频编辑软件 FFmpeg。
 
 FFmpeg 教程
@@ -21,3 +21,5 @@ FFmpeg 教程
 
    Intro.rst
    FFmpeg.rst
+
+本文档最后构建于 |today|。

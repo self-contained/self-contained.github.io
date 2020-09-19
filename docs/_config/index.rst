@@ -16,3 +16,5 @@ Abstract paragraph
    :caption: 目录
 
    Intro.rst
+
+本文档最后构建于 |today|。

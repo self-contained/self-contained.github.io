@@ -669,7 +669,7 @@ origin  https://github.com/self-contained/self-contained.github.io <span class="
 </div>
 </div>
 <div class="section" id="fetach-pull">
-<h3>抓取与拉取：fetach &amp; pull<a class="headerlink" href="#fetach-pull" title="永久链接至标题">¶</a></h3>
+<span id="fetch-and-pull"></span><h3>抓取与拉取：fetach &amp; pull<a class="headerlink" href="#fetach-pull" title="永久链接至标题">¶</a></h3>
 <p>使用 <cite>fetch</cite> 命令来抓取远程仓库的内容：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git fetch &lt;remote-name&gt;
 </pre></div>
@@ -679,6 +679,12 @@ origin  https://github.com/self-contained/self-contained.github.io <span class="
 </pre></div>
 </div>
 <p>如果你从某一远程仓库将其 <cite>clone</cite> 到本地，会自动设置跟踪其远程仓库的默认分支（通常叫 master）。之后你的 <cite>pull</cite> 命令会自动从该地址取得数据并尝试合并。</p>
+<p>如果要拉取远程仓库的一个非 master 分支（如 dev），只需要在本地切换到同名分支再拉取即可。如果本地的 dev 分支未能正确地匹配到远程仓库的 dev 分支，可以使用 branch 命令的 <code class="docutils literal notranslate"><span class="pre">--set-upstream-to/-u</span></code> 参数，然后再拉取：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git checkout dev
+$ git branch -u origin/dev dev
+$ git pull
+</pre></div>
+</div>
 </div>
 <div class="section" id="push">
 <h3>推送到远程仓库：push<a class="headerlink" href="#push" title="永久链接至标题">¶</a></h3>
@@ -690,7 +696,10 @@ origin  https://github.com/self-contained/self-contained.github.io <span class="
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git push origin master
 </pre></div>
 </div>
-<p>该命令的含义是将本地的 master 分支推送到名为 origin 的远程仓库。</p>
+<p>该命令的含义是将本地的 master 分支推送到名为 origin 的远程仓库。如果你当前在 master 分支，且已经设置过它的跟踪分支为 origin/master（参考 <a class="reference internal" href="Branch.html#tracking-branch"><span class="std std-ref">远程：跟踪分支（上游分支）</span></a> ），那么你可以省略分支名，使用更简短的命令：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git push
+</pre></div>
+</div>
 <p>如果要将所有本地分支都推送到远程，使用：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git push origin --all
 </pre></div>

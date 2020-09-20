@@ -347,8 +347,8 @@ $ git branch --no-merged
 </div>
 <div class="section" id="tracking-branch">
 <span id="id3"></span><h2>远程：跟踪分支（上游分支）<a class="headerlink" href="#tracking-branch" title="永久链接至标题">¶</a></h2>
-<p>跟踪分支也叫上游分支。当你从远程仓库克隆了分支，你的这个本地分支会自动设置为跟踪该远程仓库的对应分支。这是你就可以使用 <cite>git pull</cite> 命令方便地进行本地仓库更新（参考[抓取 (fetch) 与拉取 (pull)](#抓取-fetch-与拉取-pull)部分的内容）。</p>
-<p>如果你的需要手动设置本地分支跟踪远程分支，使用：</p>
+<p>跟踪分支也叫上游分支。当你从远程仓库克隆了分支，你的这个本地分支会自动设置为跟踪该远程仓库的对应分支。这是你就可以使用 <cite>git pull</cite> 命令方便地进行本地仓库更新（参考 <a class="reference internal" href="Fundamentals.html#fetch-and-pull"><span class="std std-ref">抓取与拉取：fetach &amp; pull</span></a> 部分的内容）。</p>
+<p>如果你的需要手动设置本地分支跟踪远程分支，一种方法是使用带 <code class="docutils literal notranslate"><span class="pre">--track</span></code> 参数的 <code class="docutils literal notranslate"><span class="pre">checkout</span></code> 命令来新建一个本地分支，并使其跟踪远程分支：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git checkout --track origin/issuefix
 </pre></div>
 </div>
@@ -357,6 +357,15 @@ $ git branch --no-merged
 </pre></div>
 </div>
 <p>更改紧跟 <cite>-b</cite> 选项后的 issuefix，就能将本地分支设置成另外的名称。</p>
+<p>另一种设置跟踪分支的方法是使用 <code class="docutils literal notranslate"><span class="pre">branch</span></code> 命令的 <code class="docutils literal notranslate"><span class="pre">--set-upstream-to/-u</span></code> 参数：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git checkout -b dev
+$ git branch -u origin/dev
+</pre></div>
+</div>
+<p>如果不想切换到 dev 分支操作，你也可以在其他分支使用类似第二行的命令，只不过要在末尾额外添加一个分支名：</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git branch -u origin/dev dev
+</pre></div>
+</div>
 <p>设置了跟踪后，用 <cite>&#64;{upstream}</cite> 或 <cite>&#64;{u}</cite> 来指代远程分支。例如，在你设置 issuefix 分支跟踪对应远程分之后，你可以使用 <cite>git merge &#64;{u}</cite> 代替 <cite>git merge origin/issuefix</cite>。</p>
 <p>在上文已经介绍过，可以通过 <cite>branch</cite> 命令的 <cite>-vv</cite> 选项来查看跟踪分支的信息：</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ git branch -vv

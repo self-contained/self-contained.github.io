@@ -507,6 +507,7 @@ Git 可以管理文件的删除、追踪、移动与重命名。
    
    $ git remote rm <remote-name>
 
+.. _fetch-and-pull:
 
 抓取与拉取：fetach & pull
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -525,6 +526,14 @@ Git 可以管理文件的删除、追踪、移动与重命名。
 
 如果你从某一远程仓库将其 `clone` 到本地，会自动设置跟踪其远程仓库的默认分支（通常叫 master）。之后你的 `pull` 命令会自动从该地址取得数据并尝试合并。
 
+如果要拉取远程仓库的一个非 master 分支（如 dev），只需要在本地切换到同名分支再拉取即可。如果本地的 dev 分支未能正确地匹配到远程仓库的 dev 分支，可以使用 branch 命令的 ``--set-upstream-to/-u`` 参数，然后再拉取：
+
+.. code-block:: sh
+   
+   $ git checkout dev
+   $ git branch -u origin/dev dev
+   $ git pull
+
 
 推送到远程仓库：push
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -539,7 +548,11 @@ Git 可以管理文件的删除、追踪、移动与重命名。
    
    $ git push origin master
 
-该命令的含义是将本地的 master 分支推送到名为 origin 的远程仓库。
+该命令的含义是将本地的 master 分支推送到名为 origin 的远程仓库。如果你当前在 master 分支，且已经设置过它的跟踪分支为 origin/master（参考 :ref:`tracking-branch` ），那么你可以省略分支名，使用更简短的命令：
+
+.. code-block:: sh
+ 
+   $ git push
 
 如果要将所有本地分支都推送到远程，使用：
 

@@ -1,10 +1,10 @@
 .. meta::
    :category: Misc
-   :keywords: kw1, kw2
-   :series: series1
+   :keywords: documentation,rst,sphinx,website
+   :series: doc-build
    :series_num: 1
    :date_init: 2018-10-15
-   :date_modified: 2020-09-18
+   :date_modified: 2020-09-20
    :abstract: 本文介绍 reStructuredText，一种最初用于创建 Python 技术文档的标记语言。
 
 reStructuredText 简介
@@ -20,6 +20,9 @@ reStructuredText（简写为 reST，RST，或 ReST）是一种纯文本标记语
 
 * 对轻量标记语言有所了解的读者。最好有 Markdown 的使用经验。关于 Markdown，可以参考 Github 的这篇 `英文简介 <https://guides.github.com/features/mastering-markdown/>`_ 。
 * `Sphinx <https://www.sphinx-doc.org/>`_ 的用户，他们非常需要了解 reST 。本文中的许多功能并不是 reStructuredText 原生支持的，而是由 Sphinx 在 reStructuredText 的语法上进行扩展而实现的。
+  
+  如果您对 Sphinx 知之甚少，可以配合本站的另一篇博文 `Sphinx 简介 <../Sphinx/>`_ 阅读。
+
 * 正在寻找一种平衡的标记语言的读者。从某种意义上讲，reST 算是一种在“轻量/易读易写”与“强功能性/定制性”之间的达到平衡的文本格式。对我来说，reST 是在某些网络文档构建的场合下是一种恰当的格式。
   
   * HTML 功能强大，但是易读性差。

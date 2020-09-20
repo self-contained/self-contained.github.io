@@ -183,9 +183,9 @@ git 通过 HEAD 指针管理“当前分支”。我们以 `log` 命令的返回
 远程：跟踪分支（上游分支）
 ----------------------------
 
-跟踪分支也叫上游分支。当你从远程仓库克隆了分支，你的这个本地分支会自动设置为跟踪该远程仓库的对应分支。这是你就可以使用 `git pull` 命令方便地进行本地仓库更新（参考[抓取 (fetch) 与拉取 (pull)](#抓取-fetch-与拉取-pull)部分的内容）。
+跟踪分支也叫上游分支。当你从远程仓库克隆了分支，你的这个本地分支会自动设置为跟踪该远程仓库的对应分支。这是你就可以使用 `git pull` 命令方便地进行本地仓库更新（参考 :ref:`fetch-and-pull` 部分的内容）。
 
-如果你的需要手动设置本地分支跟踪远程分支，使用：
+如果你的需要手动设置本地分支跟踪远程分支，一种方法是使用带 ``--track`` 参数的 ``checkout`` 命令来新建一个本地分支，并使其跟踪远程分支：
 
 .. code-block:: sh
    
@@ -199,6 +199,19 @@ git 通过 HEAD 指针管理“当前分支”。我们以 `log` 命令的返回
 
 更改紧跟 `-b` 选项后的 issuefix，就能将本地分支设置成另外的名称。
 
+另一种设置跟踪分支的方法是使用 ``branch`` 命令的 ``--set-upstream-to/-u`` 参数：
+
+.. code-block:: sh
+   
+   $ git checkout -b dev
+   $ git branch -u origin/dev
+
+如果不想切换到 dev 分支操作，你也可以在其他分支使用类似第二行的命令，只不过要在末尾额外添加一个分支名：
+
+.. code-block:: sh
+   
+   $ git branch -u origin/dev dev
+
 设置了跟踪后，用 `@{upstream}` 或 `@{u}` 来指代远程分支。例如，在你设置 issuefix 分支跟踪对应远程分之后，你可以使用 `git merge @{u}` 代替 `git merge origin/issuefix`。
 
 在上文已经介绍过，可以通过 `branch` 命令的 `-vv` 选项来查看跟踪分支的信息：
@@ -210,6 +223,7 @@ git 通过 HEAD 指针管理“当前分支”。我们以 `log` 命令的返回
    master bae6fc8 [origin/master] Init
 
 以上表示我的 dev 分支尚未设置跟踪远程分支。
+
 
 .. _basic-conflict:
 

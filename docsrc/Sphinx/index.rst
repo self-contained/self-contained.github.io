@@ -4,7 +4,7 @@
    :series: doc-build
    :series_num: 2
    :date_init: 2020-09-20
-   :date_modified: 2020-09-20
+   :date_modified: 2020-09-21
    :abstract: 本文介绍 Spinx，一个文档或文档网站生成器。
 
 Sphinx
@@ -27,6 +27,7 @@ Sphinx 的完整功能面向以 reStructuredText 标记语言撰写的文档。�
    :maxdepth: 2
    :caption: 目录
 
+   Jinja.rst
    ThemeDevelopment.rst
 
 本文档最后构建于 |today|。

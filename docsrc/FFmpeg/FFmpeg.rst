@@ -5,10 +5,17 @@ FFmpeg的\ `官方文档 <https://ffmpeg.org/ffmpeg.html>`__\ 简洁有力，但
 
 本文将以实际用例为主。毕竟照搬 FFmpeg 的文档实在没有什么意义。不过例子是由浅入深的，如果读者没有任何的 FFmpeg 使用经验，仍然建议按顺序依次浏览。
 
+在开始之前，先介绍一个全局参数 ``-hide_banner``\ ；它可以阻止 FFmpeg 在每次执行时开头打印的那一堆版本信息文本。例如，在展示 FFmpeg 的许可证时，隐藏这部分默认打印的版本信息：
+
+.. code-block:: shell
+
+    ffmpeg -hide_banner -L
+
+
 格式转换
 -----------
 
-这毫无疑问是最常使用的功能。
+这毫无疑问是最常使用的功能。关于各种常用的视频/音频编码格式或编码器，请参考 :ref:`codec_format` 一节的内容。
 
 转码
 ~~~~~~
@@ -238,7 +245,12 @@ FFmpeg 可以将字幕内挂到封装容器内，也可以内嵌到视频流中�
 
 视频的压制主要有 CRF（Constant Rate Factor，恒定率系数）与二压（2Pass）两种常用的方法： 
 
-- CRF（Constant Rate Factor）指定一个 0~51 的数值作为视频质量标准值（FFmpeg 默认 23，常用范围是 17~28），数值越小，恒定律系数越好，压缩率也越低。恒定律系数的视频码率是根据画面动态调整的，与恒定码率（CBR）恰好是对立的。
+- **在编码器 libx264 中（265/vp9编码器中的情形并不同）** ，CRF（Constant Rate Factor）指定一个 0~51 的数值作为视频质量标准值（FFmpeg 默认 23，常用范围是 17~28）。CRF 的数值越小，恒定率系数越好，压缩率也越低。恒定律系数的视频码率是根据画面动态调整的，与恒定码率（CBR）恰好是对立的。
+  
+  * CRF 为 0 表示无损，51 表示 FFmpeg 所能达到的最差效果。
+  * 如果设置一个小于默认值 23 的值，那么输出视频的画面会（从视觉观感上）保留较好的效果，但同时文件的体积也较大；如果设置一个大于 23 的值，那么输出的视频会被压缩。
+  * CRF 在 17 左右时，输出的视频损失就非常小了，因此选择比 17 更小的 CRF 意义不大；类似地，CRF 如果低于 28，其效果相比于原视频可能就会出现明显的损失，因此通常也不建议选择大于 28 的数值，
+
 - 二压（2Pass）是需要生成固定大小文件时的压制方法，顾名思义，需要编码两次（因此较慢）。用户可能需要自行计算视频码率限值。
 
 在大多数场合，CRF都是更受欢迎的。二压的使用场合主要有两种：一种是压制后文件的大小被严格限制时，另一种是压制后文件的码率被严格限制时。
@@ -246,13 +258,16 @@ FFmpeg 可以将字幕内挂到封装容器内，也可以内嵌到视频流中�
 恒定率系数（CRF）
 ~~~~~~~~~~~~~~~~~~~~~~
 
-CRF 的压制中还有一个参数，称为预案 ``-preset`` 。较慢的预案能够更好地发挥压制的效果，按压制后质量从低到高分为 ``ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow`` 这9种。
+CRF 的压制中还有一个参数，称为预案 ``-preset`` 。较慢的预案能够更好地发挥压制的效果，按压制后质量从低到高分为 ``ultrafast`` , ``superfast`` , ``veryfast`` , ``faster`` , ``fast`` , ``medium`` , ``slow`` , ``slower`` , ``veryslow`` 这9种。预案越慢，压缩效果（指视频质量与文件体积之比）越好，或者说同等视频质量下输出文件的体积越小。
 
-下例中使用了 ``slow`` 预案来进行压制。视频编解码器设置为 libx264，设定了一个恒定律系数优于默认的 CRF 值（设定的20比默认的23小），并对音频流进行复制：
+下例中使用了 ``slow`` 预案来进行压制，即期望得到较好的压缩效果。视频编解码器设置为 libx264，设定了一个恒定率系数优于默认的 CRF 值（设定的20比默认的23小，即效果优于默认转码），并对音频流进行复制：
 
 .. code:: shell
 
    ffmpeg -i video.mp4 -c:v libx264 -preset slow -crf 20 -c:a copy out.mp4
+
+编码器 ``libx264`` 还提供了一个 ``-qp`` 参数，即量化参数（Quantization Parameter）。它可以取 -1 以上的整数值（默认值 -1 表示自动）。简单地理解，CRF 就是自动根据画面中运动的多与少来调整 QP ，来达到好的压缩效果。通常情况下，用户都应当选择 CRF，而不是 QP 参数。 
+
 
 二压（2Pass）
 ~~~~~~~~~~~~~
@@ -279,6 +294,87 @@ Wiki <https://trac.ffmpeg.org/wiki/Encode/H.264>`_ ）：需要将一个10分钟
 - ``-y`` 是一个全局参数，表示覆盖文件时不询问。
 - ``NUL`` 表示二压的第一步不输出，而行尾的 ``^`` 表示续行。在 Linux 系统上，请使用 ``/dev/null \`` 代替 ``NUL ^``\ 。
 - ``-an`` 表示忽略音频流。同理还有 ``-vn/sn/dn``\ 。
+
+
+显卡硬件加速*
+-------------------
+
+FFmpeg 支持显卡硬件加速；本节以 Nvidia 的显卡为例展示一些用法。
+
+硬件支持
+~~~~~~~~~~~~~~~~~~~~~~
+
+关于用户当前的显卡支持哪些编码格式的硬件加速，可以参考 Nvidia 给出的一张表格： `Video Encode and Decode GPU Support Matrix <https://developer.nvidia.com/video-encode-decode-gpu-support-matrix>`_\ 。简要来说，大概是：
+
+* 大多 Maxwell 一代显卡（GTX 745/850/850M/960M 及同代更高型号）支持完整的 H.264 编码硬件加速
+* Maxwell 二代（GTX 750/950/965M 及同代更高型号）还支持 4K YUV 4:2:0 的 H.265 编码硬件加速
+* 大多 Pascal 显卡（GTX 1050 及同代更高型号）及之后架构的显卡，都支持完整的 H.265 编码硬件加速
+* 较新的显卡对于其他主流的编码格式，如 VP9 等，也有硬件加速支持
+
+FFmpeg 支持
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. important::
+
+    由于 FFmpeg 存在众多的编译版本，用户正使用的不一定包含了硬件加速功能。但官方提供的预编译版本均涵盖了该功能，本文也不再对如何在编译时引入硬件加速支持进行介绍。
+
+显卡加速使用特殊的编码器（而不是 CPU 编码时的标准编码器），它们通常以 ``nvenc`` （或者 ``cuvid`` ）结尾。用户可以使用 ``-codec`` 来查找当前安装的 FFmpeg 是否在编译时添加了这些编码器的支持。下面是我的古董级 GTX 960M 机器返回的信息，例中可以看到对 H.264 解码器支持 ``h264_cuvid`` 、编码器支持 ``h264_nvenc``。
+
+.. code-block:: shell
+   
+    # Windows Powershell 用户：ffmpeg -codecs | select-string nvenc
+    ffmpeg -codecs | grep nvenc
+    ...
+    DEV.LS h264                 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 (decoders: h264 h264_qsv h264_cuvid ) (encoders: libx264 libx264rgb h264_amf h264_mf h264_nvenc h264_qsv nvenc nvenc_h264 )
+    DEV.L. hevc                 H.265 / HEVC (High Efficiency Video Coding) (decoders: hevc hevc_qsv evc_cuvid ) (encoders: libx265 nvenc_hevc hevc_amf hevc_mf hevc_nvenc hevc_qsv )
+
+以 ``h264_nvenc`` 编码器为例，说明几个注意点：
+
+* 编码器 ``h264_nvenc`` 使用与常规编码器 ``libx264`` 不同的 ``-preset`` 参数选项，可以通过如 ``ffmpeg -h encoder=h264_nvenc`` 的命令查看。
+* 编码器 ``h264_nvenc`` **不支持 CRF 参数控制压制质量**\ ，用户需要使用其他的参数，比如粗糙的 ``-qp`` 参数，或者 ``-rc`` 参数来指定码率控制模式并配合其他参数（例如 ``-b:v`` 参数）。
+
+硬件加速命令
+~~~~~~~~~~~~~~~~~~~~~~
+
+硬件加速有混合模式（CPU 与 GPU 共同工作）与独占模式（完全 GPU 工作）两种。
+
+混合模式直接指定编码器为支持硬件加速的编码器即可，比如 ``h264_nvenc``\ ：
+
+.. code-block:: shell
+
+    # CPU+GPU 混合模式
+    ffmpeg -i video.mp4 -c:v h264_nvenc -c:a copy out.mp4
+
+独占模式需要指定额外的输入参数 ``-hwaccel`` 与 ``-hwaccel_output_format`` 的值为 ``cuda``\ ，表示启用 cuvid 解码器与 nvenc 编码器。
+
+.. code-block:: shell
+
+    # GPU 独占模式
+    ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i video.mp4 -c:v h264_nvenc -c:a copy out.mp4
+
+上述命令会自动以 2000 kbps（即 2Mbps）左右的总文件比特率（视频、音频多轨综合，因此单独看视频码率可能会略高于 2M ）来压缩视频。
+
+硬件加速下的质量控制
+~~~~~~~~~~~~~~~~~~~~~~
+
+由于 ``h264_nvenc`` 编码器不支持 CRF 参数，我个人的习惯是通过 ``-rc`` 参数来设置 ``vbr_hq`` 可变码率模式，并手动指定 ``-b:v`` 视频码率的数值。例如下述命令使用可变码率模式，并将视频设置在 2Mbps 附近：
+
+.. code-block:: shell
+
+    ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i video.mp4 -c:v h264_nvenc -rc vbr_hq -b:v 2M -c:a copy out.mp4
+
+在此基础上，用户还可以配合 ``-maxrate`` 来限制最大码率、用 ``-bufsize`` 来调整缓冲区大小（缓冲区越小，码率波动越小）、用 ``rc_lookahead`` 来设定前览帧数等。用户可以参考 `FFmpeg Wiki - Limiting the output bitrate <https://trac.ffmpeg.org/wiki/Limiting%20the%20output%20bitrate>`_ 页面。
+
+另一种方式是使用 ``-cq`` 参数。默认的硬件加速结果 q 值（据笔者测试）大约在 25 左右，用户可以通过稍微调高该值来获得压缩效果，例如：
+
+.. code-block:: shell
+
+    ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i video.mp4 -c:v h264_nvenc -rc vbr_hq -cq 28 -qmin 28 -c:a copy out.mp4
+
+其中 ``-qmin`` 参数能够限制最小的 q 值（控制质量上限，减小文件体积）；类似的还有 ``-qmax`` 参数，只不过作用相反。作为参考，笔者使用该命令来转码一个 2250Kbps 视频码率、时长6分钟的 99M 大小的视频文件，得到了 1814Kbps 的大小为 80M 的输出结果。
+
+要查看更多 FFmpeg 硬件加速的内容，比如对 AMD 等硬件的支持，请查看 `HWAccelIntro <https://trac.ffmpeg.org/wiki/HWAccelIntro>`_ 页面。
+
 
 .. _appendix-fonts-conf:
 

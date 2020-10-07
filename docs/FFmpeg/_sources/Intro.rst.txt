@@ -37,3 +37,35 @@ FFmpeg 是一个强大的命令行音视频工具，可以承担转码、混流�
    - 容器：可以粗略地理解为某种扩展名类型的视频文件。比如 MP4 是一种容器，MKV 是另一种容器。
 
 - 编码/解码（encode/decode）：将流用某种格式或规范记录下来并存储，称为编码；将编码后的流，根据格式或规范来逆向实现编码的过程，从而将流还原出来，称为解码。我们最经常听到的规范大概是 H.264，最常见到的编码器可能是 libx264。
+
+.. _codec_format:
+
+常用的编码格式
+---------------
+
+FFmpeg 支持基本所有的主流编码格式。
+
+常用的视频编码格式有：
+
+* `H.264 <https://trac.ffmpeg.org/wiki/Encode/H.264>`_ 是上一代最广为使用的视频编码格式，始于 2003 年，当之无愧的一代霸主。在 FFmpeg 中可由 ``libx264`` 编码器支持。
+* `H.265/HEVC <https://trac.ffmpeg.org/wiki/Encode/H.265>`_ 是 H.264 的接任者，于 2013 年正式面世。它在同等视频质量下提供了相比 H.264 而言可达 50% 的体积缩减。 ``libx265`` 编码器对该编码格式提供了支持。
+* `VP9 <https://trac.ffmpeg.org/wiki/Encode/VP9>`_ 经历了从 VP3 起漫长的版本迭代，VP 系列解码器的开发公司 On2 被谷歌收购。谷歌在 2013 年左右推出了取代上一代 VP8 编码的 VP9，主要为旗下的互联网视频平台 Youtube 所采用。 
+* `AV1 (AOMedia Video 1) <https://trac.ffmpeg.org/wiki/Encode/AV1>`_ 是 H.265 的免版税竞争者，极大地基于 VP9 的技术，并在 VP9 的基础上提供了惊人的压缩比率。其开发联盟由诸多互联网公司支持，并受到主流浏览器 Chrome 与 Firefox 的积极推动。它在 FFmpeg 中由 ``libaom-av1`` 编码器对该编码格式提供支持。
+
+.. figure:: Compare.png
+   :width: 90%
+   :align: center
+   :target: http://www.compression.ru/video/codec_comparison/hevc_2017/MSU_HEVC_comparison_2017_P5_HQ_encoders.pdf
+   
+   AV1、x265、VP9 等主流编码器的平均压缩比。
+   
+图源: CS MSU Graphics & Media Lab, Video Group. MSU Codec Comparison 2017 Part V: High Quality Encoders. 2018. p19.（点击图片跳转）
+
+
+常用的音频编码格式有：
+
+* `MP3 <https://trac.ffmpeg.org/wiki/Encode/MP3>`_ 时至今日仍最流行的有损编码格式。编码器 ``libmp3lame``\ 。
+* `AAC <https://trac.ffmpeg.org/wiki/Encode/AAC>`_ 是 MP3 的接任者，常常作为视频容器 MKV 选用的音频格式，而其作为音频时的容器则通常是是 m4a。编码器有 FFmpeg 原生提供的、针对低码率音频（AAC LC）的 ``aac`` 编码器；此外，需要制作高质量 AAC 时（HE-AAC）可以使用 ``libfdk_aac`` 编码器。
+* AC3 杜比数字格式，编码器 ``ac3`` (Dolby Digital) 或者 ``eac3`` (Dolby Digital Plus)。
+* FLAC 是较常用的无损音频格式；FFmpeg 对其有原生的编码器 ``flac`` 支持。
+* PCM 是 WAV 容器内包含的最常见音频编码格式。FFmpeg 默认使用 ``pcm_s16le`` 编码器来处理 PCM 输出。关于这部分的内容，读者可以参考 `PCM 格式 <https://trac.ffmpeg.org/wiki/audio%20types>`_ 页面。

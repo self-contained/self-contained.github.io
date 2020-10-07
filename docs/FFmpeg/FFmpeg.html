@@ -135,6 +135,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#pass">二压（2Pass）</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">显卡硬件加速*</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id16">硬件支持</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">FFmpeg 支持</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">硬件加速命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">硬件加速下的质量控制</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#fonts-conf">附录：fonts.conf</a></li>
 </ul>
 </li>
@@ -231,9 +238,13 @@
 <h1>FFmpeg 实用命令<a class="headerlink" href="#ffmpeg" title="永久链接至标题">¶</a></h1>
 <p>FFmpeg的<a class="reference external" href="https://ffmpeg.org/ffmpeg.html">官方文档</a>简洁有力，但它的排版逻辑是技术文档而不是工具书或问答，因此可能并不是一个好的参阅选择。</p>
 <p>本文将以实际用例为主。毕竟照搬 FFmpeg 的文档实在没有什么意义。不过例子是由浅入深的，如果读者没有任何的 FFmpeg 使用经验，仍然建议按顺序依次浏览。</p>
+<p>在开始之前，先介绍一个全局参数 <code class="docutils literal notranslate"><span class="pre">-hide_banner</span></code>；它可以阻止 FFmpeg 在每次执行时开头打印的那一堆版本信息文本。例如，在展示 FFmpeg 的许可证时，隐藏这部分默认打印的版本信息：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -hide_banner -L
+</pre></div>
+</div>
 <div class="section" id="id1">
 <h2>格式转换<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
-<p>这毫无疑问是最常使用的功能。</p>
+<p>这毫无疑问是最常使用的功能。关于各种常用的视频/音频编码格式或编码器，请参考 <a class="reference internal" href="Intro.html#codec-format"><span class="std std-ref">常用的编码格式</span></a> 一节的内容。</p>
 <div class="section" id="id2">
 <h3>转码<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <p>比如将一个 FLV 文件转为 MP4 文件并重编码，FFmpeg 会自动寻找编解码器：</p>
@@ -411,17 +422,24 @@ ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -map <span class="m">0</span>:v -map 
 <h2>压制<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h2>
 <p>视频的压制主要有 CRF（Constant Rate Factor，恒定率系数）与二压（2Pass）两种常用的方法：</p>
 <ul class="simple">
-<li><p>CRF（Constant Rate Factor）指定一个 0~51 的数值作为视频质量标准值（FFmpeg 默认 23，常用范围是 17~28），数值越小，恒定律系数越好，压缩率也越低。恒定律系数的视频码率是根据画面动态调整的，与恒定码率（CBR）恰好是对立的。</p></li>
+<li><p><strong>在编码器 libx264 中（265/vp9编码器中的情形并不同）</strong> ，CRF（Constant Rate Factor）指定一个 0~51 的数值作为视频质量标准值（FFmpeg 默认 23，常用范围是 17~28）。CRF 的数值越小，恒定率系数越好，压缩率也越低。恒定律系数的视频码率是根据画面动态调整的，与恒定码率（CBR）恰好是对立的。</p>
+<ul>
+<li><p>CRF 为 0 表示无损，51 表示 FFmpeg 所能达到的最差效果。</p></li>
+<li><p>如果设置一个小于默认值 23 的值，那么输出视频的画面会（从视觉观感上）保留较好的效果，但同时文件的体积也较大；如果设置一个大于 23 的值，那么输出的视频会被压缩。</p></li>
+<li><p>CRF 在 17 左右时，输出的视频损失就非常小了，因此选择比 17 更小的 CRF 意义不大；类似地，CRF 如果低于 28，其效果相比于原视频可能就会出现明显的损失，因此通常也不建议选择大于 28 的数值，</p></li>
+</ul>
+</li>
 <li><p>二压（2Pass）是需要生成固定大小文件时的压制方法，顾名思义，需要编码两次（因此较慢）。用户可能需要自行计算视频码率限值。</p></li>
 </ul>
 <p>在大多数场合，CRF都是更受欢迎的。二压的使用场合主要有两种：一种是压制后文件的大小被严格限制时，另一种是压制后文件的码率被严格限制时。</p>
 <div class="section" id="crf">
 <h3>恒定率系数（CRF）<a class="headerlink" href="#crf" title="永久链接至标题">¶</a></h3>
-<p>CRF 的压制中还有一个参数，称为预案 <code class="docutils literal notranslate"><span class="pre">-preset</span></code> 。较慢的预案能够更好地发挥压制的效果，按压制后质量从低到高分为 <code class="docutils literal notranslate"><span class="pre">ultrafast,</span> <span class="pre">superfast,</span> <span class="pre">veryfast,</span> <span class="pre">faster,</span> <span class="pre">fast,</span> <span class="pre">medium,</span> <span class="pre">slow,</span> <span class="pre">slower,</span> <span class="pre">veryslow</span></code> 这9种。</p>
-<p>下例中使用了 <code class="docutils literal notranslate"><span class="pre">slow</span></code> 预案来进行压制。视频编解码器设置为 libx264，设定了一个恒定律系数优于默认的 CRF 值（设定的20比默认的23小），并对音频流进行复制：</p>
+<p>CRF 的压制中还有一个参数，称为预案 <code class="docutils literal notranslate"><span class="pre">-preset</span></code> 。较慢的预案能够更好地发挥压制的效果，按压制后质量从低到高分为 <code class="docutils literal notranslate"><span class="pre">ultrafast</span></code> , <code class="docutils literal notranslate"><span class="pre">superfast</span></code> , <code class="docutils literal notranslate"><span class="pre">veryfast</span></code> , <code class="docutils literal notranslate"><span class="pre">faster</span></code> , <code class="docutils literal notranslate"><span class="pre">fast</span></code> , <code class="docutils literal notranslate"><span class="pre">medium</span></code> , <code class="docutils literal notranslate"><span class="pre">slow</span></code> , <code class="docutils literal notranslate"><span class="pre">slower</span></code> , <code class="docutils literal notranslate"><span class="pre">veryslow</span></code> 这9种。预案越慢，压缩效果（指视频质量与文件体积之比）越好，或者说同等视频质量下输出文件的体积越小。</p>
+<p>下例中使用了 <code class="docutils literal notranslate"><span class="pre">slow</span></code> 预案来进行压制，即期望得到较好的压缩效果。视频编解码器设置为 libx264，设定了一个恒定率系数优于默认的 CRF 值（设定的20比默认的23小，即效果优于默认转码），并对音频流进行复制：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -i video.mp4 -c:v libx264 -preset slow -crf <span class="m">20</span> -c:a copy out.mp4
 </pre></div>
 </div>
+<p>编码器 <code class="docutils literal notranslate"><span class="pre">libx264</span></code> 还提供了一个 <code class="docutils literal notranslate"><span class="pre">-qp</span></code> 参数，即量化参数（Quantization Parameter）。它可以取 -1 以上的整数值（默认值 -1 表示自动）。简单地理解，CRF 就是自动根据画面中运动的多与少来调整 QP ，来达到好的压缩效果。通常情况下，用户都应当选择 CRF，而不是 QP 参数。</p>
 </div>
 <div class="section" id="pass">
 <h3>二压（2Pass）<a class="headerlink" href="#pass" title="永久链接至标题">¶</a></h3>
@@ -442,6 +460,69 @@ ffmpeg -i video.mp4 -c:v libx264 -b:v 2600k -pass <span class="m">2</span> -c:a 
 <li><p><code class="docutils literal notranslate"><span class="pre">NUL</span></code> 表示二压的第一步不输出，而行尾的 <code class="docutils literal notranslate"><span class="pre">^</span></code> 表示续行。在 Linux 系统上，请使用 <code class="docutils literal notranslate"><span class="pre">/dev/null</span> <span class="pre">\</span></code> 代替 <code class="docutils literal notranslate"><span class="pre">NUL</span> <span class="pre">^</span></code>。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-an</span></code> 表示忽略音频流。同理还有 <code class="docutils literal notranslate"><span class="pre">-vn/sn/dn</span></code>。</p></li>
 </ul>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>显卡硬件加速*<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h2>
+<p>FFmpeg 支持显卡硬件加速；本节以 Nvidia 的显卡为例展示一些用法。</p>
+<div class="section" id="id16">
+<h3>硬件支持<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
+<p>关于用户当前的显卡支持哪些编码格式的硬件加速，可以参考 Nvidia 给出的一张表格： <a class="reference external" href="https://developer.nvidia.com/video-encode-decode-gpu-support-matrix">Video Encode and Decode GPU Support Matrix</a>。简要来说，大概是：</p>
+<ul class="simple">
+<li><p>大多 Maxwell 一代显卡（GTX 745/850/850M/960M 及同代更高型号）支持完整的 H.264 编码硬件加速</p></li>
+<li><p>Maxwell 二代（GTX 750/950/965M 及同代更高型号）还支持 4K YUV 4:2:0 的 H.265 编码硬件加速</p></li>
+<li><p>大多 Pascal 显卡（GTX 1050 及同代更高型号）及之后架构的显卡，都支持完整的 H.265 编码硬件加速</p></li>
+<li><p>较新的显卡对于其他主流的编码格式，如 VP9 等，也有硬件加速支持</p></li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>FFmpeg 支持<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>由于 FFmpeg 存在众多的编译版本，用户正使用的不一定包含了硬件加速功能。但官方提供的预编译版本均涵盖了该功能，本文也不再对如何在编译时引入硬件加速支持进行介绍。</p>
+</div>
+<p>显卡加速使用特殊的编码器（而不是 CPU 编码时的标准编码器），它们通常以 <code class="docutils literal notranslate"><span class="pre">nvenc</span></code> （或者 <code class="docutils literal notranslate"><span class="pre">cuvid</span></code> ）结尾。用户可以使用 <code class="docutils literal notranslate"><span class="pre">-codec</span></code> 来查找当前安装的 FFmpeg 是否在编译时添加了这些编码器的支持。下面是我的古董级 GTX 960M 机器返回的信息，例中可以看到对 H.264 解码器支持 <code class="docutils literal notranslate"><span class="pre">h264_cuvid</span></code> 、编码器支持 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code>。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Windows Powershell 用户：ffmpeg -codecs | select-string nvenc</span>
+ffmpeg -codecs <span class="p">|</span> grep nvenc
+...
+DEV.LS h264                 H.264 / AVC / MPEG-4 AVC / MPEG-4 part <span class="m">10</span> <span class="o">(</span>decoders: h264 h264_qsv h264_cuvid <span class="o">)</span> <span class="o">(</span>encoders: libx264 libx264rgb h264_amf h264_mf h264_nvenc h264_qsv nvenc nvenc_h264 <span class="o">)</span>
+DEV.L. hevc                 H.265 / HEVC <span class="o">(</span>High Efficiency Video Coding<span class="o">)</span> <span class="o">(</span>decoders: hevc hevc_qsv evc_cuvid <span class="o">)</span> <span class="o">(</span>encoders: libx265 nvenc_hevc hevc_amf hevc_mf hevc_nvenc hevc_qsv <span class="o">)</span>
+</pre></div>
+</div>
+<p>以 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code> 编码器为例，说明几个注意点：</p>
+<ul class="simple">
+<li><p>编码器 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code> 使用与常规编码器 <code class="docutils literal notranslate"><span class="pre">libx264</span></code> 不同的 <code class="docutils literal notranslate"><span class="pre">-preset</span></code> 参数选项，可以通过如 <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-h</span> <span class="pre">encoder=h264_nvenc</span></code> 的命令查看。</p></li>
+<li><p>编码器 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code> <strong>不支持 CRF 参数控制压制质量</strong>，用户需要使用其他的参数，比如粗糙的 <code class="docutils literal notranslate"><span class="pre">-qp</span></code> 参数，或者 <code class="docutils literal notranslate"><span class="pre">-rc</span></code> 参数来指定码率控制模式并配合其他参数（例如 <code class="docutils literal notranslate"><span class="pre">-b:v</span></code> 参数）。</p></li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>硬件加速命令<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
+<p>硬件加速有混合模式（CPU 与 GPU 共同工作）与独占模式（完全 GPU 工作）两种。</p>
+<p>混合模式直接指定编码器为支持硬件加速的编码器即可，比如 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code>：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># CPU+GPU 混合模式</span>
+ffmpeg -i video.mp4 -c:v h264_nvenc -c:a copy out.mp4
+</pre></div>
+</div>
+<p>独占模式需要指定额外的输入参数 <code class="docutils literal notranslate"><span class="pre">-hwaccel</span></code> 与 <code class="docutils literal notranslate"><span class="pre">-hwaccel_output_format</span></code> 的值为 <code class="docutils literal notranslate"><span class="pre">cuda</span></code>，表示启用 cuvid 解码器与 nvenc 编码器。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># GPU 独占模式</span>
+ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i video.mp4 -c:v h264_nvenc -c:a copy out.mp4
+</pre></div>
+</div>
+<p>上述命令会自动以 2000 kbps（即 2Mbps）左右的总文件比特率（视频、音频多轨综合，因此单独看视频码率可能会略高于 2M ）来压缩视频。</p>
+</div>
+<div class="section" id="id19">
+<h3>硬件加速下的质量控制<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
+<p>由于 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code> 编码器不支持 CRF 参数，我个人的习惯是通过 <code class="docutils literal notranslate"><span class="pre">-rc</span></code> 参数来设置 <code class="docutils literal notranslate"><span class="pre">vbr_hq</span></code> 可变码率模式，并手动指定 <code class="docutils literal notranslate"><span class="pre">-b:v</span></code> 视频码率的数值。例如下述命令使用可变码率模式，并将视频设置在 2Mbps 附近：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i video.mp4 -c:v h264_nvenc -rc vbr_hq -b:v 2M -c:a copy out.mp4
+</pre></div>
+</div>
+<p>在此基础上，用户还可以配合 <code class="docutils literal notranslate"><span class="pre">-maxrate</span></code> 来限制最大码率、用 <code class="docutils literal notranslate"><span class="pre">-bufsize</span></code> 来调整缓冲区大小（缓冲区越小，码率波动越小）、用 <code class="docutils literal notranslate"><span class="pre">rc_lookahead</span></code> 来设定前览帧数等。用户可以参考 <a class="reference external" href="https://trac.ffmpeg.org/wiki/Limiting%20the%20output%20bitrate">FFmpeg Wiki - Limiting the output bitrate</a> 页面。</p>
+<p>另一种方式是使用 <code class="docutils literal notranslate"><span class="pre">-cq</span></code> 参数。默认的硬件加速结果 q 值（据笔者测试）大约在 25 左右，用户可以通过稍微调高该值来获得压缩效果，例如：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i video.mp4 -c:v h264_nvenc -rc vbr_hq -cq <span class="m">28</span> -qmin <span class="m">28</span> -c:a copy out.mp4
+</pre></div>
+</div>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">-qmin</span></code> 参数能够限制最小的 q 值（控制质量上限，减小文件体积）；类似的还有 <code class="docutils literal notranslate"><span class="pre">-qmax</span></code> 参数，只不过作用相反。作为参考，笔者使用该命令来转码一个 2250Kbps 视频码率、时长6分钟的 99M 大小的视频文件，得到了 1814Kbps 的大小为 80M 的输出结果。</p>
+<p>要查看更多 FFmpeg 硬件加速的内容，比如对 AMD 等硬件的支持，请查看 <a class="reference external" href="https://trac.ffmpeg.org/wiki/HWAccelIntro">HWAccelIntro</a> 页面。</p>
 </div>
 </div>
 <div class="section" id="fonts-conf">

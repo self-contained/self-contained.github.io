@@ -114,6 +114,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">FFmpeg 引言</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">安装</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">基本视频概念</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#codec-format">常用的编码格式</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="FFmpeg.html">FFmpeg 实用命令</a></li>
@@ -238,6 +239,30 @@
 </div></blockquote>
 </li>
 <li><p>编码/解码（encode/decode）：将流用某种格式或规范记录下来并存储，称为编码；将编码后的流，根据格式或规范来逆向实现编码的过程，从而将流还原出来，称为解码。我们最经常听到的规范大概是 H.264，最常见到的编码器可能是 libx264。</p></li>
+</ul>
+</div>
+<div class="section" id="codec-format">
+<span id="id3"></span><h2>常用的编码格式<a class="headerlink" href="#codec-format" title="永久链接至标题">¶</a></h2>
+<p>FFmpeg 支持基本所有的主流编码格式。</p>
+<p>常用的视频编码格式有：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://trac.ffmpeg.org/wiki/Encode/H.264">H.264</a> 是上一代最广为使用的视频编码格式，始于 2003 年，当之无愧的一代霸主。在 FFmpeg 中可由 <code class="docutils literal notranslate"><span class="pre">libx264</span></code> 编码器支持。</p></li>
+<li><p><a class="reference external" href="https://trac.ffmpeg.org/wiki/Encode/H.265">H.265/HEVC</a> 是 H.264 的接任者，于 2013 年正式面世。它在同等视频质量下提供了相比 H.264 而言可达 50% 的体积缩减。 <code class="docutils literal notranslate"><span class="pre">libx265</span></code> 编码器对该编码格式提供了支持。</p></li>
+<li><p><a class="reference external" href="https://trac.ffmpeg.org/wiki/Encode/VP9">VP9</a> 经历了从 VP3 起漫长的版本迭代，VP 系列解码器的开发公司 On2 被谷歌收购。谷歌在 2013 年左右推出了取代上一代 VP8 编码的 VP9，主要为旗下的互联网视频平台 Youtube 所采用。</p></li>
+<li><p><a class="reference external" href="https://trac.ffmpeg.org/wiki/Encode/AV1">AV1 (AOMedia Video 1)</a> 是 H.265 的免版税竞争者，极大地基于 VP9 的技术，并在 VP9 的基础上提供了惊人的压缩比率。其开发联盟由诸多互联网公司支持，并受到主流浏览器 Chrome 与 Firefox 的积极推动。它在 FFmpeg 中由 <code class="docutils literal notranslate"><span class="pre">libaom-av1</span></code> 编码器对该编码格式提供支持。</p></li>
+</ul>
+<div class="figure align-center" id="id4">
+<a class="reference external image-reference" href="http://www.compression.ru/video/codec_comparison/hevc_2017/MSU_HEVC_comparison_2017_P5_HQ_encoders.pdf"><img alt="_images/Compare.png" src="_images/Compare.png" style="width: 90%;" /></a>
+<p class="caption"><span class="caption-text">AV1、x265、VP9 等主流编码器的平均压缩比。</span><a class="headerlink" href="#id4" title="永久链接至图片">¶</a></p>
+</div>
+<p>图源: CS MSU Graphics &amp; Media Lab, Video Group. MSU Codec Comparison 2017 Part V: High Quality Encoders. 2018. p19.（点击图片跳转）</p>
+<p>常用的音频编码格式有：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://trac.ffmpeg.org/wiki/Encode/MP3">MP3</a> 时至今日仍最流行的有损编码格式。编码器 <code class="docutils literal notranslate"><span class="pre">libmp3lame</span></code>。</p></li>
+<li><p><a class="reference external" href="https://trac.ffmpeg.org/wiki/Encode/AAC">AAC</a> 是 MP3 的接任者，常常作为视频容器 MKV 选用的音频格式，而其作为音频时的容器则通常是是 m4a。编码器有 FFmpeg 原生提供的、针对低码率音频（AAC LC）的 <code class="docutils literal notranslate"><span class="pre">aac</span></code> 编码器；此外，需要制作高质量 AAC 时（HE-AAC）可以使用 <code class="docutils literal notranslate"><span class="pre">libfdk_aac</span></code> 编码器。</p></li>
+<li><p>AC3 杜比数字格式，编码器 <code class="docutils literal notranslate"><span class="pre">ac3</span></code> (Dolby Digital) 或者 <code class="docutils literal notranslate"><span class="pre">eac3</span></code> (Dolby Digital Plus)。</p></li>
+<li><p>FLAC 是较常用的无损音频格式；FFmpeg 对其有原生的编码器 <code class="docutils literal notranslate"><span class="pre">flac</span></code> 支持。</p></li>
+<li><p>PCM 是 WAV 容器内包含的最常见音频编码格式。FFmpeg 默认使用 <code class="docutils literal notranslate"><span class="pre">pcm_s16le</span></code> 编码器来处理 PCM 输出。关于这部分的内容，读者可以参考 <a class="reference external" href="https://trac.ffmpeg.org/wiki/audio%20types">PCM 格式</a> 页面。</p></li>
 </ul>
 </div>
 </div>

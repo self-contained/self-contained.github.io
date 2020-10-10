@@ -114,7 +114,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">FFmpeg 实用命令</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">格式转换</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">转码</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">流复制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#codec-copy">流复制</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">提取流（音频、字幕）</a></li>
 </ul>
 </li>
@@ -125,21 +125,22 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#id10">合并视频</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">替换或删除视频数据流</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id12">删除流</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">替换流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">替换或删除视频数据流</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id13">删除流</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">替换流</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">压制</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id15">压制</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#crf">恒定率系数（CRF）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pass">二压（2Pass）</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id15">显卡硬件加速*</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id16">硬件支持</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id17">FFmpeg 支持</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18">硬件加速命令</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id19">硬件加速下的质量控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">添加元数据（如章节)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">显卡硬件加速*</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id18">硬件支持</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">FFmpeg 支持</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">硬件加速命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">硬件加速下的质量控制</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#fonts-conf">附录：fonts.conf</a></li>
@@ -252,10 +253,18 @@
 </pre></div>
 </div>
 <p>其中，在 <code class="docutils literal notranslate"><span class="pre">-i</span></code> 后指定输入文件的文件名，在所有命令的最后指定输出文件的文件名。 <strong>如果文件名带有空格，请用双引号将文件名包裹。</strong> 上述的 <code class="docutils literal notranslate"><span class="pre">video.mp4</span></code> 在 <code class="docutils literal notranslate"><span class="pre">-i</span></code> 参数之后，称为 <strong>输出参数</strong> ；反之，在 <code class="docutils literal notranslate"><span class="pre">-i</span></code> 之前的称为 <strong>输入参数</strong>。</p>
-<p>注意：转码过程可能较慢。关于快速格式转换，请参阅下文的流复制内容。</p>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>转码过程可能较慢。关于快速地进行格式转换，请参阅下文 <a class="reference internal" href="#codec-copy"><span class="std std-ref">流复制</span></a> 一节的内容。</p>
 </div>
-<div class="section" id="id3">
-<h3>流复制<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>用户也可以显式地指定编码器，比如使用 h.264 视频编码器与 flac 音频编码器。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -i video.flv -c:v libx264 -c:a flac video.mkv
+</pre></div>
+</div>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">-c</span></code> 是 <code class="docutils literal notranslate"><span class="pre">-codec</span></code> 的简写。用 <code class="docutils literal notranslate"><span class="pre">v</span></code> 表示视频（video）编码器、 <code class="docutils literal notranslate"><span class="pre">a</span></code> 表示音频（audio）编码器。</p>
+</div>
+<div class="section" id="codec-copy">
+<span id="id3"></span><h3>流复制<a class="headerlink" href="#codec-copy" title="永久链接至标题">¶</a></h3>
 <p>格式转换还有一种快速的情形。如果两者的所有流都不改动且输出容器支持输入的所有流，那么可以直接向 <code class="docutils literal notranslate"><span class="pre">-c</span></code> 传递 <code class="docutils literal notranslate"><span class="pre">copy</span></code>
 以进行流复制。这样省去了重新编码的时间，格式转换将十分迅速：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -i video.avi -c copy video.mp4
@@ -319,11 +328,11 @@ ffmpeg -ss <span class="m">00</span>:02:00 -i video.mp4 -to <span class="m">00</
 <span class="c1"># A) 用快速截取（输入参数），配合流复制。该方案截取速度非常快。</span>
 <span class="c1">## 以 -t 参数指定片段长，或以 -to 参数指定终止时间戳</span>
 ffmpeg -ss <span class="m">00</span>:02:00 -t <span class="m">00</span>:03:00 -i video.mp4 -c copy cut.mp4
-ffmpeg -ss <span class="m">00</span>:02:00 -t0 <span class="m">00</span>:05:00 -i video.mp4 -c copy cut.mp4
+ffmpeg -ss <span class="m">00</span>:02:00 -to <span class="m">00</span>:05:00 -i video.mp4 -c copy cut.mp4
 
 <span class="c1"># B) 用快速截取，但不能使用流复制，片段会被重编码。截取速度近似于编码等长视频的速度。</span>
 ffmpeg -ss <span class="m">00</span>:02:00 -t <span class="m">00</span>:03:00 -i video.mp4 cut.mp4
-ffmpeg -ss <span class="m">00</span>:02:00 -t0 <span class="m">00</span>:05:00 -i video.mp4 cut.mp4
+ffmpeg -ss <span class="m">00</span>:02:00 -to <span class="m">00</span>:05:00 -i video.mp4 cut.mp4
 
 <span class="c1"># C) 用慢速截取（输出参数），片段之前的内容也会被重编码。截取速度极慢。</span>
 ffmpeg -i video.mp4 -ss <span class="m">00</span>:02:00 -t <span class="m">00</span>:03:00 cut.mp4
@@ -380,25 +389,36 @@ ffmpeg -i video.mp4 -ss <span class="m">00</span>:02:00 -to <span class="m">00</
 <h2>合并视频<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
 <p>最简单的视频合并方法，是将所有待合并的视频文件路径，依次列在一个 txt 文件中，然后让 FFmpeg 读取它。</p>
 <p>假设我们已经将所有待合并的 mp4 文件放在当前文件夹中，并且按照合并的顺序进行了命名。那么，用户可以在该文件夹中用 Shift + 鼠标右键打开 PowerShell 控制台，然后依次输入以下命令：</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ls *.mp4 <span class="p">|</span> % Name &gt; mylist.txt
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ls eg-*.mp4 <span class="p">|</span> % Name <span class="p">|</span> foreach <span class="o">{</span><span class="s2">&quot;file &#39;&quot;</span> + <span class="nv">$_</span> + <span class="s2">&quot;&#39;&quot;</span><span class="o">}</span> &gt; mylist.txt
 ffmpeg -f concat -i mylist.txt -c copy output.mp4
 </pre></div>
 </div>
-<p>最后，删除文件夹中的 <code class="docutils literal notranslate"><span class="pre">mylist.txt</span></code> 文件即可。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>以上命令第一行中的操作需要 <strong>不低于 6.0 版本</strong> 的 Powershell（目前 Windows 10 自带的仍在 5.x 版本），读者可以前往 Powershell 的 Github 开发仓库页面 <a class="reference external" href="https://github.com/PowerShell/PowerShell#get-powershell">选择版本进行下载</a>。这是因为低于 Powershell 6.0 的版本会在写入文本文件时包含 BOM，而包含 BOM 的文本文件并不能正确地被 FFmpeg 所识别；而从 6.0 版本开始，Powershell 新增并默认使用了 <code class="docutils literal notranslate"><span class="pre">-Encoding</span> <span class="pre">utf8NoBOM</span></code> 选项。</p>
+<p>用户可以输入 <code class="docutils literal notranslate"><span class="pre">get-host</span> <span class="pre">|</span> <span class="pre">select-object</span> <span class="pre">Version</span></code> 来查看当前运行的 Powershell 版本。</p>
 </div>
-<div class="section" id="id11">
-<h2>替换或删除视频数据流<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h2>
-<p>除了格式转换中提到的提取流的操作，删除或替换也是常见的选择。</p>
+<p>如果用户对于通配符 <code class="docutils literal notranslate"><span class="pre">*</span></code> 语法有所了解，应当可以理解上例中 <code class="docutils literal notranslate"><span class="pre">eg-*.mp4</span></code> 通配了所有以 <code class="docutils literal notranslate"><span class="pre">eg-</span></code> 开头、以扩展名 mp4 结尾的文件，比如 <code class="docutils literal notranslate"><span class="pre">eg-01.mp4</span></code>, <code class="docutils literal notranslate"><span class="pre">eg=02.mp4</span></code>……Powershell 的管道（pipeline）操作符 <code class="docutils literal notranslate"><span class="pre">|</span></code> 选择了输出结果的 Name 字段（即文件名），然后将其逐行添加前缀与后缀，最后写入到一个 txt 文件（本例命名为 mylist.txt）中：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>file &#39;eg-01.mp4&#39;
+file &#39;eg-02.mp4&#39;
+...
+</pre></div>
+</div>
+<p>当然，如果视频文件数量不多，用户也可以自行创建这样一个 <code class="docutils literal notranslate"><span class="pre">mylist.txt</span></code> 文件。在执行完第二行的 ffmpeg 指令进行视频合并后，用户可以删除文件夹中的 <code class="docutils literal notranslate"><span class="pre">mylist.txt</span></code> 文件。</p>
+</div>
 <div class="section" id="id12">
-<h3>删除流<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+<h2>替换或删除视频数据流<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h2>
+<p>除了格式转换中提到的提取流的操作，删除或替换也是常见的选择。</p>
+<div class="section" id="id13">
+<h3>删除流<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
 <p>利用 <code class="docutils literal notranslate"><span class="pre">-vn/-an/sn/-dn</span></code> 参数可以跳过视频/音频/字幕/数据流，比如一段没有音频流的视频：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -i video.mp4 -c:v copy -an NoAudio.mp4
 </pre></div>
 </div>
 <p>上例中的 <code class="docutils literal notranslate"><span class="pre">-c:v</span></code> 是传递视频编解码器， <code class="docutils literal notranslate"><span class="pre">copy</span></code> 表示不进行编解码操作而是直接拷贝。</p>
 </div>
-<div class="section" id="id13">
-<h3>替换流<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id14">
+<h3>替换流<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
 <p>替换流的常用场景是将一段音频替换原视频中的音频流：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -map <span class="m">0</span>:v:0 -map <span class="m">1</span>:a:0 out.mp4
 <span class="c1"># 或者省略第二冒号</span>
@@ -418,8 +438,8 @@ ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -map <span class="m">0</span>:v -map 
 </ul>
 </div>
 </div>
-<div class="section" id="id14">
-<h2>压制<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id15">
+<h2>压制<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h2>
 <p>视频的压制主要有 CRF（Constant Rate Factor，恒定率系数）与二压（2Pass）两种常用的方法：</p>
 <ul class="simple">
 <li><p><strong>在编码器 libx264 中（265/vp9编码器中的情形并不同）</strong> ，CRF（Constant Rate Factor）指定一个 0~51 的数值作为视频质量标准值（FFmpeg 默认 23，常用范围是 17~28）。CRF 的数值越小，恒定率系数越好，压缩率也越低。恒定律系数的视频码率是根据画面动态调整的，与恒定码率（CBR）恰好是对立的。</p>
@@ -462,11 +482,49 @@ ffmpeg -i video.mp4 -c:v libx264 -b:v 2600k -pass <span class="m">2</span> -c:a 
 </ul>
 </div>
 </div>
-<div class="section" id="id15">
-<h2>显卡硬件加速*<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h2>
-<p>FFmpeg 支持显卡硬件加速；本节以 Nvidia 的显卡为例展示一些用法。</p>
 <div class="section" id="id16">
-<h3>硬件支持<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
+<h2>添加元数据（如章节)<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h2>
+<p>FFmpeg 支持在混流时向视频文件中写入元数据；这其中最实用的大概是章节（chapter）跳转的元数据，它得到了许多主流播放器的支持（例如 MPV）。</p>
+<p>元数据需要存放在一个外部文件中，并遵循类似 <code class="docutils literal notranslate"><span class="pre">ini</span></code> 文件的格式。下面是官方文档 <a class="reference external" href="https://ffmpeg.org/ffmpeg-formats.html#Metadata-1">Metadata - FFmpeg</a> 页面给出的例子：</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1">;FFMETADATA1</span>
+<span class="na">title</span><span class="o">=</span><span class="s">bike\\shed</span>
+<span class="c1">;this is a comment</span>
+<span class="na">artist</span><span class="o">=</span><span class="s">FFmpeg troll team</span>
+
+<span class="k">[CHAPTER]</span>
+<span class="na">TIMEBASE</span><span class="o">=</span><span class="s">1/1000</span>
+<span class="na">START</span><span class="o">=</span><span class="s">0</span>
+<span class="c1">#chapter ends at 0:01:00</span>
+<span class="na">END</span><span class="o">=</span><span class="s">60000</span>
+<span class="na">title</span><span class="o">=</span><span class="s">chapter \#1</span>
+<span class="k">[STREAM]</span>
+<span class="na">title</span><span class="o">=</span><span class="s">multi\</span>
+<span class="na">line</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>文件一般在首行含有标记头，以分号开启。上例中的标记头是 <code class="docutils literal notranslate"><span class="pre">FFMETADATA</span></code>，版本是 1</p></li>
+<li><p>元数据以键值对 <code class="docutils literal notranslate"><span class="pre">key=value</span></code> 的形式书写，每对占一行。注意，等号两侧的空格会被保留，因此不推荐留空格。</p></li>
+<li><p>特殊字符</p>
+<ul>
+<li><p>文件中的行如果以 <code class="docutils literal notranslate"><span class="pre">;</span></code> 或 <code class="docutils literal notranslate"><span class="pre">#</span></code> 开头，则表示注释。</p></li>
+<li><p>如果键值对中的值含有字符等号 <code class="docutils literal notranslate"><span class="pre">=</span></code>，反斜线 <code class="docutils literal notranslate"><span class="pre">\</span></code>，或者注释符号 <code class="docutils literal notranslate"><span class="pre">;</span></code> 或 <code class="docutils literal notranslate"><span class="pre">#</span></code>，那么必须在它们前面加上一个额外的反斜线来转义。</p></li>
+</ul>
+</li>
+<li><p>元数据可以按章（chapter）或者流（stream）分节，每一节的名称需要 <strong>大写</strong> 且放在中括号内。在第一节之前的键值对，表示全局元数据。</p></li>
+<li><p>每一节内可以指定一个 <code class="docutils literal notranslate"><span class="pre">TIMEBASE=n1/n2</span></code> 键，表示章节起止时刻的时间单位，其中 <code class="docutils literal notranslate"><span class="pre">n1</span></code> 与 <code class="docutils literal notranslate"><span class="pre">n2</span></code> 都必须是正整数。上例中的 <code class="docutils literal notranslate"><span class="pre">1/1000</span></code> 表示千分之一秒（即毫秒），因而 <code class="docutils literal notranslate"><span class="pre">END=60000</span></code> 表示第一章在第 60000 毫秒也即第 60 秒处结束。如果未指定 <code class="docutils literal notranslate"><span class="pre">TIMEBASE</span></code> 键的值，那么会默认使用纳秒（十亿分之一秒，即 <span class="math notranslate nohighlight">\(10^{-9}\)</span> 秒）。</p></li>
+</ul>
+<p>要将上述元数据（例如存储在 <code class="docutils literal notranslate"><span class="pre">FFMETA.ini</span></code> 中）写入到视频文件，使用：</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -i video.mp4 -i FFMETA.ini -map_metadata <span class="m">1</span> -c copy out.mp4
+</pre></div>
+</div>
+<p>其中的 <code class="docutils literal notranslate"><span class="pre">1</span></code> 表示将第二个（因为从0开始索引）输入文件，即第二个 <code class="docutils literal notranslate"><span class="pre">-i</span></code> 之后的参数值 <code class="docutils literal notranslate"><span class="pre">FFMETA.ini</span></code> 映射为元数据。</p>
+</div>
+<div class="section" id="id17">
+<h2>显卡硬件加速*<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h2>
+<p>FFmpeg 支持显卡硬件加速；本节主要以 Nvidia 的显卡与 H.264 编码方式为例展示一些用法。</p>
+<div class="section" id="id18">
+<h3>硬件支持<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
 <p>关于用户当前的显卡支持哪些编码格式的硬件加速，可以参考 Nvidia 给出的一张表格： <a class="reference external" href="https://developer.nvidia.com/video-encode-decode-gpu-support-matrix">Video Encode and Decode GPU Support Matrix</a>。简要来说，大概是：</p>
 <ul class="simple">
 <li><p>大多 Maxwell 一代显卡（GTX 745/850/850M/960M 及同代更高型号）支持完整的 H.264 编码硬件加速</p></li>
@@ -475,8 +533,8 @@ ffmpeg -i video.mp4 -c:v libx264 -b:v 2600k -pass <span class="m">2</span> -c:a 
 <li><p>较新的显卡对于其他主流的编码格式，如 VP9 等，也有硬件加速支持</p></li>
 </ul>
 </div>
-<div class="section" id="id17">
-<h3>FFmpeg 支持<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id19">
+<h3>FFmpeg 支持<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
 <div class="admonition important">
 <p class="admonition-title">重要</p>
 <p>由于 FFmpeg 存在众多的编译版本，用户正使用的不一定包含了硬件加速功能。但官方提供的预编译版本均涵盖了该功能，本文也不再对如何在编译时引入硬件加速支持进行介绍。</p>
@@ -493,10 +551,11 @@ DEV.L. hevc                 H.265 / HEVC <span class="o">(</span>High Efficiency
 <ul class="simple">
 <li><p>编码器 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code> 使用与常规编码器 <code class="docutils literal notranslate"><span class="pre">libx264</span></code> 不同的 <code class="docutils literal notranslate"><span class="pre">-preset</span></code> 参数选项，可以通过如 <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-h</span> <span class="pre">encoder=h264_nvenc</span></code> 的命令查看。</p></li>
 <li><p>编码器 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code> <strong>不支持 CRF 参数控制压制质量</strong>，用户需要使用其他的参数，比如粗糙的 <code class="docutils literal notranslate"><span class="pre">-qp</span></code> 参数，或者 <code class="docutils literal notranslate"><span class="pre">-rc</span></code> 参数来指定码率控制模式并配合其他参数（例如 <code class="docutils literal notranslate"><span class="pre">-b:v</span></code> 参数）。</p></li>
+<li><p>关于该编码器的详细帮助，可以参考 <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-h</span> <span class="pre">encoder=h264_nvenc</span></code> 命令给出的参数列表。</p></li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>硬件加速命令<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id20">
+<h3>硬件加速命令<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h3>
 <p>硬件加速有混合模式（CPU 与 GPU 共同工作）与独占模式（完全 GPU 工作）两种。</p>
 <p>混合模式直接指定编码器为支持硬件加速的编码器即可，比如 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code>：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># CPU+GPU 混合模式</span>
@@ -510,8 +569,8 @@ ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i video.mp4 -c:v h264_nvenc -c
 </div>
 <p>上述命令会自动以 2000 kbps（即 2Mbps）左右的总文件比特率（视频、音频多轨综合，因此单独看视频码率可能会略高于 2M ）来压缩视频。</p>
 </div>
-<div class="section" id="id19">
-<h3>硬件加速下的质量控制<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id21">
+<h3>硬件加速下的质量控制<a class="headerlink" href="#id21" title="永久链接至标题">¶</a></h3>
 <p>由于 <code class="docutils literal notranslate"><span class="pre">h264_nvenc</span></code> 编码器不支持 CRF 参数，我个人的习惯是通过 <code class="docutils literal notranslate"><span class="pre">-rc</span></code> 参数来设置 <code class="docutils literal notranslate"><span class="pre">vbr_hq</span></code> 可变码率模式，并手动指定 <code class="docutils literal notranslate"><span class="pre">-b:v</span></code> 视频码率的数值。例如下述命令使用可变码率模式，并将视频设置在 2Mbps 附近：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i video.mp4 -c:v h264_nvenc -rc vbr_hq -b:v 2M -c:a copy out.mp4
 </pre></div>

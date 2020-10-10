@@ -28,7 +28,19 @@ FFmpeg的\ `官方文档 <https://ffmpeg.org/ffmpeg.html>`__\ 简洁有力，但
 
 其中，在 ``-i`` 后指定输入文件的文件名，在所有命令的最后指定输出文件的文件名。 **如果文件名带有空格，请用双引号将文件名包裹。** 上述的 ``video.mp4`` 在 ``-i`` 参数之后，称为 **输出参数** ；反之，在 ``-i`` 之前的称为 **输入参数**。
 
-注意：转码过程可能较慢。关于快速格式转换，请参阅下文的流复制内容。
+.. important::
+   
+   转码过程可能较慢。关于快速地进行格式转换，请参阅下文 :ref:`codec-copy` 一节的内容。
+
+用户也可以显式地指定编码器，比如使用 h.264 视频编码器与 flac 音频编码器。
+
+.. code-block:: shell
+   
+   ffmpeg -i video.flv -c:v libx264 -c:a flac video.mkv
+
+其中 ``-c`` 是 ``-codec`` 的简写。用 ``v`` 表示视频（video）编码器、 ``a`` 表示音频（audio）编码器。
+
+.. _codec-copy:
 
 流复制
 ~~~~~~~~~~
@@ -115,11 +127,11 @@ FFmpeg的\ `官方文档 <https://ffmpeg.org/ffmpeg.html>`__\ 简洁有力，但
     # A) 用快速截取（输入参数），配合流复制。该方案截取速度非常快。
     ## 以 -t 参数指定片段长，或以 -to 参数指定终止时间戳
     ffmpeg -ss 00:02:00 -t 00:03:00 -i video.mp4 -c copy cut.mp4
-    ffmpeg -ss 00:02:00 -t0 00:05:00 -i video.mp4 -c copy cut.mp4
+    ffmpeg -ss 00:02:00 -to 00:05:00 -i video.mp4 -c copy cut.mp4
 
     # B) 用快速截取，但不能使用流复制，片段会被重编码。截取速度近似于编码等长视频的速度。
     ffmpeg -ss 00:02:00 -t 00:03:00 -i video.mp4 cut.mp4
-    ffmpeg -ss 00:02:00 -t0 00:05:00 -i video.mp4 cut.mp4
+    ffmpeg -ss 00:02:00 -to 00:05:00 -i video.mp4 cut.mp4
 
     # C) 用慢速截取（输出参数），片段之前的内容也会被重编码。截取速度极慢。
     ffmpeg -i video.mp4 -ss 00:02:00 -t 00:03:00 cut.mp4
@@ -195,10 +207,25 @@ FFmpeg 可以将字幕内挂到封装容器内，也可以内嵌到视频流中�
 
 .. code:: shell
    
-   ls *.mp4 | % Name > mylist.txt
+   ls eg-*.mp4 | % Name | foreach {"file '" + $_ + "'"} > mylist.txt
    ffmpeg -f concat -i mylist.txt -c copy output.mp4
 
-最后，删除文件夹中的 ``mylist.txt`` 文件即可。
+.. note::
+   
+   以上命令第一行中的操作需要 **不低于 6.0 版本** 的 Powershell（目前 Windows 10 自带的仍在 5.x 版本），读者可以前往 Powershell 的 Github 开发仓库页面 `选择版本进行下载 <https://github.com/PowerShell/PowerShell#get-powershell>`_\ 。这是因为低于 Powershell 6.0 的版本会在写入文本文件时包含 BOM，而包含 BOM 的文本文件并不能正确地被 FFmpeg 所识别；而从 6.0 版本开始，Powershell 新增并默认使用了 ``-Encoding utf8NoBOM`` 选项。
+
+   用户可以输入 ``get-host | select-object Version`` 来查看当前运行的 Powershell 版本。
+      
+
+如果用户对于通配符 ``*`` 语法有所了解，应当可以理解上例中 ``eg-*.mp4`` 通配了所有以 ``eg-`` 开头、以扩展名 mp4 结尾的文件，比如 ``eg-01.mp4``\ , ``eg=02.mp4``\ ……Powershell 的管道（pipeline）操作符 ``|`` 选择了输出结果的 Name 字段（即文件名），然后将其逐行添加前缀与后缀，最后写入到一个 txt 文件（本例命名为 mylist.txt）中：
+
+.. code-block:: none
+   
+   file 'eg-01.mp4'
+   file 'eg-02.mp4'
+   ...
+
+当然，如果视频文件数量不多，用户也可以自行创建这样一个 ``mylist.txt`` 文件。在执行完第二行的 ffmpeg 指令进行视频合并后，用户可以删除文件夹中的 ``mylist.txt`` 文件。
 
 
 替换或删除视频数据流
@@ -296,10 +323,53 @@ Wiki <https://trac.ffmpeg.org/wiki/Encode/H.264>`_ ）：需要将一个10分钟
 - ``-an`` 表示忽略音频流。同理还有 ``-vn/sn/dn``\ 。
 
 
+添加元数据（如章节)
+--------------------
+
+FFmpeg 支持在混流时向视频文件中写入元数据；这其中最实用的大概是章节（chapter）跳转的元数据，它得到了许多主流播放器的支持（例如 MPV）。
+
+元数据需要存放在一个外部文件中，并遵循类似 ``ini`` 文件的格式。下面是官方文档 `Metadata - FFmpeg <https://ffmpeg.org/ffmpeg-formats.html#Metadata-1>`_ 页面给出的例子：
+
+.. code-block:: ini
+
+    ;FFMETADATA1
+    title=bike\\shed
+    ;this is a comment
+    artist=FFmpeg troll team
+
+    [CHAPTER]
+    TIMEBASE=1/1000
+    START=0
+    #chapter ends at 0:01:00
+    END=60000
+    title=chapter \#1
+    [STREAM]
+    title=multi\
+    line
+
+* 文件一般在首行含有标记头，以分号开启。上例中的标记头是 ``FFMETADATA``\ ，版本是 1
+* 元数据以键值对 ``key=value`` 的形式书写，每对占一行。注意，等号两侧的空格会被保留，因此不推荐留空格。
+* 特殊字符
+
+  * 文件中的行如果以 ``;`` 或 ``#`` 开头，则表示注释。
+  * 如果键值对中的值含有字符等号 ``=``\ ，反斜线 ``\``\ ，或者注释符号 ``;`` 或 ``#``\ ，那么必须在它们前面加上一个额外的反斜线来转义。
+
+* 元数据可以按章（chapter）或者流（stream）分节，每一节的名称需要 **大写** 且放在中括号内。在第一节之前的键值对，表示全局元数据。
+* 每一节内可以指定一个 ``TIMEBASE=n1/n2`` 键，表示章节起止时刻的时间单位，其中 ``n1`` 与 ``n2`` 都必须是正整数。上例中的 ``1/1000`` 表示千分之一秒（即毫秒），因而 ``END=60000`` 表示第一章在第 60000 毫秒也即第 60 秒处结束。如果未指定 ``TIMEBASE`` 键的值，那么会默认使用纳秒（十亿分之一秒，即 :math:`10^{-9}` 秒）。
+
+要将上述元数据（例如存储在 ``FFMETA.ini`` 中）写入到视频文件，使用：
+
+.. code-block:: shell
+
+    ffmpeg -i video.mp4 -i FFMETA.ini -map_metadata 1 -c copy out.mp4
+
+其中的 ``1`` 表示将第二个（因为从0开始索引）输入文件，即第二个 ``-i`` 之后的参数值 ``FFMETA.ini`` 映射为元数据。
+
+
 显卡硬件加速*
 -------------------
 
-FFmpeg 支持显卡硬件加速；本节以 Nvidia 的显卡为例展示一些用法。
+FFmpeg 支持显卡硬件加速；本节主要以 Nvidia 的显卡与 H.264 编码方式为例展示一些用法。
 
 硬件支持
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -332,6 +402,7 @@ FFmpeg 支持
 
 * 编码器 ``h264_nvenc`` 使用与常规编码器 ``libx264`` 不同的 ``-preset`` 参数选项，可以通过如 ``ffmpeg -h encoder=h264_nvenc`` 的命令查看。
 * 编码器 ``h264_nvenc`` **不支持 CRF 参数控制压制质量**\ ，用户需要使用其他的参数，比如粗糙的 ``-qp`` 参数，或者 ``-rc`` 参数来指定码率控制模式并配合其他参数（例如 ``-b:v`` 参数）。
+* 关于该编码器的详细帮助，可以参考 ``ffmpeg -h encoder=h264_nvenc`` 命令给出的参数列表。
 
 硬件加速命令
 ~~~~~~~~~~~~~~~~~~~~~~
